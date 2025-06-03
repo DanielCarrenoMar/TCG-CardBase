@@ -1,5 +1,5 @@
-<script>
-    import Example from "$lib/components/Example.svelte";
+<script lang="ts">
+	import Example from "$lib/components/example.svelte";
 </script>
 
 <h1>Welcome to SvelteKit</h1>
