@@ -4,6 +4,9 @@
 
 @plugin 'flowbite/plugin';
 
+@source "../node_modules/flowbite-svelte/dist";
+@source "../node_modules/flowbite-svelte-icons/dist";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
@@ -30,8 +33,9 @@
 	--color-secondary-900: #0c4a6e;
 }
 
-@source "../node_modules/flowbite-svelte/dist";
-@source "../node_modules/flowbite-svelte-icons/dist";
+html {
+	scroll-behavior: smooth;
+}
 
 @layer base {
 	/* disable chrome cancel button */
