@@ -28,7 +28,9 @@
 
 	<section class="p-8 flex flex-col gap-6">
 		<h2 class="text-2xl font-bold">Integrantes</h2>
-		<div class="flex flex-wrap gap-6 justify-center">
+		<div
+			class="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-8 place-items-center w-3/4 self-center"
+		>
 			{#each MEMBERS as member}
 				<MemberCard {member} />
 			{/each}
@@ -37,7 +39,9 @@
 
 	<section class="p-8 flex flex-col gap-6">
 		<h2 class="text-2xl font-bold">Tecnologías</h2>
-		<div class="flex flex-wrap gap-6 justify-center">
+		<div
+			class="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 place-items-center"
+		>
 			{#each USED_TECH as tech}
 				<TechCard {tech} />
 			{/each}
