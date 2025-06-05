@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AppNavigateButton from "../_components/app-navigate-button.svelte";
+	import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
 	import HomeSlider from "./_components/home-slider.svelte";
 </script>
 
