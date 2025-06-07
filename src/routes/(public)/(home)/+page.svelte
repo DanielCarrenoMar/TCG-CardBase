@@ -1,6 +1,7 @@
 <script lang="ts">
 	import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
 	import HomeSlider from "./_components/home-slider.svelte";
+	import RandomCard from "./_components/random-card.svelte";
 </script>
 
 <section class="mx-auto container relative">
@@ -40,12 +41,10 @@
 		</span>
 	</section>
 	<section
-		class="py-8 bg-gradient-to-b from-secondary-400 to-secondary-700 overflow-hidden"
-	>
+		class="py-8 bg-gradient-to-b from-secondary-400 to-secondary-700 overflow-hidden">
 		<span class="relative flex flex-col md:flex-row mx-auto container">
 			<div
-				class="flex-1 gap-8 flex flex-col justify-center items-center px-4 relative z-10"
-			>
+				class="flex-1 gap-8 flex flex-col justify-center items-center px-4 relative z-10">
 				<div class="bg-primary-400 px-4 py-1 rounded text-xl mb-2 mx-8">
 					<h2 class="text-2xl font-bold text-center mb-2">Aprende a Jugar</h2>
 					<p>
@@ -65,4 +64,7 @@
 			</div>
 		</span>
 	</section>
+
+	<!-- seccion de carta aleatorea -->
+	<RandomCard />
 </main>
