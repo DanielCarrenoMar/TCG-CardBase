@@ -10,6 +10,10 @@
 
     // function to fetch a random card
     onMount(async () => {
+        await fetchCard();
+    });
+
+    const fetchCard = async () => {
         isLoading = true;
         try {
             const fetchCard = await getRandomCard();                //obtengo una carta aleatoria
@@ -25,21 +29,12 @@
         } finally {
             isLoading = false;
         }
-    });
+    }
 
-    const fecthNewCard = async () => {
-        isLoading = true;
-        card = await getRandomCard();
-        cardImage = card ? card.getImageURL('high', 'webp') : undefined;    
-        isLoading = false;
-        return card;
-    };
-
+    //control del popup
     function popup() {
         showPopup = !showPopup;
     }
-
-    // Function to get the image URL of the card
 </script>
 
 
@@ -54,6 +49,8 @@
             {#if isLoading}
                 <p>Cargando carta...</p>
             {:else if card}
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
                 <div class="card" on:click={popup}>
                     <img src={cardImage} alt={card.name} class="w-48 h-64 cursor-pointer" /> 
                     <h3 class="text-lg font-semibold mt-2 text-center">{card.name}</h3>
@@ -63,17 +60,29 @@
             {/if}
         </div>
         <!-- descripcion de la carta -->
-        <div class="flex-1 gap-8 flex flex-col justify-center items-center px-4 relative z-10">
+        <div class="flex-1 gap-4 flex flex-col justify-center items-center px-4 relative z-10">
+            {#if card && !isLoading}
+                <div class="text-start space-y-2">
+                    <p><strong>HP:</strong> {card.hp || 'N/A'}</p>
+                    <p><strong>Rareza:</strong> {card.rarity || 'N/A'}</p>
+                    <p><strong>Set:</strong> {card.set?.name || 'N/A'}</p>
+                    {#if card.types && card.types.length > 0}
+                        <p><strong>Tipos:</strong> {card.types.join(', ')}</p>
+                    {/if}
+                </div>
+            {/if}
             <button
                 class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
-                on:click={fecthNewCard}>
-                Obtener Otra Carta
+                on:click={fetchCard}>
+                {isLoading ? 'Cargando...' : 'Obtener Otra Carta'}
             </button>
         </div>
     </div>
 
     <!-- mostrar modal de la carta -->
     {#if showPopup}
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
             class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
             in:fade="{{ duration: 200 }}"   out:fade="{{ duration: 200 }}"  on:click|self={popup}            >

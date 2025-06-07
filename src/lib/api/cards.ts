@@ -1,26 +1,42 @@
 import { Query } from "@tcgdex/sdk";
 import { tcgdex } from "./api";
 
-const allCards = await tcgdex.card.list(
-    Query.create()
-    .contains('rarity', 'Rare')
-);
-
-export const getRandomCard = async () => {    
-  const card = allCards[Math.floor(Math.random() * allCards.length)];
-//   const card = await tcgdex.random.card(); //Math.floor(Math.random() * 1000)
-  if (!card) {
-    console.error('Card not found');
-    return;
-  }
-  return card;
+const randomCards = async () => {                   //obtiene una lista de cartas random 
+    const cards = await tcgdex.card.list(
+        Query.create()
+        .contains('rarity', 'Rare')
+    );
+    return cards;
 }
 
-export const getCard = async (id: string) => {
-  const card = await tcgdex.card.get(id);
-  if (!card) {
-    console.error('Card not found');
-    return;
-  }
-  return card;
+const getCardFullData = async (id: string) => {
+    const card = await tcgdex.card.get(id);
+    if (!card) {
+        console.error('Card not found');
+        return null;
+    }
+    return card;
+}
+
+export const getRandomCard = async () => {   
+    try {
+        const cardList = await randomCards();               //obtener una lista de cartas random
+        if (!cardList || cardList.length === 0) {
+            console.error('No random cards found');
+            return;
+        }
+
+        const cardR = cardList[Math.floor(Math.random() * cardList.length)];     //selecciona una carta random de la lista
+        if (!cardR) {
+            console.error('Card not found');
+            return;
+        }
+
+        const cardFullData = await getCardFullData(cardR.id);                   //obtiene los detalles de la carta
+
+        return cardFullData;  
+    } catch (error) {
+        console.error('Error fetching random card:', error);
+        return null;
+    }
 }
