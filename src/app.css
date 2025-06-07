@@ -58,4 +58,9 @@ html {
     .card:hover {
         transform: translateY(-5px);
     }
+
+	.container-ha{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+     }
 }

@@ -40,44 +40,141 @@
 
 
 <section class="p-10 bg-gradient-to-b from-gray-300 to-gray-500 overflow-hidden">
-    <h2 class="text-2xl font-bold text-center mb-2">Carta Pokemon aleatorea</h2>
+    <h1 class="text-4xl font-bold text-center mb-4">Carta Pokemon aleatorea</h1>
 
-    <!-- mobile frist -->
-    <div class="flex flex-col md:flex-row gap-4 mx-auto container relative">
-        <!-- imagen de la carta aleatorea -->
+    <!-- contenedor principal -->
+    <div class="container-ha md:flex-row gap-4 mx-auto container relative my-4">
+        <!-- contenedor de la carta aleatorea -->
         <div class="flex justify-center items-center">
             {#if isLoading}
                 <p>Cargando carta...</p>
             {:else if card}
+                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
-                <!-- svelte-ignore a11y_no_static_element_interactions -->
-                <div class="card" on:click={popup}>
-                    <img src={cardImage} alt={card.name} class="w-48 h-64 cursor-pointer" /> 
-                    <h3 class="text-lg font-semibold mt-2 text-center">{card.name}</h3>
-                </div>
+                <img src={cardImage} alt={card.name} class="card cart-img-size w-48 h-64 cursor-pointer"  on:click={popup}/> 
             {:else}
                 <p>No se pudo cargar la carta.</p>
             {/if}
         </div>
+
         <!-- descripcion de la carta -->
         <div class="flex-1 gap-4 flex flex-col justify-center items-center px-4 relative z-10">
             {#if card && !isLoading}
-                <div class="text-start space-y-2">
-                    <p><strong>HP:</strong> {card.hp || 'N/A'}</p>
-                    <p><strong>Rareza:</strong> {card.rarity || 'N/A'}</p>
-                    <p><strong>Set:</strong> {card.set?.name || 'N/A'}</p>
-                    {#if card.types && card.types.length > 0}
-                        <p><strong>Tipos:</strong> {card.types.join(', ')}</p>
-                    {/if}
+                <!-- Tarjeta Principal -->
+                <div class="relative max-w-md w-full bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500  hover:shadow-3xl animate-float">
+                    
+                    <!-- Borde superior decorativo -->
+                    <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-gray-400 via-white to-gray-700"></div>
+                                        
+                    <!-- Contenido principal -->
+                    <div class="relative z-10 p-6 sm:p-8">
+                        
+                        <!-- Header con nombre y tipo -->
+                        <div class="flex flex-col md:flex-row gap-2 justify-between items-center mb-4 pb-2 border-b-2 border-gray-300">
+                            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight">{card.name}</h1>
+                            <div class="bg-gradient-to-r from-gray-300 to-gray-400 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wide shadow-lg">{card.types ? card.types.join(', ') : 'Tipo Desconocido'}</div>
+                        </div>
+
+                        <!-- Sección HP -->
+                        <div class="bg-gradient-to-r from-white to-gray-50 rounded-2xl p-4 mb-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl">
+                            <!-- descrp -->
+                            <div class="flex flex-col md:flex-row justify-between items-center">
+                                <span class="text-gray-600 font-semibold text-lg">Puntos de Vida</span>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-4xl md:text-sm font-black text-grey-500 drop-shadow-lg">{card.hp}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- seccion de Habilidades -->
+                        <div class="mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <div class="w-1 h-6 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
+                                {card.abilities && card.abilities.length > 0 ?  'Habilidad' : 'Sin Habilidades'}
+                            </h2>
+                            
+                            {#if card.abilities && card.abilities.length > 0}
+                                {#each card.abilities as ability}
+                                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-x-1 group mb-4">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-blue-500 text-lg">🔮</span>
+                                                <span class="font-bold text-gray-800 text-lg">{ability.name}</span>
+                                            </div>
+                                        </div>
+                                        <p class="text-gray-600 text-sm md:hidden leading-relaxed group-hover:text-gray-700 transition-colors">
+                                            {ability.effect || 'Sin descripción disponible.'}
+                                        </p>
+                                    </div>
+                                {/each}
+                            {/if}
+                        </div>
+
+                        <!-- seccion de ataque -->
+                        <div class="mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <div class="w-1 h-6 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
+                                {card.attacks && card.attacks.length > 0 ?  'Ataques' : 'Sin Ataques'}
+                            </h2>
+
+                            {#if card.attacks }
+                                {#each card.attacks as attack}
+                                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-x-1 group mb-4">
+                                        <!-- descrip -->
+                                        <div class="flex flex-col md:flex-row justify-between items-center mb-1">
+                                            <div class="flex justify-between">
+                                                <span class="text-blue-500 text-lg">⚔️</span>
+                                                <span class="font-bold text-gray-800 text-lg">{attack.name}</span>                                                
+                                            </div>
+                                            <div class="flex items-center gap-3">
+                                                <span class="text-4xl md:text-xl font-black text-red-500 drop-shadow-lg">{attack.damage}</span>
+                                            </div>
+                                        </div>
+                                     </div>   
+                                {/each}        
+                            {/if}
+                        </div>
+
+                        <!-- seccion de debilidades -->
+                        <div class="mb-6">
+                            <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <div class="w-1 h-6 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
+                                {card.weaknesses && card.weaknesses.length > 0 ?  'Debilidades' : 'Sin Debilidades'}
+                            </h2>
+
+                            {#if card.weaknesses && card.weaknesses.length > 0}
+                                {#each card.weaknesses as weakness}
+                                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 shadow-md border border-gray-100 transition-all duration-300 hover:shadow-lg hover:translate-x-1 group mb-4">
+                                        <!-- descr -->
+                                        <div class="flex flex-col md:flex-row justify-between items-start">
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-red-500 text-lg">⚠️</span>
+                                                <span class="font-bold text-gray-800 text-lg">{weakness.type}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {/each}
+                            {/if}                        
+                        </div>
+                    </div>
+
+                    <!-- Efecto de brillo en el borde -->
+                    <div class="absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r from-gray-400/20 via-gray-500/20 to-gray-600/20 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                 </div>
             {/if}
-            <button
-                class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
-                on:click={fetchCard}>
-                {isLoading ? 'Cargando...' : 'Obtener Otra Carta'}
-            </button>
         </div>
     </div>
+
+    <!-- boton para obtener otra carta -->
+    <div class="flex justify-center items-center mt-6">   
+        <button
+            class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
+            on:click={fetchCard}>
+            {isLoading ? 'Cargando...' : 'Obtener Otra Carta'}
+        </button>
+    </div> 
+
+
 
     <!-- mostrar modal de la carta -->
     {#if showPopup}
@@ -109,3 +206,10 @@
     {/if}
 
 </section>
+
+<style>
+    .cart-img-size{
+        height: auto;
+        width: min(25rem, 80%);
+    }
+</style>
