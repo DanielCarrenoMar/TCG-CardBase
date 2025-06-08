@@ -64,7 +64,7 @@
                 <div class="relative max-w-md w-full bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden transform transition-all duration-500  hover:shadow-3xl animate-float">
                     
                     <!-- Borde superior decorativo -->
-                    <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-gray-400 via-white to-gray-700"></div>
+                    <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-gray-400 via-white to-gray-400"></div>
                                         
                     <!-- Contenido principal -->
                     <div class="relative z-10 p-6 sm:p-8">
@@ -169,6 +169,7 @@
     <div class="flex justify-center items-center mt-6">   
         <button
             class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
+            disabled={isLoading}
             on:click={fetchCard}>
             {isLoading ? 'Cargando...' : 'Obtener Otra Carta'}
         </button>

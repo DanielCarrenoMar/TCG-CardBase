@@ -2,6 +2,7 @@
 	import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
 	import HomeSlider from "./_components/home-slider.svelte";
 	import RandomCard from "./_components/random-card.svelte";
+	import CarouselSerie from "./_components/carousel-serie.svelte";
 </script>
 
 <section class="mx-auto container relative">
@@ -67,4 +68,8 @@
 
 	<!-- seccion de carta aleatorea -->
 	<RandomCard />
+
+	<!-- seccion de carrusel de series -->
+	<CarouselSerie />
+
 </main>

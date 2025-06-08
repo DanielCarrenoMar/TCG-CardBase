@@ -25,3 +25,18 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
+series fetch 
+            let listSeriesFullData = [] as SerieModel[];                //array para almacenar los detalles de cada serie
+
+        for await (const element of listSeries) {                   //obtiene los detalles de cada serie
+            const serieFullData = await getSerieFullData(element.id);
+            if (!serieFullData) {
+                console.error('Serie not found');
+                continue;
+            }
+            listSeriesFullData.push(serieFullData);            
+        }

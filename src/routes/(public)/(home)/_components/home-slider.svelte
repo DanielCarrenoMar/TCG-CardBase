@@ -17,7 +17,7 @@
       src: "/images/home-slider/home-slider-3.jpg",
       title: "image3"
     },
-  ]
+  ]  
 </script>
 
 <Carousel {images}>
