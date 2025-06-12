@@ -1,4 +1,4 @@
-import { Query } from "@tcgdex/sdk";
+import { Query, type Card } from "@tcgdex/sdk";
 import { tcgdex } from "./api";
 
 const randomCards = async () => {                   //obtiene una lista de cartas random 
@@ -9,7 +9,14 @@ const randomCards = async () => {                   //obtiene una lista de carta
     return cards;
 }
 
-const getCardFullData = async (id: string) => {
+export const getCardFromQuery = async (query:Query, page:number) => {
+    const cards = await tcgdex.card.list(
+        query.paginate(page, 10)
+    );
+    return cards;
+}
+
+export const getCardFromId = async (id: string) => {
     const card = await tcgdex.card.get(id);
     if (!card) {
         console.error('Card not found');
@@ -32,7 +39,7 @@ export const getRandomCard = async () => {
             return;
         }
 
-        const cardFullData = await getCardFullData(cardR.id);                   //obtiene los detalles de la carta
+        const cardFullData = await getCardFromId(cardR.id);                   //obtiene los detalles de la carta
 
         return cardFullData;  
     } catch (error) {

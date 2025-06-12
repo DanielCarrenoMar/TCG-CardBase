@@ -33,7 +33,8 @@
 	--color-secondary-800: #075985;
 	--color-secondary-900: #0c4a6e;
 
-	--color-background: #454c4d;
+	--color-bg-100: #191B1D;
+	--color-bg-300: #474E4F;
 }
 
 html {
