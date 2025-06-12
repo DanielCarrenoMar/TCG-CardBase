@@ -58,11 +58,11 @@
 
     {#if !isMobile}
         <div class="flex items-center justify-between w-3/5">
-            <a href="/cartas" class="cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Cartas</a>
-            <a href="/como jugar" class="cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Como Jugar</a>
-            <a href="/series" class="cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Series</a>
-            <a href="/videojuegos" class="cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Videojuegos</a>
-            <a href="/about" class="cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>About</a>
+            <a href="/cartas" class="text-xl cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Cartas</a>
+            <a href="/como_jugar" class="text-xl ccursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Como Jugar</a>
+            <a href="/series" class="text-xl ccursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Series</a>
+            <a href="/videojuegos" class="text-xl ccursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Videojuegos</a>
+            <a href="/nosotros" class="text-xl ccursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Nosotros</a>
             <div class="relative" bind:this={languageMenuRef}>
                 <button on:click={toggleLanguageMenu} class="flex items-center cursor-pointer hover:bg-background hover:text-white transition-all duration-500 px-5 py-3 rounded">
                     {currentLanguage}
