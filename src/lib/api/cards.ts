@@ -11,7 +11,7 @@ const randomCards = async () => {                   //obtiene una lista de carta
 
 export const getCardFromQuery = async (query:Query, page:number) => {
     const cards = await tcgdex.card.list(
-        query.paginate(page, 10)
+        query.paginate(page, 15)
     );
     return cards;
 }
