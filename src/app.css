@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import "tailwindcss";
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@plugin 'flowbite/plugin';
+
+@source "../node_modules/flowbite-svelte/dist";
+@source "../node_modules/flowbite-svelte-icons/dist";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+	--color-primary-50: #fffbe5;
+	--color-primary-100: #fff7cc;
+	--color-primary-200: #fff299;
+	--color-primary-300: #ffed66;
+	--color-primary-400: #ffe844;
+	--color-primary-500: #fde844;
+	--color-primary-600: #e6d23d;
+	--color-primary-700: #bfa832;
+	--color-primary-800: #998429;
+	--color-primary-900: #66561a;
+
+	--color-secondary-50: #f0f9ff;
+	--color-secondary-100: #e0f2fe;
+	--color-secondary-200: #bae6fd;
+	--color-secondary-300: #7dd3fc;
+	--color-secondary-400: #38bdf8;
+	--color-secondary-500: #0ea5e9;
+	--color-secondary-600: #0284c7;
+	--color-secondary-700: #0369a1;
+	--color-secondary-800: #075985;
+	--color-secondary-900: #0c4a6e;
+
+	--color-bg-100: #191B1D;
+	--color-bg-300: #474E4F;
+}
+
+html {
+	scroll-behavior: smooth;
+	font-family: 'Quicksand', sans-serif;
+}
+
+@layer base {
+	/* disable chrome cancel button */
+	input[type="search"]::-webkit-search-cancel-button {
+		display: none;
+	}
+
+    .card {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        transition: transform 0.2s ease-in-out;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+	.container-ha{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+     }
+}
