@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getCardsByName, getCardFromQuery } from "$lib/api/cards";
+  import { getCardsByName, getCardFromQuery, getCardFromId } from "$lib/api/cards";
   import { Query, type CardResume } from "@tcgdex/sdk";
   import SelectButton from "$lib/components/SelectButton.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
   import AppGeneralButton from "$lib/components/app-general-button.svelte";
   import AcancedSearchDropdown from "./_components/AvancedSearchDropdown.svelte";
+  import DropdownCard from "$lib/components/DropdownCard.svelte";
 
   let cards: CardResume[] = [];
   let filteredCards: CardResume[] = [];
@@ -17,7 +18,10 @@
   let page = 0;
   let hasMore = true;
 
-  
+  let showDialog = false;
+  let selectedCardFull = null;
+  let loadingCard = false;
+
   async function fetchCards(reset = true) {
     loading = true;
     error = "";
@@ -96,6 +100,17 @@
   }
 
   onMount(() => fetchCards(true));
+
+  async function handleCardClick(card) {
+    showDialog = true;
+    loadingCard = true;
+    selectedCardFull = null;
+    // Espera la info completa de la carta
+    const cardFull = await getCardFromId(card.id);
+    console.log(cardFull); // <-- Aquí ves el objeto completo en consola
+    selectedCardFull = cardFull;
+    loadingCard = false;
+  }
 </script>
 
 <section class="bg-white">
@@ -111,7 +126,7 @@
   <AcancedSearchDropdown />
 </section>
 <main>
-  <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100">
+  <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 ">
     <div class="mx-auto container py-4">
       <header class="flex flex-col gap-4 py-4">
         <h3 class="text-xl">Ordenar por</h3>
@@ -133,7 +148,8 @@
         <div class="flex flex-wrap gap-6 justify-center">
           {#each filteredCards as card}
             <div
-              class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform"
+              class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer"
+              on:click={() => handleCardClick(card)}
             >
               <img
                 src={card.image + `/low.webp`}
@@ -162,3 +178,10 @@
     </div>
   </section>
 </main>
+
+<DropdownCard
+  open={showDialog}
+  card={selectedCardFull}
+  loading={loadingCard}
+  on:close={() => showDialog = false}
+/>
