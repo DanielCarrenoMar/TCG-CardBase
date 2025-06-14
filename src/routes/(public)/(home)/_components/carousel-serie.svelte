@@ -2,6 +2,7 @@
     import { Carousel, Controls } from "flowbite-svelte";
     import { onMount } from 'svelte';
     import { getSeriesForCarrousel } from "$lib/api/series";
+    import AppGeneralButton from "$lib/components/app-general-button.svelte";
 
 
     let series: Array<{alt: string, src: string, title: string}> = [];
@@ -9,11 +10,11 @@
     let error = false;
 
     onMount(async () => {
-        await fectSeries();
+        await fetchSeries();
         // console.log("Series desde comp: ", series);
     });
 
-    const fectSeries = async () => {
+    const fetchSeries = async () => {
         try {
             isLoading = true;
             error = false;
@@ -62,11 +63,8 @@
             </div>
         {/if}
 
-        <button 
-            class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
-            disabled={isLoading}
-        >
-            {isLoading ? 'Cargando...' : 'Cargar más series'}
-        </button>
+        <AppGeneralButton isLoading={isLoading} onClick={fetchSeries}>
+            Cargar más series
+        </AppGeneralButton>
     </div>
 </section>

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { getRandomCard } from '$lib/api/cards';
+    import AppGeneralButton from '$lib/components/app-general-button.svelte';
     import { fade, scale } from 'svelte/transition';
 
     let card: any = null;
@@ -167,12 +168,12 @@
 
     <!-- boton para obtener otra carta -->
     <div class="flex justify-center items-center mt-6">   
-        <button
-            class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
-            disabled={isLoading}
-            on:click={fetchCard}>
-            {isLoading ? 'Cargando...' : 'Obtener Otra Carta'}
-        </button>
+        <AppGeneralButton
+            isLoading={isLoading}
+            onClick={fetchCard}
+        >
+            Obtener Otra Carta
+        </AppGeneralButton>
     </div> 
 
 

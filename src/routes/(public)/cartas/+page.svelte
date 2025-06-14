@@ -1,36 +1,112 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getCardFromQuery } from "$lib/api/cards";
+  import { getCardsByName, getCardFromQuery } from "$lib/api/cards";
   import { Query, type CardResume } from "@tcgdex/sdk";
   import SelectButton from "$lib/components/SelectButton.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
+  import AppGeneralButton from "$lib/components/app-general-button.svelte";
   import AcancedSearchDropdown from "./_components/AvancedSearchDropdown.svelte";
 
   let cards: CardResume[] = [];
+  let filteredCards: CardResume[] = [];
+  let search = "";
   let loading = true;
   let error = "";
 
-  // Ejemplo: obtener 5 cartas aleatorias
-  async function fetchCards() {
+  let lastSearch = "";
+  let page = 0;
+  let hasMore = true;
+
+  
+  async function fetchCards(reset = true) {
     loading = true;
     error = "";
-    cards = [];
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      page = 0;
+      hasMore = true;
+    }
     try {
-      cards = await getCardFromQuery(Query.create(), 0);
+      const result = await getCardFromQuery(Query.create(), page);
+      if (reset) {
+        cards = result;
+      } else {
+        
+        const ids = new Set(cards.map(c => c.id));
+        cards = [...cards, ...result.filter(c => !ids.has(c.id))];
+      }
+      filteredCards = cards;
+      hasMore = result.length === 20;
     } catch (e) {
       error = "Error al cargar cartas";
     }
     loading = false;
   }
 
-  onMount(fetchCards);
+  async function fetchFilteredCards(name: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      page = 0;
+      hasMore = true;
+    }
+    try {
+      let result;
+      if (!name) {
+        result = await getCardFromQuery(Query.create(), page);
+      } else {
+        result = await getCardsByName(name, page);
+      }
+      if (reset) {
+        cards = result;
+      } else {
+        
+        const ids = new Set(cards.map(c => c.id));
+        cards = [...cards, ...result.filter(c => !ids.has(c.id))];
+      }
+      filteredCards = cards;
+      hasMore = result.length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  
+  $: if (search !== lastSearch) {
+    lastSearch = search;
+    page = 0;
+    fetchFilteredCards(search, true);
+  }
+
+  function cargarMas() {
+    page += 1;
+    
+    if (search && search.trim() !== "") {
+      fetchFilteredCards(search, false);
+    } else {
+      fetchCards(false);
+    }
+  }
+
+  onMount(() => fetchCards(true));
 </script>
 
 <section class="bg-white">
   <div class="mx-auto container py-4">
     <h2 class="text-2xl">Buscar por nombre</h2>
-    <SearchBar search={"prueba"} />
-    
+    <SearchBar
+      bind:value={search}
+      items={[]} 
+      key="name"
+      placeholder="Buscar..."
+    />
   </div>
   <AcancedSearchDropdown />
 </section>
@@ -47,13 +123,15 @@
         </span>
       </header>
 
-      {#if loading}
+      {#if loading && filteredCards.length === 0}
         <div class="text-center py-10">Cargando cartas...</div>
       {:else if error}
         <div class="text-red-500">{error}</div>
+      {:else if search && filteredCards.length === 0}
+        <div class="text-center py-10 text-white font-semibold">No se ha encontrado la carta.</div>
       {:else}
         <div class="flex flex-wrap gap-6 justify-center">
-          {#each cards as card}
+          {#each filteredCards as card}
             <div
               class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform"
             >
@@ -70,6 +148,16 @@
             </div>
           {/each}
         </div>
+        {#if hasMore && !loading}
+          <div class="flex justify-center">
+            <AppGeneralButton isLoading={loading} onClick={cargarMas}>
+              Cargar más
+            </AppGeneralButton>
+          </div>
+        {/if}
+        {#if loading && filteredCards.length > 0}
+          <div class="text-center py-4">Cargando más cartas...</div>
+        {/if}
       {/if}
     </div>
   </section>
