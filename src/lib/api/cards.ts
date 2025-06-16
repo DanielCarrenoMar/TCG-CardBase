@@ -11,10 +11,19 @@ const randomCards = async () => {                   //obtiene una lista de carta
 
 export const getCardFromQuery = async (query:Query, page:number) => {
     const cards = await tcgdex.card.list(
-        query.paginate(page, 15)
+        query.paginate(page, 20)
     );
     return cards;
 }
+
+export const getCardsByName = async (name: string, page: number = 0) => {
+    const cards = await tcgdex.card.list(
+        Query.create()
+            .contains("name", name)
+            .paginate(page, 20)
+    );
+    return cards;
+};
 
 export const getCardFromId = async (id: string) => {
     const card = await tcgdex.card.get(id);

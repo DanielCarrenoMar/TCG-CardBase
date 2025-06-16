@@ -1,12 +1,18 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { getRandomCard } from '$lib/api/cards';
+    import { getRandomCard, getCardFromId } from '$lib/api/cards';
+    import AppGeneralButton from '$lib/components/app-general-button.svelte';
+    import DropdownCard from '$lib/components/DropdownCard.svelte';
     import { fade, scale } from 'svelte/transition';
 
     let card: any = null;
     let cardImage: string | undefined = undefined;
     let isLoading = true;
     let showPopup = false;
+
+    // Para el dialog con info completa
+    let dialogCard = null;
+    let dialogLoading = false;
 
     // function to fetch a random card
     onMount(async () => {
@@ -31,16 +37,28 @@
         }
     }
 
-    //control del popup
-    function popup() {
-        showPopup = !showPopup;
+    //control del popup usando DropdownCard
+    async function popup() {
+        showPopup = true;
+        dialogLoading = true;
+        dialogCard = null;
+        try {
+            // Si card tiene id, busca la info completa
+            if (card?.id) {
+                const fullCard = await getCardFromId(card.id);
+                console.log('Carta aleatoria completa:', fullCard);
+                dialogCard = fullCard;
+            }
+        } catch (e) {
+            dialogCard = null;
+        } finally {
+            dialogLoading = false;
+        }
     }
 </script>
 
-
-
 <section class="p-10 bg-gradient-to-b from-gray-300 to-gray-500 overflow-hidden">
-    <h1 class="text-4xl font-bold text-center mb-4">Carta Pokemon aleatorea</h1>
+    <h2 class="text-5xl md:text-7xl text-center font-black bg-gradient-to-r from-gray-700 via-gray-500 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">Carta Pokemon aleatorea</h2>
 
     <!-- contenedor principal -->
     <div class="container-ha md:flex-row gap-4 mx-auto container relative my-4">
@@ -49,8 +67,6 @@
             {#if isLoading}
                 <p>Cargando carta...</p>
             {:else if card}
-                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <img src={cardImage} alt={card.name} class="card cart-img-size w-48 h-64 cursor-pointer"  on:click={popup}/> 
             {:else}
                 <p>No se pudo cargar la carta.</p>
@@ -167,45 +183,21 @@
 
     <!-- boton para obtener otra carta -->
     <div class="flex justify-center items-center mt-6">   
-        <button
-            class="mt-4 px-4 py-2 bg-yellow-300 text-black rounded hover:bg-yellow-400 font-bold cursor-pointer transition-colors duration-300"
-            disabled={isLoading}
-            on:click={fetchCard}>
-            {isLoading ? 'Cargando...' : 'Obtener Otra Carta'}
-        </button>
+        <AppGeneralButton
+            isLoading={isLoading}
+            onClick={fetchCard}
+        >
+            Obtener Otra Carta
+        </AppGeneralButton>
     </div> 
 
-
-
-    <!-- mostrar modal de la carta -->
-    {#if showPopup}
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div
-            class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
-            in:fade="{{ duration: 200 }}"   out:fade="{{ duration: 200 }}"  on:click|self={popup}            >
-            <div
-                class="bg-transparent rounded-lg shadow-xl p-6 relative max-w-lg w-full"
-                in:scale="{{ start: 0.9, duration: 200 }}"  out:scale="{{ start: 0.9, duration: 200 }}" >
-                <button
-                    class="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-2xl font-bold cursor-pointer"
-                    on:click={popup}
-                >
-                    &times;
-                </button>
-
-                {#if card}
-                    <h3 class="text-2xl font-bold text-center mb-4">{card.name}</h3>
-                    <div class="flex flex-col md:flex-row items-center gap-4">
-                        <img src={cardImage} alt={card.name} class="max-w-xs h-auto rounded-lg shadow-md mx-auto" />
-                    </div>
-                {:else}
-                    <p>No se pudo cargar la información detallada de la carta.</p>
-                {/if}
-            </div>
-        </div>
-    {/if}
-
+    <!-- mostrar modal de la carta usando DropdownCard -->
+    <DropdownCard
+        open={showPopup}
+        card={dialogCard}
+        loading={dialogLoading}
+        on:close={() => showPopup = false}
+    />
 </section>
 
 <style>

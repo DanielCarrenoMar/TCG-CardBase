@@ -2,6 +2,7 @@
     import { Carousel, Controls } from "flowbite-svelte";
     import { onMount } from 'svelte';
     import { getSeriesForCarrousel } from "$lib/api/series";
+    import AppGeneralButton from "$lib/components/app-general-button.svelte";
 
 
     let series: Array<{alt: string, src: string, title: string}> = [];
@@ -9,15 +10,17 @@
     let error = false;
 
     onMount(async () => {
-        await fectSeries();
-        // console.log("Series desde comp: ", series);
+        await fetchSeries();
+        console.log("Series desde comp: ", series);
     });
 
-    const fectSeries = async () => {
+    const fetchSeries = async () => {
         try {
             isLoading = true;
             error = false;
             const data = await getSeriesForCarrousel();
+            console.log('series desde el fect', data);
+            
             if (!data) {
                 series = [];
                 error = true;
@@ -33,18 +36,13 @@
             isLoading = false;
         }
     };
-        
-    // const images = [
-    //     {alt: 'Logo de la serie Base', src: 'https://images.pokemontcg.io/base2/logo.png', title: 'Base'},
-    //     {alt: 'Logo de la serie E-Card', src: 'https://images.pokemontcg.io/ecard2/logo.png', title: 'E-Card'}
-    // ]
 </script>
 
 <section class="carousel-pr p-10 bg-gradient-to-b from-gray-300 to-gray-500 overflow-hidden">
     <div class="container mx-auto">
         <!-- titulo -->
         <div class="text-center mb-16">
-            <h2 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-gray-600 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">
+            <h2 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">
                 Series
             </h2>
             <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-rose-500 mx-auto rounded-full"></div>
@@ -79,6 +77,23 @@
                 </div>
             </div>
         {/if}
+
+        <div class="flex justify-center mt-12">
+            <AppGeneralButton isLoading={isLoading} onClick={fetchSeries} 
+                disabled={isLoading}>
+                <span class="relative z-10 flex items-center space-x-2">
+                    {#if isLoading}
+                        <svg class="animate-spin w-5 h-5 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span>Cargando...</span>
+                    {:else}
+                        <span>Cargar más series</span>
+                    {/if}
+                </span>
+        </AppGeneralButton>
+        </div>
     </div>
 </section>
 

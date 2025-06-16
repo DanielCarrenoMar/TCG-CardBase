@@ -31,9 +31,14 @@ export const getListSeries = async () => {                             //obtiene
 export const getSeriesWithLogo = async () => {
     try {
         const response = await fetch('https://api.pokemontcg.io/v2/sets');          //otra api
+        console.log('debug ', response);
+        
         if (!response.ok) {
             throw new Error(`HTTP error, status: ${response.status}`);
         }
+
+        
+        
 
         const data = await response.json();
         if (!data || !data.data || data.data.length === 0) {
