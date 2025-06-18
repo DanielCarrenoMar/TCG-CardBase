@@ -128,7 +128,7 @@
 <main>
   <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 ">
     <div class="mx-auto container py-4">
-      <header class="flex flex-col gap-4 py-4">
+      <header class="flex flex-col gap-4 py-4 md">
         <h3 class="text-xl">Ordenar por</h3>
         <span class="flex">
           <SelectButton selected={false} onClick={() => {}}>Id</SelectButton>
@@ -147,6 +147,8 @@
       {:else}
         <div class="flex flex-wrap gap-6 justify-center">
           {#each filteredCards as card}
+            <!-- svelte-ignore a11y_click_events_have_key_events -->
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
               class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer"
               on:click={() => handleCardClick(card)}

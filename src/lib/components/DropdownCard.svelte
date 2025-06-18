@@ -34,6 +34,8 @@
     on:click={handleBackdropClick}
     on:keydown={handleKeydown}
   >
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div class="bg-gray-200 rounded-xl shadow-2xl flex flex-col md:flex-row p-6 gap-6 max-w-3xl w-full relative"
          on:click|stopPropagation>
       <button
@@ -48,8 +50,10 @@
           <span class="text-lg text-gray-600">Cargando carta...</span>
         </div>
       {:else if card}
+      {console.log('holaaaaaaaaaa, ', card)}
+      {console.log('ey: ', card.image)}
         <div class="flex flex-col items-center">
-          <img src={card.image + `/low.webp`} alt={card.name} class="w-60 rounded-xl shadow-lg border border-gray-300 bg-white" />
+          <img src={card.imageUrl || card.image + '/low.webp' } alt={card.name} class="w-60 rounded-xl shadow-lg border border-gray-300 bg-white" />
           <AppNavigateButton href={`/cartas/${card.id}`}>Mas Informacion</AppNavigateButton>
         </div>
         <div class="flex-1 flex flex-col gap-2">

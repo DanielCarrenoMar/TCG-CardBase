@@ -27,8 +27,9 @@
                 throw new Error('No card found');
             }else {
                 console.log('Random card obtenida exitosamente:', fetchCard);
-                card = fetchCard;            
-                cardImage = card ? card.getImageURL('high', 'webp') : undefined;    
+                card = fetchCard;    
+                cardImage = card.imageUrl || card.image + '/low.webp';        
+                // cardImage = card ? card.getImageURL('high', 'webp') || card.image + '/low.webp' : undefined;    
             }
         } catch (error) {
             console.error('Error fetching random card:', error);
@@ -194,7 +195,7 @@
     <!-- mostrar modal de la carta usando DropdownCard -->
     <DropdownCard
         open={showPopup}
-        card={dialogCard}
+        card={card}
         loading={dialogLoading}
         on:close={() => showPopup = false}
     />

@@ -11,7 +11,7 @@
 
     onMount(async () => {
         await fetchSeries();
-        console.log("Series desde comp: ", series);
+        // console.log("Series desde comp: ", series);
     });
 
     const fetchSeries = async () => {
@@ -19,7 +19,7 @@
             isLoading = true;
             error = false;
             const data = await getSeriesForCarrousel();
-            console.log('series desde el fect', data);
+            // console.log('series desde el fect', data);
             
             if (!data) {
                 series = [];
