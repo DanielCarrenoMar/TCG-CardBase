@@ -68,7 +68,9 @@
             {#if isLoading}
                 <p>Cargando carta...</p>
             {:else if card}
-                <img src={cardImage} alt={card.name} class="card cart-img-size w-48 h-64 cursor-pointer"  on:click={popup}/> 
+                <button type="button" on:click={popup} class="p-0 m-0 border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 rounded" aria-label="Ver detalles de la carta aleatoria">
+                    <img src={cardImage} alt={card.name} class="card cart-img-size w-48 h-64 cursor-pointer" />
+                </button>
             {:else}
                 <p>No se pudo cargar la carta.</p>
             {/if}
