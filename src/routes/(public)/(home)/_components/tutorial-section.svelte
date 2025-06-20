@@ -6,7 +6,7 @@
 <section class="py-8 bg-gradient-to-b from-secondary-400 to-secondary-700 overflow-hidden">
 	<span class="relative flex flex-col md:flex-row mx-auto container">
 		<div class="flex-1 gap-8 flex flex-col justify-center items-center px-4 relative z-10">
-			<div class="bg-primary-400 px-4 py-1 rounded text-xl mb-2 mx-8">
+			<div class="bg-primary-400 px-4 py-8 rounded text-xl mb-2 mx-8">
 				<h2 class="text-3xl md:text-5xl font-bold text-center mb-2">Aprende a Jugar</h2>
 				<p>
 					Experimenta el JCC Pokémon de una manera completamente nueva,
@@ -14,7 +14,7 @@
 					sencillas, colecciona cartas digitales únicas con
 				</p>
 			</div>
-			<AppNavigateButton href="">Saber más</AppNavigateButton>
+			<AppNavigateButton href="como_jugar">Ir a Como Jugar</AppNavigateButton>
 		</div>
 		<div class="flex-1 md:static absolute left-0 z-0">
 			<img

@@ -12,7 +12,7 @@
 		<div
 			class="flex-1 flex flex-col justify-center items-center px-4 relative z-10"
 		>
-			<div class="bg-secondary-400 px-4 py-1 rounded text-xl mb-2 mx-8">
+			<div class="bg-secondary-400 px-4 py-8 rounded text-xl mb-2 mx-8">
 				<h2 class="text-3xl md:text-5xl font-bold text-center mb-2">¡Disfruta!</h2>
 				<p>
 					Experimenta el JCC Pokémon de una manera completamente nueva,

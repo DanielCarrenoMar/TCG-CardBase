@@ -34,21 +34,20 @@
 <section class="p-10 bg-bg-300 shadow-2xl mb-8 overflow-hidden">
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-8 tracking-tight">
-            Video Juegos
+            Videojuegos
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-4 justify-items-center mb-10">
             {#each videogames as game}
-                <a href={game.url} class="flex flex-col items-center group w-72 h-72 max-w-full bg-white/5 rounded-xl shadow-lg p-2 mb-2 transition-transform duration-300 group-hover:scale-105">
-                    <img src={game.img} alt={game.alt} class="w-full h-48 object-contain mb-2" />
-                    <span class="text-xl font-semibold text-white/80 group-hover:text-yellow-300 transition-colors">{game.name}</span>
+                <a href={game.url} class="flex flex-col items-center group w-72 h-52 max-w-full bg-white/5 rounded-xl shadow-lg p-2 mb-2 transition-transform duration-300 group-hover:scale-105 overflow-hidden">
+                    <img src={game.img} alt={game.alt} class="w-full h-48 object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
                 </a>
             {/each}
         </div>
 
         <div class="flex justify-center mt-6">
             <AppNavigateButton href="videojuegos">
-                ver más
+                Ir a Videojuegos
             </AppNavigateButton>
         </div>
     </div>
