@@ -58,8 +58,8 @@
     }
 </script>
 
-<section class="p-10 bg-gradient-to-b from-gray-300 to-gray-500 overflow-hidden">
-    <h2 class="text-5xl md:text-7xl text-center font-black bg-gradient-to-r from-gray-700 via-gray-500 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">Carta Pokemon aleatorea</h2>
+<section class="p-10 bg-bg-100 overflow-hidden">
+    <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-4 tracking-tight">Carta Pokemon aleatorea</h2>
 
     <!-- contenedor principal -->
     <div class="container-ha md:flex-row gap-4 mx-auto container relative my-4">

@@ -38,14 +38,12 @@
     };
 </script>
 
-<section class="carousel-pr p-10 bg-gradient-to-b from-gray-300 to-gray-500 overflow-hidden">
+<section class="carousel-pr p-10 bg-white overflow-hidden">
     <div class="container mx-auto">
-        <!-- titulo -->
         <div class="text-center mb-16">
-            <h2 class="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">
+            <h2 class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">
                 Series
             </h2>
-            <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-rose-500 mx-auto rounded-full"></div>
             <p class="text-gray-800 mt-6 text-lg max-w-2xl mx-auto">
                 Descubre nuestra colección de series
             </p>
