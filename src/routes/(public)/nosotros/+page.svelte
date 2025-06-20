@@ -1,16 +1,15 @@
 <script lang="ts">
+	import HeroSection from '$lib/components/hero-section.svelte';
 	import MemberCard from "./_components/member-card.svelte";
 	import TechCard from "./_components/tech-card.svelte";
 	import Hero from "./_images/hero.png";
 	import { MEMBERS, USED_TECH } from "./constants";
 </script>
 
-<section class="mx-auto container">
-	<img src={Hero} alt="hero" class="object-cover w-full" draggable="false" />
-</section>
+<HeroSection title="Acerca de Nosotros" image={Hero} />
 
 <main
-	class=" text-white bg-background"
+	class="text-white bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100"
 >
 	<div class="mx-auto container flex flex-col flex-grow">
 		<section class="p-8 flex flex-col gap-2">
