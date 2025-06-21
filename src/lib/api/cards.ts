@@ -64,7 +64,7 @@ const randomCards = async () => {                   //obtiene una lista de carta
     // Intentar obtener de cache primero
     const cacheData = CacheService.get(cacheKey);
     if (cacheData) {
-        console.log('Lista de cartas random obtenidas en cache: ', cacheData);
+        // console.log('Lista de cartas random obtenidas en cache: ', cacheData);
         return cacheData;
     }
 
@@ -95,7 +95,7 @@ export const getCardFromQuery = async (query:Query, page:number) => {
     // Intentar obtener de cache primero
     const cacheData = CacheService.get(cacheKey);
     if (cacheData) {
-        console.log('Lista de cartas fromQuery obtenidas en cache: ', cacheData);
+        // console.log('Lista de cartas fromQuery obtenidas en cache: ', cacheData);
         return cacheData;
     }
 
@@ -103,7 +103,7 @@ export const getCardFromQuery = async (query:Query, page:number) => {
     const cardsResponse = await tcgdex.card.list(
         query.paginate(page, 20)
     );
-    console.log('respuesta api', cardsResponse);
+    // console.log('respuesta api', cardsResponse);
     
 
     //guardar en cache
@@ -117,19 +117,43 @@ export const getCardFromQuery = async (query:Query, page:number) => {
                 localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
             }
         );
-        console.log('cartas de fromQuery guardadas en cache', cleanedCards);
+        // console.log('cartas de fromQuery guardadas en cache', cleanedCards);
     }
 
     return cleanedCards;
 }
 
 export const getCardsByName = async (name: string, page: number = 0) => {
-    const cards = await tcgdex.card.list(
+    const cacheKey = `fromQuery-list-card_${name.toString()}_page_${page}`
+    // Intentar obtener de cache primero
+    const cacheData = CacheService.get(cacheKey);
+    if (cacheData) {
+        // console.log('Lista de cartas byName obtenidas en cache: ', cacheData);
+        return cacheData;
+    }
+
+    //si no esta en cache buscar en la api
+    const cardsResponse = await tcgdex.card.list(
         Query.create()
             .contains("name", name)
             .paginate(page, 20)
     );
-    return cards;
+
+    //guardar en cache
+    const cleanedCards = cleanCardResumeList(cardsResponse);
+    if (cardsResponse) {
+        CacheService.set(
+            cacheKey,
+            cleanedCards,
+            {
+                memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
+                localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
+            }
+        );
+        // console.log('cartas de byName guardadas en cache', cleanedCards);
+    }    
+
+    return cleanedCards;
 };
 
 export const getCardFromId = async (id: string) => {

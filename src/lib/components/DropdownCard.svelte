@@ -53,7 +53,7 @@
       <!-- {console.log('holaaaaaaaaaa, ', card)}
       {console.log('ey: ', card.image)} -->
         <div class="flex flex-col items-center">
-          <img src={card.imageUrl || card.image + '/low.webp' } alt={card.name} class="w-60 rounded-xl shadow-lg border border-gray-300 bg-white" />
+          <img src={card.imageUrl || card.image + '/hight.webp' } alt={card.name} class="w-60 rounded-xl shadow-lg border border-gray-300 bg-white" />
           <AppNavigateButton href={`/cartas/${card.id}`}>Mas Informacion</AppNavigateButton>
         </div>
         <div class="flex-1 flex flex-col gap-2">

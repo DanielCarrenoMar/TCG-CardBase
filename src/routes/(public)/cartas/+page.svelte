@@ -37,8 +37,6 @@
         cards = result;        
       } else {
 
-
-        
         const ids = new Set(cards.map(c => c.id));
         cards = [...cards, ...result.filter(c => !ids.has(c.id))];
       }
@@ -65,6 +63,7 @@
         result = await getCardFromQuery(Query.create(), page);
       } else {
         result = await getCardsByName(name, page);
+        // console.log('cartas by name desde componente', reset);        
       }
       if (reset) {
         cards = result;
@@ -109,7 +108,7 @@
     selectedCardFull = null;
     // Espera la info completa de la carta
     const cardFull = await getCardFromId(card.id);
-    console.log(cardFull); // <-- Aquí ves el objeto completo en consola
+    // console.log(cardFull); // <-- Aquí ves el objeto completo en consola
     selectedCardFull = cardFull;
     loadingCard = false;
   }
@@ -157,7 +156,7 @@
             >
             <!--aca  -->
               <img
-                src={ card.image} 
+                src={ card.image || card.image + '/low.webp'} 
                 alt={card.name}
                 class="w-full h-64 object-contain rounded mb-2 border border-gray-200"
                 loading="lazy"
