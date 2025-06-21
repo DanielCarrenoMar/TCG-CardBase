@@ -50,8 +50,8 @@
           <span class="text-lg text-gray-600">Cargando carta...</span>
         </div>
       {:else if card}
-      {console.log('holaaaaaaaaaa, ', card)}
-      {console.log('ey: ', card.image)}
+      <!-- {console.log('holaaaaaaaaaa, ', card)}
+      {console.log('ey: ', card.image)} -->
         <div class="flex flex-col items-center">
           <img src={card.imageUrl || card.image + '/low.webp' } alt={card.name} class="w-60 rounded-xl shadow-lg border border-gray-300 bg-white" />
           <AppNavigateButton href={`/cartas/${card.id}`}>Mas Informacion</AppNavigateButton>

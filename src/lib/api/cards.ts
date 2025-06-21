@@ -2,6 +2,36 @@ import { Query, type Card } from "@tcgdex/sdk";
 import { tcgdex } from "./api";
 import { CacheService } from "$lib/cache/cacheService";
 
+//interfaz de carta resume
+interface CleanCardResume {
+    id: string;
+    localID: string;
+    name: string;
+    image: string; 
+}
+
+//la funcion de limpieza
+const cleanCardResumeList = (cardResumes: any[]): CleanCardResume[] => {
+    if (!Array.isArray(cardResumes)) {
+        console.warn('cleanCardResumeList expects an array.');
+        return [];
+    }
+
+    return cardResumes.map(cardResume => {                                  
+        if (!cardResume || !cardResume.id || !cardResume.name || !cardResume.localId || !cardResume.image) {//asegurando formato valido
+            console.warn('Invalid CardResume item found, skipping:', cardResume);
+            return null; 
+        }
+
+        return {
+            id: cardResume.id,
+            localID: cardResume.localId,
+            name: cardResume.name,
+            image: cardResume.image ? `${cardResume.image}/high.webp` : ''  // Guardar la URL de la imagen directamente
+        };
+
+    }).filter(item => item !== null) as CleanCardResume[]; // Filtra cualquier null y asegura el tipo
+};
 
 // para limpiar los datos de la carta antes de guardarlos en cache
 const cleanCardData = (card: any) => {
@@ -34,14 +64,14 @@ const randomCards = async () => {                   //obtiene una lista de carta
     // Intentar obtener de cache primero
     const cacheData = CacheService.get(cacheKey);
     if (cacheData) {
-        // console.log('Lista de cartas random obtenidas en cache: ', cacheData);
+        console.log('Lista de cartas random obtenidas en cache: ', cacheData);
         return cacheData;
     }
 
     const randomListCards = await tcgdex.card.list(
         Query.create()
         .contains('rarity', 'Rare')
-        .paginate(1, 5)
+        .paginate(1, 100)
     );
 
     //guardar en cache
@@ -61,10 +91,36 @@ const randomCards = async () => {                   //obtiene una lista de carta
 }
 
 export const getCardFromQuery = async (query:Query, page:number) => {
-    const cards = await tcgdex.card.list(
+    const cacheKey = `fromQuery-list-card_${query.toString()}_page_${page}`
+    // Intentar obtener de cache primero
+    const cacheData = CacheService.get(cacheKey);
+    if (cacheData) {
+        console.log('Lista de cartas fromQuery obtenidas en cache: ', cacheData);
+        return cacheData;
+    }
+
+    //si no esta en cache buscar en la api
+    const cardsResponse = await tcgdex.card.list(
         query.paginate(page, 20)
     );
-    return cards;
+    console.log('respuesta api', cardsResponse);
+    
+
+    //guardar en cache
+    const cleanedCards = cleanCardResumeList(cardsResponse);
+    if (cardsResponse) {
+        CacheService.set(
+            cacheKey,
+            cleanedCards,
+            {
+                memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
+                localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
+            }
+        );
+        console.log('cartas de fromQuery guardadas en cache', cleanedCards);
+    }
+
+    return cleanedCards;
 }
 
 export const getCardsByName = async (name: string, page: number = 0) => {
@@ -87,7 +143,7 @@ export const getCardFromId = async (id: string) => {
     // Si no esta en cache, obtener de la API
     const card = await tcgdex.card.get(id);
     if (!card) {
-        console.error('Card not found');
+        console.error('Card not found in cache');
         return null;
     }
 
@@ -98,7 +154,7 @@ export const getCardFromId = async (id: string) => {
         localStorageExpiration: 24 * 60 * 60 * 1000 // 24 horas en localStorage
     });
     
-    return card;
+    return cleanCard;
 }
 
 export const getRandomCard = async () => {   
@@ -115,15 +171,7 @@ export const getRandomCard = async () => {
             return;
         }
 
-        const cardFullData = await getCardFromId(cardR.id);                   //obtiene los detalles de la carta
-
-        // Guardar en cache
-        const cleanCard = cleanCardData(cardFullData);
-        CacheService.set(`random-card-${cardR.id}`, cleanCard, {
-            memoryExpiration: 5 * 60 * 1000,
-            localStorageExpiration: 24 * 60 * 60 * 1000
-        });
-
+        const cardFullData = await getCardFromId(cardR.id);                   //obtiene los detalles de la carta        
 
         return cardFullData;  
     } catch (error) {

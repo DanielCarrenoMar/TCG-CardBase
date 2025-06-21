@@ -39,7 +39,7 @@
     };
 </script>
 
-<section class="carousel-pr p-10 bg-white overflow-hidden">
+<section class="carousel-pr p-10 bg-gradient-to-b from-gray-300 to-gray-500  overflow-hidden">
     <div class="container mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">

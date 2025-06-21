@@ -26,7 +26,7 @@
             if (!fetchCard) {
                 throw new Error('No card found');
             }else {
-                console.log('Random card obtenida exitosamente:', fetchCard);
+                // console.log('Random card obtenida exitosamente:', fetchCard);
                 card = fetchCard;    
                 cardImage = card.imageUrl || card.image + '/low.webp';        
                 // cardImage = card ? card.getImageURL('high', 'webp') || card.image + '/low.webp' : undefined;    
@@ -64,13 +64,13 @@
     <!-- contenedor principal -->
     <div class="container-ha md:flex-row gap-4 mx-auto container relative my-4">
         <!-- contenedor de la carta aleatorea -->
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center ">
             {#if isLoading}
                 <p>Cargando carta...</p>
             {:else if card}
-                <button type="button" on:click={popup} class="p-0 m-0 border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 rounded" aria-label="Ver detalles de la carta aleatoria">
-                    <img src={cardImage} alt={card.name} class="card cart-img-size w-48 h-64 cursor-pointer" />
-                </button>
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                <img src={cardImage} alt={card.name} on:click={popup} class="card cart-img-size w-48 h-64 cursor-pointer" />
             {:else}
                 <p>No se pudo cargar la carta.</p>
             {/if}

@@ -33,9 +33,11 @@
     }
     try {
       const result = await getCardFromQuery(Query.create(), page);
-      if (reset) {
-        cards = result;
+      if (reset) {        
+        cards = result;        
       } else {
+
+
         
         const ids = new Set(cards.map(c => c.id));
         cards = [...cards, ...result.filter(c => !ids.has(c.id))];
@@ -153,8 +155,9 @@
               class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer"
               on:click={() => handleCardClick(card)}
             >
+            <!--aca  -->
               <img
-                src={card.image + `/low.webp`}
+                src={ card.image} 
                 alt={card.name}
                 class="w-full h-64 object-contain rounded mb-2 border border-gray-200"
                 loading="lazy"
