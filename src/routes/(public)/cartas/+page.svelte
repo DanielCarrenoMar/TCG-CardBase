@@ -19,8 +19,57 @@
   let hasMore = true;
 
   let showDialog = false;
-  let selectedCardFull = null;
+  let selectedCardFull: any = null;
   let loadingCard = false;
+
+  // Variables para el ordenamiento
+  let sortBy: 'id' | 'name' = 'id';
+  let sortOrder: 'asc' | 'desc' = 'asc';
+
+  // para ordenar las cartas
+  function sortCards(cardsToSort: CardResume[]): CardResume[] {
+    if (!cardsToSort || cardsToSort.length === 0) return cardsToSort;
+
+    // console.log(cardsToSort);
+
+    return [...cardsToSort].sort((a, b) => {
+      let comparison = 0;
+      
+      if (sortBy === 'id') {
+        // Ordenar por ID (asumiendo que son strings numéricos)
+        comparison = a.name.localeCompare(b.name, 'es', { 
+          sensitivity: 'base',
+          numeric: true 
+        });
+      } else if (sortBy === 'name') {
+        // Ordenar por nombre 
+        comparison = a.name.localeCompare(b.name, 'es', { 
+          sensitivity: 'base',
+          numeric: true 
+        });
+      }
+
+      return sortOrder === 'asc' ? comparison : -comparison;                // Aplicar el orden (ascendente o descendente)
+    });
+  }
+
+  // para cambiar el ordenamiento
+  function changeSort(newSortBy: 'id' | 'name') {
+    if (sortBy === newSortBy) {
+      sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';               // Si es el mismo campo, cambiar el orden
+    } else {
+      // Si es un campo diferente, establecer el nuevo campo y orden ascendente por defecto
+      sortBy = newSortBy;
+      sortOrder = 'asc';
+    }
+    
+    filteredCards = sortCards(cards);         // Reordenar las cartas actuales
+  }
+
+  //  obtener el estado de seleccion de un boton
+  function isButtonSelected(buttonSortBy: 'id' | 'name'): boolean {
+    return sortBy === buttonSortBy;
+  }
 
   async function fetchCards(reset = true) {
     loading = true;
@@ -36,11 +85,11 @@
       if (reset) {        
         cards = result;        
       } else {
-
         const ids = new Set(cards.map(c => c.id));
         cards = [...cards, ...result.filter(c => !ids.has(c.id))];
       }
-      filteredCards = cards;
+      // Aplicar ordenamiento despues de obtener las cartas
+      filteredCards = sortCards(cards);
       hasMore = result.length === 20;
     } catch (e) {
       error = "Error al cargar cartas";
@@ -68,11 +117,11 @@
       if (reset) {
         cards = result;
       } else {
-        
         const ids = new Set(cards.map(c => c.id));
         cards = [...cards, ...result.filter(c => !ids.has(c.id))];
       }
-      filteredCards = cards;
+      // Aplicar ordenamiento despues de obtener las cartas
+      filteredCards = sortCards(cards);
       hasMore = result.length === 20;
     } catch (e) {
       error = "Error al buscar cartas";
@@ -83,6 +132,10 @@
     loading = false;
   }
 
+  // Reactive statement para reordenar cuando cambie el ordenamiento
+  $: if (cards.length > 0) {
+    filteredCards = sortCards(cards);
+  }
   
   $: if (search !== lastSearch) {
     lastSearch = search;
@@ -108,7 +161,6 @@
     selectedCardFull = null;
     // Espera la info completa de la carta
     const cardFull = await getCardFromId(card.id);
-    // console.log(cardFull); // <-- Aquí ves el objeto completo en consola
     selectedCardFull = cardFull;
     loadingCard = false;
   }
@@ -130,11 +182,19 @@
   <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 ">
     <div class="mx-auto container py-4">
       <header class="flex flex-col gap-4 py-4 md">
-        <h3 class="text-xl">Ordenar por</h3>
-        <span class="flex">
-          <SelectButton selected={false} onClick={() => {}}>Id</SelectButton>
-          <SelectButton selected={false} onClick={() => {}}>
-            Nombre
+        <h3 class="text-xl text-white">Ordenar por</h3>
+        <span class="flex gap-2">
+          <SelectButton 
+            selected={isButtonSelected('id')} 
+            onClick={() => changeSort('id')}
+          >
+            Id {sortBy === 'id' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+          </SelectButton>
+          <SelectButton 
+            selected={isButtonSelected('name')} 
+            onClick={() => changeSort('name')}
+          >
+            Nombre {sortBy === 'name' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
           </SelectButton>
         </span>
       </header>
@@ -154,7 +214,6 @@
               class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer"
               on:click={() => handleCardClick(card)}
             >
-            <!--aca  -->
               <img
                 src={ card.image || card.image + '/low.webp'} 
                 alt={card.name}
