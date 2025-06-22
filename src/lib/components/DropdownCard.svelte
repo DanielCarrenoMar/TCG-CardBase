@@ -39,11 +39,11 @@
     <div class="bg-gray-200 rounded-xl shadow-2xl flex flex-col md:flex-row p-6 gap-6 max-w-3xl w-full relative"
          on:click|stopPropagation>
       <button
-        class="absolute top-3 right-3 text-2xl text-gray-600 hover:text-black font-bold"
+        class="absolute cursor-pointer top-3 right-3 text-2xl text-gray-600 hover:text-black font-bold"
         on:click={close}
         aria-label="Cerrar"
         type="button"
-      >×</button>
+      >X</button>
 
       {#if loading}
         <div class="flex-1 flex items-center justify-center min-h-[200px]">
