@@ -9,7 +9,7 @@ export const getListSeries = async () => {                             //obtiene
             return [];
         }    
 
-        // console.log('lista basica series: ', listSeries);
+        console.log('lista basica series: ', listSeries);
 
         const seriesPromises = listSeries.map(serie => getSerieFullData(serie.id));         //map para un array de promesas, cada promesa es el result de getSerieFullData
         const listSeriesFullData = await Promise.all(seriesPromises);                   //resuelve todas las promesas y devuelve un array con los resultados
@@ -19,7 +19,9 @@ export const getListSeries = async () => {                             //obtiene
         // const serie = await tcgdex.fetch('series', 'xy');
         // console.log('serie xy: ', serie?.logo, ' nombre: ', serie?.name, 'sets: ', serie?.sets[0].symbol);
         
+        console.log(listSeriesFullData);
         
+
         return listSeriesFullData;  
     } catch (error) {
         console.error('Error fetching series:', error);
@@ -31,7 +33,7 @@ export const getListSeries = async () => {                             //obtiene
 export const getSeriesWithLogo = async () => {
     try {
         const response = await fetch('https://api.pokemontcg.io/v2/sets');          //otra api
-        // console.log('debug ', response);
+        console.log('debug ', response);
         
         if (!response.ok) {
             throw new Error(`HTTP error, status: ${response.status}`);
