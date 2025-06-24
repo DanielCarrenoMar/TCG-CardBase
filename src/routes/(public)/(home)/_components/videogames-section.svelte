@@ -1,5 +1,4 @@
 <script lang="ts">
-    import AppGeneralButton from '$lib/components/app-general-button.svelte';
     import AppNavigateButton from '$lib/components/app-navigate-button.svelte';
 
     // Lista de videojuegos
@@ -8,25 +7,25 @@
             name: 'Pokémon TCG Online',
             img: 'images/videogames/tcg-online/logo.png',
             alt: 'Pokémon TCG Online',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-tcg-online'
         },
         {
             name: 'Pokémon Pocket',
             img: 'images/videogames/tcg-pocket/logo.png',
             alt: 'Pokémon Pocket',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-tcg-pocket'
         },
         {
             name: 'Pokémon Trading Card Game',
             img: 'images/videogames/trading-card/logo.png',
             alt: 'Pokémon Trading Card Game',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-trading-card-game'
         },
         {
             name: 'Pokémon TCG Live',
             img: 'images/videogames/tcg-live/logo.png',
             alt: 'Pokémon TCG Live',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-tcg-live'
         }
     ];
 </script>
