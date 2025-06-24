@@ -206,11 +206,11 @@
       {:else}
         <div class="flex flex-wrap gap-6 justify-center">
           {#each filteredCards as card}
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div
-              class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer"
+            <button
+              type="button"
+              class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
               on:click={() => handleCardClick(card)}
+              aria-label={`Ver detalles de la carta ${card.name}`}
             >
               <img
                 src={ card.image || card.image + '/low.webp'} 
@@ -222,7 +222,7 @@
                 <div class="font-semibold text-lg">{card.name}</div>
                 <div class="text-xs text-gray-500">ID: {card.id}</div>
               </div>
-            </div>
+            </button>
           {/each}
         </div>
         {#if hasMore && !loading}
