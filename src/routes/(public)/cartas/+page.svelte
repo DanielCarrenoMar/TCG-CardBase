@@ -171,8 +171,6 @@
     <h2 class="text-2xl">Buscar por nombre</h2>
     <SearchBar
       bind:value={search}
-      items={[]} 
-      key="name"
       placeholder="Buscar..."
     />
   </div>
