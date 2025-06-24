@@ -30,7 +30,7 @@
     ];
 </script>
 
-<section class="p-10 bg-bg-300 shadow-2xl mb-8 overflow-hidden">
+<section class="p-10 bg-bg-300 shadow-2xl overflow-hidden">
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-8 tracking-tight">
             Videojuegos
