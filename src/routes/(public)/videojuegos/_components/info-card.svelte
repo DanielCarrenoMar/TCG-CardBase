@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
+  import NavigateButton from "$lib/components/Navigate-button.svelte";
   import { Card } from "flowbite-svelte";
   interface Props {
 		info: {
@@ -16,5 +16,5 @@
   <div class="w-full text-white text-2xl mb-6">
     {info.description}
   </div>
-  <AppNavigateButton href={info.url}>Explorar</AppNavigateButton>
+  <NavigateButton href={info.url}>Explorar</NavigateButton>
 </Card> 

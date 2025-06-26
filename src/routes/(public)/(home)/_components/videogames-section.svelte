@@ -1,5 +1,5 @@
 <script lang="ts">
-    import AppNavigateButton from '$lib/components/app-navigate-button.svelte';
+    import NavigateButton from '$lib/components/Navigate-button.svelte';
 
     // Lista de videojuegos
     const videogames = [
@@ -45,9 +45,9 @@
         </div>
 
         <div class="flex justify-center mt-6">
-            <AppNavigateButton href="videojuegos">
+            <NavigateButton href="videojuegos">
                 Ir a Videojuegos
-            </AppNavigateButton>
+            </NavigateButton>
         </div>
     </div>
 </section>
