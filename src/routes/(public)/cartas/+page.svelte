@@ -2,8 +2,8 @@
   import { onMount } from "svelte";
   import { getCardsByName, getCardFromQuery, getCardFromId } from "$lib/api/cards";
   import { Query, type CardResume } from "@tcgdex/sdk";
-  import SelectButton from "$lib/components/SelectButton.svelte";
-  import SearchBar from "$lib/components/SearchBar.svelte";
+  import SelectButton from "$lib/components/Select-button.svelte";
+  import SearchBar from "$lib/components/Search-bar.svelte";
   import GeneralButton from "$lib/components/General-button.svelte";
   import AcancedSearchDropdown from "./_components/AvancedSearchDropdown.svelte";
   import DropdownCard from "$lib/components/DropdownCard.svelte";

@@ -60,7 +60,7 @@ export const USED_INFO_CARD = [
     {
         description: "¿Alguna vez soñaste con vivir como un auténtico maestro del JCC Pokémon, desafiando rivales en duelos estratégicos y coleccionando cartas legendarias? Pokémon Trading Card Game para GameBoy Color no es solo un juego retro: es un viaje lleno de nostalgia, desafíos y secretos ocultos que marcó a toda una generación.",
 		background_color: "from-[#a3d06c] to-[#425c2a]",
-		url: "/videojuegos/pokemon-tcg-gameboy",
+		url: "/videojuegos/pokemon-trading-card-game",
     },
 ];
 
