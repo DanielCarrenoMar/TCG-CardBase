@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { getRandomCard, getCardFromId } from '$lib/api/cards';
-    import AppGeneralButton from '$lib/components/app-general-button.svelte';
+    import GeneralButton from '$lib/components/General-button.svelte';
     import DropdownCard from '$lib/components/DropdownCard.svelte';
     import { fade, scale } from 'svelte/transition';
 
@@ -186,12 +186,12 @@
 
     <!-- boton para obtener otra carta -->
     <div class="flex justify-center items-center mt-6">   
-        <AppGeneralButton
+        <GeneralButton
             isLoading={isLoading}
             onClick={fetchCard}
         >
             Obtener Otra Carta
-        </AppGeneralButton>
+        </GeneralButton>
     </div> 
 
     <!-- mostrar modal de la carta usando DropdownCard -->

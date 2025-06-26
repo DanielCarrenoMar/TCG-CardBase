@@ -2,7 +2,7 @@
     import { Carousel, Controls } from "flowbite-svelte";
     import { onMount } from 'svelte';
     import { getSeriesForCarrousel } from "$lib/api/series";
-    import AppGeneralButton from "$lib/components/app-general-button.svelte";
+    import GeneralButton from "$lib/components/General-button.svelte";
     import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
 
 

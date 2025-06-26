@@ -4,7 +4,7 @@
   import { Query, type CardResume } from "@tcgdex/sdk";
   import SelectButton from "$lib/components/SelectButton.svelte";
   import SearchBar from "$lib/components/SearchBar.svelte";
-  import AppGeneralButton from "$lib/components/app-general-button.svelte";
+  import GeneralButton from "$lib/components/General-button.svelte";
   import AcancedSearchDropdown from "./_components/AvancedSearchDropdown.svelte";
   import DropdownCard from "$lib/components/DropdownCard.svelte";
 
@@ -227,9 +227,9 @@
         </div>
         {#if hasMore && !loading}
           <div class="flex justify-center">
-            <AppGeneralButton isLoading={loading} onClick={cargarMas}>
+            <GeneralButton isLoading={loading} onClick={cargarMas}>
               Cargar más
-            </AppGeneralButton>
+            </GeneralButton>
           </div>
         {/if}
         {#if loading && filteredCards.length > 0}
