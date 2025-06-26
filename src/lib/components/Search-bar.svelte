@@ -3,22 +3,10 @@
 
     export let value: string = '';
     export let placeholder: string = 'Buscar...';
-    export let items: any[] = [];
-    export let key: string = 'nombre';
 
     const dispatch = createEventDispatcher();
 
-    // Filtrado reactivo
-    $: filteredItems = value
-        ? items.filter(item =>
-            (item[key] || '')
-                .toString()
-                .toLowerCase()
-                .includes(value.toLowerCase())
-        )
-        : items;
-
-    $: dispatch('filter', { value, filteredItems });
+    $: dispatch('filter', { value });
 </script>
 
 <div class="flex items-center bg-primary-400 rounded-full px-4 py-2 w-full max-w-xl shadow-sm">

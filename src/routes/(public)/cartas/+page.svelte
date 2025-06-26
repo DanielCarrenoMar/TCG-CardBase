@@ -2,9 +2,9 @@
   import { onMount } from "svelte";
   import { getCardsByName, getCardFromQuery, getCardFromId, getCardsBySet } from "$lib/api/cards";
   import { Query, type CardResume } from "@tcgdex/sdk";
-  import SelectButton from "$lib/components/SelectButton.svelte";
-  import SearchBar from "$lib/components/SearchBar.svelte";
-  import AppGeneralButton from "$lib/components/app-general-button.svelte";
+  import SelectButton from "$lib/components/Select-button.svelte";
+  import SearchBar from "$lib/components/Search-bar.svelte";
+  import GeneralButton from "$lib/components/General-button.svelte";
   import AcancedSearchDropdown from "./_components/AvancedSearchDropdown.svelte";
   import DropdownCard from "$lib/components/DropdownCard.svelte";
   import { page } from '$app/stores';
@@ -205,8 +205,6 @@
     <h2 class="text-2xl">Buscar por nombre</h2>
     <SearchBar
       bind:value={search}
-      items={[]} 
-      key="name"
       placeholder="Buscar..."
     />
   </div>
@@ -289,6 +287,7 @@
             <div
               class="bg-white rounded-lg shadow-lg p-2 w-48 flex flex-col items-center hover:scale-105 transition-transform cursor-pointer relative"
               on:click={() => handleCardClick(card)}
+              aria-label={`Ver detalles de la carta ${card.name}`}
             >
               <!-- Indicador de set en la esquina -->
               {#if cardsFromSet && currentSetId}
@@ -307,14 +306,14 @@
                 <div class="font-semibold text-lg">{card.name}</div>
                 <div class="text-xs text-gray-500">ID: {card.id}</div>
               </div>
-            </div>
+            </button>
           {/each}
         </div>
         {#if hasMore && !loading}
           <div class="flex justify-center mt-6">
             <AppGeneralButton isLoading={loading} onClick={cargarMas}>
               Cargar más
-            </AppGeneralButton>
+            </GeneralButton>
           </div>
         {/if}
         {#if loading && filteredCards.length > 0}

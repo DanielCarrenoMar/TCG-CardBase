@@ -53,7 +53,7 @@
 
 <div class="flex flex-row justify-between items-center text-bg-100 fixed bg-white text-2xl h-20 w-full p-6 z-50">
     <a href="/" class="flex items-center cursor-pointer" on:click={handleNavigation}>
-        <img src="./logoTCG.png" alt="TCG Logo">
+        <img src="/logoTCG.png" alt="TCG Logo">
     </a>
 
     {#if !isMobile}

@@ -1,6 +1,5 @@
 <script lang="ts">
-    import AppGeneralButton from '$lib/components/app-general-button.svelte';
-    import AppNavigateButton from '$lib/components/app-navigate-button.svelte';
+    import NavigateButton from '$lib/components/Navigate-button.svelte';
 
     // Lista de videojuegos
     const videogames = [
@@ -8,30 +7,30 @@
             name: 'Pokémon TCG Online',
             img: 'images/videogames/tcg-online/logo.png',
             alt: 'Pokémon TCG Online',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-tcg-online'
         },
         {
             name: 'Pokémon Pocket',
             img: 'images/videogames/tcg-pocket/logo.png',
             alt: 'Pokémon Pocket',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-tcg-pocket'
         },
         {
             name: 'Pokémon Trading Card Game',
             img: 'images/videogames/trading-card/logo.png',
             alt: 'Pokémon Trading Card Game',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-trading-card-game'
         },
         {
             name: 'Pokémon TCG Live',
             img: 'images/videogames/tcg-live/logo.png',
             alt: 'Pokémon TCG Live',
-            url: 'videojuegos'
+            url: 'videojuegos/pokemon-tcg-live'
         }
     ];
 </script>
 
-<section class="p-10 bg-bg-300 shadow-2xl mb-8 overflow-hidden">
+<section class="p-10 bg-bg-300 shadow-2xl overflow-hidden">
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-8 tracking-tight">
             Videojuegos
@@ -46,9 +45,9 @@
         </div>
 
         <div class="flex justify-center mt-6">
-            <AppNavigateButton href="videojuegos">
+            <NavigateButton href="videojuegos">
                 Ir a Videojuegos
-            </AppNavigateButton>
+            </NavigateButton>
         </div>
     </div>
 </section>

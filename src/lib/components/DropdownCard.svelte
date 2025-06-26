@@ -1,10 +1,12 @@
 <script lang="ts">
-  import AppNavigateButton from "./app-navigate-button.svelte";
-  export let card: any = null;
+    import type { CardModel } from "@tcgdex/sdk";
+  import NavigateButton from "./Navigate-button.svelte";
+  export let card: CardModel
   export let open: boolean = false;
   export let loading: boolean = false;
 
   import { createEventDispatcher, onMount, afterUpdate } from "svelte";
+    import type { Card } from "flowbite-svelte";
   const dispatch = createEventDispatcher();
   let modalRef: HTMLDivElement | null = null;
 
@@ -52,7 +54,7 @@
       {:else if card}
         <div class="flex flex-col items-center">
           <img src={card.imageUrl || card.image + '/hight.webp' } alt={card.name} class="w-60 rounded-xl shadow-lg border border-gray-300 bg-white" />
-          <AppNavigateButton href={`/cartas/${card.id}`}>Mas Informacion</AppNavigateButton>
+          <NavigateButton href={`/cartas/info-carta`} query={"?cardID=" + card.id}>Mas Informacion</NavigateButton>
         </div>
         <div class="flex-1 flex flex-col gap-2">
           <div class="text-2xl font-bold mb-2">{card.name}</div>

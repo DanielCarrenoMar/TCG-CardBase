@@ -1,6 +1,6 @@
 
 <script lang="ts">
-    import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
+    import NavigateButton from "$lib/components/Navigate-button.svelte";
 </script>
 
 <section class="py-8 bg-gradient-to-b from-secondary-400 to-secondary-700 overflow-hidden">
@@ -14,7 +14,7 @@
 					sencillas, colecciona cartas digitales únicas con
 				</p>
 			</div>
-			<AppNavigateButton href="como_jugar">Ir a Como Jugar</AppNavigateButton>
+			<NavigateButton href="como_jugar">Ir a Como Jugar</NavigateButton>
 		</div>
 		<div class="flex-1 md:static absolute left-0 z-0">
 			<img
