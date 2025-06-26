@@ -1,9 +1,8 @@
 <script lang="ts">
-    // import type { PageProps } from './$types';
+    export let data;
+    let cardId = data.cardId;
 
-	// let { data }: PageProps = $props();
-
-    // let cardId = data.post?.cardId;
+    console.log("Post", data);
 </script>
 
-<h1>hola</h1>
+<h1>hola {cardId}</h1>

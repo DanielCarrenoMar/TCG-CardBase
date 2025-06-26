@@ -1,17 +1,17 @@
 <script lang="ts">
-	import type { PageLoad } from "./$types";
+	import { goto } from '$app/navigation';
 
-	let { href, children, post = {} } = $props();
+	let { href, children, query  = "" } = $props();
 
-	export const load: PageLoad = ({ params }) => {
-		return {
-			post: post,
-		};
-	};
+	function handleClick(event: MouseEvent) {
+        event.preventDefault();
+        goto(href + query);
+    }
 </script>
 
 <a
 	{href}
+	onclick={handleClick}
 	class="cursor-pointer text-lg bg-yellow-300 mt-4 text-black font-bold py-4 px-16 rounded hover:bg-yellow-400 transition-colors duration-300"
 >
 	{@render children()}
