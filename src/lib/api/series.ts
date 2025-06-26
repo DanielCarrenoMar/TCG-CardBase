@@ -1,5 +1,5 @@
-import { Query, SerieModel } from "@tcgdex/sdk";
 import { tcgdex } from "./api";
+import { getSetById } from "./sets";
 
 interface setDetail {
     cardCount: any;
@@ -41,7 +41,7 @@ function setsWithoutSDK(sets:any) {
 //obtener lista de series con toda la tada, mas el logo
 export const getListSeries = async () => {                             //obtiene una lista de series random
     try {
-        const listSeries = await tcgdex.serie.list();                   //obtengo la informacion basica de las series
+        const listSeries = await tcgdex.serie.list() ;                   //obtengo la informacion basica de las series
         if (!listSeries || listSeries.length === 0) {
             console.error('No series found');
             return [];
@@ -50,14 +50,18 @@ export const getListSeries = async () => {                             //obtiene
         const seriesPromises = listSeries.map(serie => getSerieFullData(serie.id));         //map para un array de promesas, cada promesa es el result de getSerieFullData
         const listSeriesFullData = await Promise.all(seriesPromises);                   //resuelve todas las promesas y devuelve un array con los resultados
         
-console.log('de', listSeriesFullData);
+// console.log('de', listSeriesFullData);
 
 
         //incluir logo
         const seriesFullDataWithLogo = listSeriesFullData.map(serie =>{
             let logoDataI = logoData.find(logo => logo.id == serie?.id);                        //extraer src logo             
             const { sdk, sets,...restOfSerie } = serie;                                              //quitar sdk
-            const setsI = setsWithoutSDK(sets);            
+// const serieData = serie as any; // Usar any para acceder a propiedades dinámicas
+//const { sdk, sets,...restOfSerie } = serieData;               
+            const setsI = setsWithoutSDK(sets);  
+            console.log('pruebaaaaaa', setsI);
+                      
             return{
                 ...restOfSerie,
                 sets: sets,
@@ -75,7 +79,7 @@ console.log('de', listSeriesFullData);
 export const getSeriesWithLogo = async () => {
     try {
         const response = await fetch('https://api.pokemontcg.io/v2/sets');          //otra api
-        console.log('debug ', response);
+        // console.log('debug ', response);
         
         if (!response.ok) {
             throw new Error(`HTTP error, status: ${response.status}`);
@@ -154,6 +158,34 @@ const getSerieFullData = async (id: string) => {
         return serie;        
     } catch (error) {
         console.error('Error fetching serie:', error);
+        return null;
+    }
+}
+
+// Obtener una serie por ID con logo
+export const getSerieById = async (id: string) => {
+    try {
+        const serie = await tcgdex.serie.get(id);
+        if (!serie) {
+            console.error('Serie not found');
+            return null;
+        }
+
+        // Buscar el logo correspondiente
+        let logoDataI = logoData.find(logo => logo.id === id);
+        
+        // Extraer sets sin SDK
+        const serieData = serie as any; // Usar any para acceder a propiedades diamicas
+        const { sdk, sets, ...restOfSerie } = serieData;
+        const setsI = setsWithoutSDK(sets);
+
+        return {
+            ...restOfSerie,
+            sets: sets,
+            src: logoDataI?.src,
+        };
+    } catch (error) {
+        console.error('Error fetching serie by ID:', error);
         return null;
     }
 }

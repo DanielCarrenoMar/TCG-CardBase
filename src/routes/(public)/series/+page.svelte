@@ -22,7 +22,7 @@
     try {
       isLoading = true;
       error = false;
-      const data = await getListSeries();
+      const data = await getListSeries();      
       if (!data) {
         series = [];
         error = true;
