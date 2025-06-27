@@ -1,5 +1,5 @@
 <script lang="ts">
-  import HeroSection from "$lib/components/hero-section.svelte";
+  import HeroSection from "$lib/components/Hero-section.svelte";
   import Hero from "./hero_prueba.jpg";
   import SearchBar from "$lib/components/Search-bar.svelte";
   import SelectButton from "$lib/components/Select-button.svelte";
