@@ -1,8 +1,9 @@
 <script lang="ts">
   import HeroSection from '$lib/components/hero-section.svelte';
   import Hero from "../series/hero_prueba.jpg";
-  import SearchBar from '$lib/components/SearchBar.svelte';
-  import SelectButton from '$lib/components/SelectButton.svelte';
+
+  import SearchBar from "$lib/components/Search-bar.svelte";
+  import SelectButton from "$lib/components/Select-button.svelte";
   import { getListSeries, getSerieById } from "$lib/api/series";
   import { onMount } from 'svelte';
   import SetCard from './_components/SetCard.svelte';

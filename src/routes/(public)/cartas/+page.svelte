@@ -306,12 +306,12 @@
                 <div class="font-semibold text-lg">{card.name}</div>
                 <div class="text-xs text-gray-500">ID: {card.id}</div>
               </div>
-            </button>
+            </div>
           {/each}
         </div>
         {#if hasMore && !loading}
           <div class="flex justify-center mt-6">
-            <AppGeneralButton isLoading={loading} onClick={cargarMas}>
+            <GeneralButton isLoading={loading} onClick={cargarMas}>
               Cargar más
             </GeneralButton>
           </div>

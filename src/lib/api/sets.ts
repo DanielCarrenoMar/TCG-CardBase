@@ -4,7 +4,6 @@ import { CacheService } from "$lib/cache/cacheService";
 
 export const getSetById = async (id: string) =>{
     const set = await tcgdex.set.get(id);
-    console.log('set desde el fetch', set);
 
     return set
 }
