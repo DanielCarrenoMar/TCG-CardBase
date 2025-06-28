@@ -10,6 +10,31 @@
   const dispatch = createEventDispatcher();
   let modalRef: HTMLDivElement | null = null;
 
+  // Función para obtener la imagen del tipo
+  function getTypeImage(type: string): string {
+    const cleanType = type.replace(/guego/gi, 'Fuego')
+                         .replace(/incolora/gi, 'Normal')
+                         .replace(/metalica/gi, 'Hada')
+                         .replace(/Metálica/gi, 'Acero')
+                         .replace(/Oscura/gi, 'Siniestro');
+    
+    const typeImages: { [key: string]: string } = {
+      'Fuego': 'src/lib/images/fire.png',
+      'Agua': 'src/lib/images/water.png',
+      'Planta': 'src/lib/images/grass.png',
+      'Rayo': 'src/lib/images/electric.png',
+      'Psíquico': 'src/lib/images/psychic.png',
+      'Lucha': 'src/lib/images/fighting.png',
+      'Normal': 'src/lib/images/normal.png',
+      'Hada': 'src/lib/images/fairy.png',
+      'Acero': 'src/lib/images/steel.png',
+      'Siniestro': 'src/lib/images/dark.png',
+      'Dragón': 'src/lib/images/dragon.png',
+    };
+    
+    return typeImages[cleanType] || 'src/lib/components/images/types/unknown.png';
+  }
+
   function close() { dispatch("close"); }
   function handleBackdropClick(event: MouseEvent) {
     if (event.target === event.currentTarget) close();
@@ -36,8 +61,7 @@
     on:click={handleBackdropClick}
     on:keydown={handleKeydown}
   >
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    
     <div class="bg-gray-200 rounded-xl shadow-2xl flex flex-col md:flex-row p-6 gap-6 max-w-3xl w-full relative"
          on:click|stopPropagation>
       <button
@@ -62,34 +86,53 @@
             {#if card.hp}
               <span class="text-lg font-bold text-gray-700">HP {card.hp}</span>
             {/if}
-            {#if card.types && card.types[0]}
-              <span class="text-sm text-gray-700">{card.types[0]}</span>
-            {/if}
           </div>
+          {#if card.types && card.types[0]}
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <span class="text-lg font-bold text-gray-700">Tipo: </span>
+              <span class="text-lg text-gray-700">
+                {card.types[0].replace(/guego/gi, 'Fuego').replace(/incolora/gi, 'Normal').replace(/metalica/gi, 'Hada').replace(/Metálica/gi, 'Acero').replace(/Oscura/gi, 'Siniestro')}
+              </span>
+              <img 
+                src={getTypeImage(card.types[0])} 
+                alt="Tipo {card.types[0]}" 
+                class="w-8 h-8 ml-4"
+              />
+            </div>
+          {/if}
           <div class="flex flex-wrap items-center gap-2 mb-2">
             {#if card.rarity}
-              <span class="text-sm text-gray-700">Rareza: 
+              <span class="text-lg font-bold text-gray-700">Rareza: </span>
+              <span class="text-lg text-gray-700">
                 {card.rarity}
               </span>
             {/if}
           </div>
           <div class="flex flex-col gap-1 mb-2">
             {#if card.attacks && card.attacks.length}
-              <span class="text-sm font-semibold text-gray-700">Ataques:</span>
+              <span class="text-lg font-bold text-gray-700">Ataques:</span>
               {#each card.attacks as atk}
-                <div class="ml-2 text-gray-700">• {atk.name} {atk.damage ? `(${atk.damage})` : ""}</div>
+                <div class="ml-2 text-gray-700">• {atk.name} {atk.damage ? `(${atk.damage})` : ""} <span class="ml-5 text-blue-500 text-lg">⚔️</span></div>
               {/each}
             {/if}
           </div>
           <div class="flex flex-col gap-1 mb-2">
             {#if card.weaknesses && card.weaknesses.length}
-              <span class="text-sm font-semibold text-gray-700">Debilidades:</span>
+              <span class="text-lg font-bold text-gray-700">Debilidades:</span>
               {#each card.weaknesses as w}
-                <div class="ml-2 text-gray-700">• {w.type} {w.value}</div>
+                <div class="ml-2 text-gray-700 flex items-center gap-2">
+                  <span>• {w.type.replace(/guego/gi, 'Fuego').replace(/metalica/gi, 'Hada').replace(/Metálica/gi, 'Acero').replace(/Oscura/gi, 'Siniestro')} {w.value}</span>
+                  <img 
+                    src={getTypeImage(w.type)} 
+                    alt="Tipo {w.type}" 
+                    class="w-8 h-8 ml-4"
+                  />
+                </div>
               {/each}
             {/if}
           </div>
           {#if card.description}
+            <span class="font-bold text-lg text-gray-700">Descripcion:</span>
             <div class="mt-2 text-gray-700">{card.description}</div>
           {/if}
         </div>
