@@ -70,14 +70,14 @@
       {#each SECTIONS[2].content as modo, i}
         <div class={`flex flex-col items-center md:items-center gap-8 md:gap-16 w-full ${i % 2 !== 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}>
             
-            <div class={`flex-1 flex flex-col items-center md:items-start justify-center ${i % 2 !== 0 ? 'md:pl-40' : ' md:pr-12'} max-w-xl mx-auto`}>
+            <div class={`flex-1 flex flex-col items-center md:items-start justify-center ${i % 2 !== 0 ? 'md:pl-12' : ' md:pr-12'} max-w-xl mx-auto`}>
               <h3 class="text-3xl font-semibold text-white text-center md:text-left mb-2 md:self-start">{modo.title}</h3>
               <p class="text-2xl text-white text-center md:text-left max-w-lg">{modo.description}</p>
             </div>
             <img
               src={modo.image}
               alt={modo.title}
-              class="w-full max-w-xs md:max-w-sm rounded mx-auto md:mx-0"
+              class="w-full max-w-xs md:max-w-md rounded mx-auto md:mx-0"
             />
         </div>
       {/each}
