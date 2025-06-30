@@ -43,24 +43,28 @@ export const GAMES = [
 export const USED_INFO_CARD = [
 
     {
+        title: "Pokémon TCG Live",
         description: "Sumérgete en el clásico juego de cartas coleccionables Pokémon en formato digital. Construye mazos poderosos, desafía a entrenadores de todo el mundo y participa en torneos emocionantes. ¡Colecciona cartas virtuales y domina la estrategia del JCC Pokémon!",
 		background_color: "from-gray-400 to-gray-700",
 		url: "/videojuegos/pokemon-tcg-live",
     },
     {
+        title: "Pokémon TCG Pocket",
         description: "Experimenta el JCC Pokémon de una manera completamente nueva, diseñada para dispositivos móviles. Disfruta de batallas rápidas y sencillas, colecciona cartas digitales únicas con ilustraciones inmersivas y descubre un estilo de juego adaptado para la palma de tu mano. ¡Una forma ágil y divertida de jugar!",
 		background_color: "from-[#5eb1bb] to-[#20444a]",
 		url: "/videojuegos/pokemon-tcg-pocket",
     },
     {
+        title: "Pokémon TCG Online",
         description: "Diseñado para jugadores de todas partes, este juego te permite sumergirte en batallas estratégicas, coleccionar cartas digitales auténticas y desafiar a oponentes de todo el mundo en un entorno dinámico y fiel al juego de mesa. Cada partida es una nueva oportunidad para demostrar tu habilidad. ¿Listo para revivir la nostalgia o descubrir esta aventura clásica?",
 		background_color: "from-[#f8981d] to-[#a85a13]",
 		url: "/videojuegos/pokemon-tcg-online",
     },
     {
+        title: "Pokémon Trading Card Game (GameBoy Color)",
         description: "¿Alguna vez soñaste con vivir como un auténtico maestro del JCC Pokémon, desafiando rivales en duelos estratégicos y coleccionando cartas legendarias? Pokémon Trading Card Game para GameBoy Color no es solo un juego retro: es un viaje lleno de nostalgia, desafíos y secretos ocultos que marcó a toda una generación.",
 		background_color: "from-[#a3d06c] to-[#425c2a]",
-		url: "/videojuegos/pokemon-tcg-gameboy",
+		url: "/videojuegos/pokemon-trading-card-game",
     },
 ];
 

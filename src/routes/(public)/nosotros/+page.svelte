@@ -1,5 +1,5 @@
 <script lang="ts">
-	import HeroSection from '$lib/components/hero-section.svelte';
+	import HeroSection from '$lib/components/Hero-section.svelte';
 	import MemberCard from "./_components/member-card.svelte";
 	import TechCard from "./_components/tech-card.svelte";
 	import Hero from "./_images/hero.png";

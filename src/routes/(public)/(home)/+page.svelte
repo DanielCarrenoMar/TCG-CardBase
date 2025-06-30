@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
+	import NavigateButton from "$lib/components/Navigate-button.svelte";
 	import HomeSlider from "./_components/home-slider.svelte";
 	import RandomCardSection from "./_components/random-card-section.svelte";
 	import SerieSection from "./_components/serie-section.svelte";

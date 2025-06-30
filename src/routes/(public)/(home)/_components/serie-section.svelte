@@ -2,8 +2,7 @@
     import { Carousel, Controls } from "flowbite-svelte";
     import { onMount } from 'svelte';
     import { getSeriesForCarrousel } from "$lib/api/series";
-    import AppGeneralButton from "$lib/components/app-general-button.svelte";
-    import AppNavigateButton from "$lib/components/app-navigate-button.svelte";
+    import NavigateButton from "$lib/components/Navigate-button.svelte";
 
 
     let series: Array<{alt: string, src: string, title: string}> = [];
@@ -39,7 +38,7 @@
     };
 </script>
 
-<section class="carousel-pr p-10 bg-white overflow-hidden">
+<section class="carousel-pr p-10 bg-gradient-to-b from-gray-300 to-gray-500  overflow-hidden">
     <div class="container mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-gray-700 to-gray-900 bg-clip-text text-transparent mb-4 tracking-tight">
@@ -78,9 +77,9 @@
         {/if}
 
         <div class="flex justify-center mt-12">
-            <AppNavigateButton href="series">
+            <NavigateButton href="series">
                 Ir a Series
-            </AppNavigateButton>
+            </NavigateButton>
         </div>
     </div>
 </section>
