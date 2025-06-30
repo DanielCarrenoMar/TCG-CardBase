@@ -136,73 +136,81 @@ export const getCardsBySet = async (setURL: string, page: number = 0, pageSize: 
 }
 
 export const getCardFromQuery = async (query:Query, page:number) => {
-    const cacheKey = `fromQuery-list-card_${query.toString()}_page_${page}`
-    // Intentar obtener de cache primero
-    const cacheData = CacheService.get(cacheKey);
-    if (cacheData) {
-        return cacheData;
+    try {
+        const cacheKey = `fromQuery-list-card_${query.toString()}_page_${page}`
+        // Intentar obtener de cache primero
+        const cacheData = CacheService.get(cacheKey);
+        if (cacheData) {
+            return cacheData;
+        }
+    
+        //si no esta en cache buscar en la api
+        const cardsResponse = await tcgdex.card.list(
+            query.paginate(page, 20)
+        );    
+    
+        //guardar en cache
+        const cleanedCards = cleanCardResumeList(cardsResponse);
+        if (cardsResponse) {
+            CacheService.set(
+                cacheKey,
+                cleanedCards,
+                {
+                    memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
+                    localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
+                }
+            );
+        }
+    
+        return cleanedCards;
+    } catch (error) {
+        console.error('Error:', error);
+        return [];
     }
-
-    //si no esta en cache buscar en la api
-    const cardsResponse = await tcgdex.card.list(
-        query.paginate(page, 20)
-    );    
-
-    //guardar en cache
-    const cleanedCards = cleanCardResumeList(cardsResponse);
-    if (cardsResponse) {
-        CacheService.set(
-            cacheKey,
-            cleanedCards,
-            {
-                memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
-                localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
-            }
-        );
-        // console.log('cartas de fromQuery guardadas en cache', cleanedCards);
-    }
-
-    return cleanedCards;
 }
 
 export const getCardsByName = async (name: string, page: number = 0) => {
-    const cacheKey = `fromQuery-list-card_${name.toString()}_page_${page}`
-    // Intentar obtener de cache primero
-    const cacheData = CacheService.get(cacheKey);
-    if (cacheData) {
-        // console.log('Lista de cartas byName obtenidas en cache: ', cacheData);
-        return cacheData;
-    }
+    try {
+        const cacheKey = `fromQuery-list-card_${name.toString()}_page_${page}`
+        // Intentar obtener de cache primero
+        const cacheData = CacheService.get(cacheKey);
+        if (cacheData) {
+            // console.log('Lista de cartas byName obtenidas en cache: ', cacheData);
+            return cacheData;
+        }
 
-    //si no esta en cache buscar en la api
-    const cardsResponse = await tcgdex.card.list(
-        Query.create()
-            .contains("name", name)
-            .paginate(page, 20)
-    );
-
-    //guardar en cache
-    const cleanedCards = cleanCardResumeList(cardsResponse);
-    if (cardsResponse) {
-        CacheService.set(
-            cacheKey,
-            cleanedCards,
-            {
-                memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
-                localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
-            }
+        //si no esta en cache buscar en la api
+        const cardsResponse = await tcgdex.card.list(
+            Query.create()
+                .contains("name", name)
+                .paginate(page, 20)
         );
-        // console.log('cartas de byName guardadas en cache', cleanedCards);
-    }    
 
-    return cleanedCards;
+        //guardar en cache
+        const cleanedCards = cleanCardResumeList(cardsResponse);
+        if (cardsResponse) {
+            CacheService.set(
+                cacheKey,
+                cleanedCards,
+                {
+                    memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
+                    localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
+                }
+            );
+            // console.log('cartas de byName guardadas en cache', cleanedCards);
+        }    
+
+        return cleanedCards;
+    } catch (error) {
+        console.error('Error', error);
+        return [];
+    }
 };
 
 export const getCardFromId = async (id: string) => {
     // Intentar obtener de cache primero
     const cachedCard = CacheService.get(`card-${id}`);
     if (cachedCard) {
-        // console.log('Card obtenida de caché:', id);
         return cachedCard;
     }
 
@@ -215,35 +223,37 @@ export const getCardFromId = async (id: string) => {
 
     // guardar en cache
     const cleanCard = cleanCardData(card);
-    CacheService.set(`card-${id}`, cleanCard, {
-        memoryExpiration: 5 * 60 * 1000, // 5 minutos en memoria
-        localStorageExpiration: 24 * 60 * 60 * 1000 // 24 horas en localStorage
-    });
-    
+    try {
+        CacheService.set(`card-${id}`, cleanCard, {
+            memoryExpiration: 5 * 60 * 1000, // 5 minutos en memoria
+            localStorageExpiration: 24 * 60 * 60 * 1000 // 24 horas en localStorage
+        });
+    } catch (e) {
+        if (e instanceof DOMException && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+            console.warn(`Advertencia: El localStorage ha excedido la cuota. No se pudo cachear la carta: card-${id}`);
+        } else {
+            console.error('Error al guardar en cache:', e);
+        }
+    }
     return cleanCard;
 }
 
 export const getRandomCard = async () => {   
-    try {
-        const cardList = await randomCards();               //obtener una lista de cartas random
-        if (!cardList || !Array.isArray(cardList) || cardList.length === 0) {
-            console.error('No random cards found');
-            return;
-        }
-
-        const cardR = cardList[Math.floor(Math.random() * cardList.length)];     //selecciona una carta random de la lista
-        if (!cardR) {
-            console.error('Card not found');
-            return;
-        }
-
-        const cardFullData = await getCardFromId(cardR.id);                   //obtiene los detalles de la carta                
-        
-        return cardFullData;  
-    } catch (error) {
-        console.error('Error fetching random card:', error);
-        return null;
+    const cardList = await randomCards();               //obtener una lista de cartas random
+    if (!cardList || !Array.isArray(cardList) || cardList.length === 0) {
+        console.error('No random cards found');
+        return;
     }
+
+    const cardR = cardList[Math.floor(Math.random() * cardList.length)];     //selecciona una carta random de la lista
+    if (!cardR) {
+        console.error('Card not found');
+        return;
+    }
+
+    const cardFullData = await getCardFromId(cardR.id);                   //obtiene los detalles de la carta                
+            
+    return cardFullData;  
 }
 
 // export const getCardFromSet = async (set: string) => {

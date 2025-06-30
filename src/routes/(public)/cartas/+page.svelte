@@ -195,6 +195,8 @@
     selectedCardFull = null;
     // Espera la info completa de la carta
     const cardFull = await getCardFromId(card.id);
+    console.log('prueba 2', cardFull);
+    
     selectedCardFull = cardFull;
     loadingCard = false;
   }

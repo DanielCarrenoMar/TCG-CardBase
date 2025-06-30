@@ -9,7 +9,7 @@
   let modalRef: HTMLDivElement | null = null;
 
   // Función para obtener la imagen del tipo
-  function getTypeImage(type: string): string {
+  export function getTypeImage(type: string): string {
     const cleanType = type.replace(/guego/gi, 'Fuego')
                          .replace(/incolora/gi, 'Normal')
                          .replace(/metalica/gi, 'Hada')
@@ -60,6 +60,8 @@
     on:keydown={handleKeydown}
   >
     
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
     <div class="bg-gray-200 rounded-xl shadow-2xl flex flex-col md:flex-row p-4 md:p-6 gap-4 md:gap-6 max-w-3xl w-full max-h-[90vh] md:max-h-none relative"
          on:click|stopPropagation>
       <button
@@ -137,7 +139,7 @@
             {/if}
           </div>
           
-          <NavigateButton href={`/cartas/info-carta`} query={"?cardID=" + card.id} class="mt-4 w-full">Mas Informacion</NavigateButton>
+          <NavigateButton href={`/cartas/info-carta`} query={"?cardID=" + card.id} class="mt-4 w-full">Más Información</NavigateButton>
         </div>
 
         
