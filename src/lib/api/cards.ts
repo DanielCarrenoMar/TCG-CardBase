@@ -256,6 +256,91 @@ export const getRandomCard = async () => {
     return cardFullData;  
 }
 
+export const getCardsByType = async (type: string, page: number = 0) => {
+    try {
+        const cacheKey = `fromQuery-list-card_type_${type}_page_${page}`;
+        // Intentar obtener de cache primero
+        const cacheData = CacheService.get(cacheKey);
+        if (cacheData) {
+            return cacheData;
+        }
+
+        // Buscar en la API por tipo
+        const cardsResponse = await tcgdex.card.list(
+            Query.create()
+                .contains("types", type)
+                .paginate(page, 20)
+        );
+
+        // Limpiar y guardar en cache
+        const cleanedCards = cleanCardResumeList(cardsResponse);
+        if (cardsResponse) {
+            CacheService.set(
+                cacheKey,
+                cleanedCards,
+                {
+                    memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
+                    localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
+                }
+            );
+        }
+        return cleanedCards;
+    } catch (error) {
+        console.error('Error buscando cartas por tipo:', error);
+        return [];
+    }
+}
+
+export const getAllRarities = async () => {
+    const cacheKey = 'all-rarities-list';
+    const cacheData = CacheService.get(cacheKey);
+    if (cacheData) {
+        return cacheData;
+    }
+    const rarities = await tcgdex.rarity.list();
+    if (rarities) {
+        CacheService.set(cacheKey, rarities, {
+            memoryExpiration: 5 * 60 * 1000, // 5 minutos en memoria
+            localStorageExpiration: 24 * 60 * 60 * 1000 // 24 horas en localStorage
+        });
+    }
+    return rarities;
+}
+
+// Buscar cartas por rareza
+export const getCardsByRarity = async (rarity: string, page: number = 0) => {
+    try {
+        const cacheKey = `fromQuery-list-card_rarity_${rarity}_page_${page}`;
+        // Intentar obtener de cache primero
+        const cacheData = CacheService.get(cacheKey);
+        if (cacheData) {
+            return cacheData;
+        }
+        // Buscar en la API por rareza
+        const cardsResponse = await tcgdex.card.list(
+            Query.create()
+                .contains("rarity", rarity)
+                .paginate(page, 20)
+        );
+        // Limpiar y guardar en cache
+        const cleanedCards = cleanCardResumeList(cardsResponse);
+        if (cardsResponse) {
+            CacheService.set(
+                cacheKey,
+                cleanedCards,
+                {
+                    memoryExpiration: 5 * 60 * 1000,                    // 5 minutos en memoria
+                    localStorageExpiration: 24 * 60 * 60 * 1000         // 24 horas en localStorage        
+                }
+            );
+        }
+        return cleanedCards;
+    } catch (error) {
+        console.error('Error buscando cartas por rareza:', error);
+        return [];
+    }
+}
+
 // export const getCardFromSet = async (set: string) => {
 //     // Intentar obtener de cache primero
 //     const cachedCard = CacheService.get(`set-${set}`);

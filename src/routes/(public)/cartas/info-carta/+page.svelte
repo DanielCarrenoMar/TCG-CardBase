@@ -3,7 +3,6 @@
     import { getCardFromId, getCardsByName, getCardFromQuery } from '$lib/api/cards';
     import { onMount } from 'svelte';
     import { Query, type Card } from '@tcgdex/sdk';
-    import DropdownCard from '$lib/components/DropdownCard.svelte';
     import { goto } from '$app/navigation';
 
     export const load: PageLoad = async ({ url }) => {
@@ -11,6 +10,7 @@
         let card = null;
         if (cardId) {
             card = await getCardFromId(cardId);
+            console.log('full data', card);   
         }
         return {
             cardId,
@@ -26,6 +26,9 @@
             await goto(`/cartas/info-carta?cardID=${clickedCard.id}`);
             card = await getCardFromId(clickedCard.id);
             await fetchRelatedCards();
+
+            console.log('pruebaaa', card);
+            
         }
     }
   
@@ -57,16 +60,10 @@
     let relatedIndex = 0;
     let maxVisible = 4;
 
-    // Buscar cartas relacionadas por tipo (o nombre si no hay tipo)
+    // Buscar cartas relacionadas por tipo o nombre si no hay tipo
     async function fetchRelatedCards() {
       if (!card) return;
       let result = [];
-      // if (card.types && card.types[0]) {// Buscar por tipo
-      //   result = await getCardFromQuery(Query.create().contains('types', card.types[0]), 0);
-      // } else {
-      //   result = await getCardsByName(card.name.split(' ')[0], 0);           // Buscar por nombre
-      // }      
-
       result = await getCardsByName(card.name.split(' ')[0], 0);           // Buscar por nombre
       if (!result) {
         if (card.types && card.types[0]) {// Buscar por tipo

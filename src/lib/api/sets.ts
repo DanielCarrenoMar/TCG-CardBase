@@ -35,3 +35,21 @@ export const getListSetFullData = async (sets: any[]) => {
     // Filtra los posibles nulls 
     return setsFullData.filter(Boolean);
 };
+
+export const getAllSets = async () => {
+    // Intenta obtener de cache primero
+    const cacheKey = 'all-sets-list';
+    const cacheData = CacheService.get(cacheKey);
+    if (cacheData) {
+        return cacheData;
+    }
+    // Obtener la lista de sets desde la API
+    const sets = await tcgdex.fetch('sets');
+    if (sets) {
+        CacheService.set(cacheKey, sets, {
+            memoryExpiration: 5 * 60 * 1000, // 5 minutos en memoria
+            localStorageExpiration: 24 * 60 * 60 * 1000 // 24 horas en localStorage
+        });
+    }
+    return sets;
+}

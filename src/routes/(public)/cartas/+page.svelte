@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getCardsByName, getCardFromQuery, getCardFromId, getCardsBySet } from "$lib/api/cards";
+  import { getCardsByName, getCardFromQuery, getCardFromId, getCardsBySet, getCardsByType, getCardsByRarity } from "$lib/api/cards";
   import { Query, type CardResume } from "@tcgdex/sdk";
   import SelectButton from "$lib/components/Select-button.svelte";
   import SearchBar from "$lib/components/Search-bar.svelte";
@@ -12,7 +12,7 @@
 
   export let set;
   
-  let result: any;
+  let result: CardResume[] = [];
   let cards: CardResume[] = [];
   let filteredCards: CardResume[] = [];
   let search = "";
@@ -33,6 +33,8 @@
   // Variables para el ordenamiento
   let sortBy: 'id' | 'name' = 'id';
   let sortOrder: 'asc' | 'desc' = 'asc';
+
+  let advancedType = "";
 
   // para ordenar las cartas
   function sortCards(cardsToSort: CardResume[]): CardResume[] {
@@ -92,15 +94,12 @@
     try {
       if (setId) {        
         currentSetId = setId;
-        currentSetName = await getNameById(setId);
-        
-        result = await getCardsBySet(setId, paginate, 20);        
+        currentSetName = await getNameById(setId) || '';
+        result = await getCardsBySet(setId, paginate, 20) || [];
         hasMore = result && result.length === 20;                       // Verificar si hay mas pag
         console.log('carta busca la imagen', result);
-        
-
         if (!result || result.length == 0) {                            //en caso de qu eno hayan cartas en ese sets, cargamos las normales
-          result = await getCardFromQuery(Query.create(), paginate);
+          result = await getCardFromQuery(Query.create(), paginate) || [];
           console.log(result);
           
           hasMore = result;
@@ -109,8 +108,8 @@
           cardsFromSet = true; // Indicar que sí son cartas del set
         }
       } else {                                                        //si no existe un set en la url, muestras cartas normales
-        result = await getCardFromQuery(Query.create(), paginate);
-        hasMore = result;
+        result = await getCardFromQuery(Query.create(), paginate) || [];
+        hasMore = !!result;
         cardsFromSet = false;
       }
     } catch (error) {
@@ -123,8 +122,8 @@
       if (reset) {        
         cards = result || [];        
       } else {
-        const ids = new Set(cards.map(c => c.id));
-        cards = [...cards, ...result.filter(c => !ids.has(c.id))];
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
       }
       // Aplicar ordenamiento despues de obtener las cartas
       filteredCards = sortCards(cards);
@@ -142,11 +141,11 @@
       hasMore = true;
     }
     try {
-      let result;
+      let result: CardResume[] = [];
       if (!name) {
-        result = await getCardFromQuery(Query.create(), paginate);
+        result = await getCardFromQuery(Query.create(), paginate) || [];
       } else {
-        result = await getCardsByName(name, paginate);
+        result = await getCardsByName(name, paginate) || [];
       }
       if (reset) {
         cards = result || [];
@@ -159,6 +158,108 @@
       hasMore = (result || []).length === 20;
     } catch (e) {
       error = "Error al buscar cartas";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  async function fetchCardsByType(type: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      paginate = 0;
+      hasMore = true;
+    }
+    try {
+      let result: CardResume[] = await getCardsByType(type, paginate) || [];
+      if (reset) {
+        cards = result || [];
+      } else {
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
+      }
+      filteredCards = sortCards(cards);
+      hasMore = (result || []).length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas por tipo";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  function handleAdvancedSearch(event: CustomEvent<{ tipo?: string; set?: string; rareza?: string }>) {
+    const { tipo, set, rareza } = event.detail;
+    advancedType = tipo || "";
+    search = "";
+    paginate = 0;
+    // Prioridad: set > tipo > rareza
+    if (set) {
+      fetchCardsBySetSearch(set, true);
+    } else if (tipo) {
+      fetchCardsByType(tipo, true);
+    } else if (rareza) {
+      fetchCardsByRarity(rareza, true);
+    } else {
+      fetchCards(true);
+    }
+  }
+
+  async function fetchCardsBySetSearch(setId: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      paginate = 0;
+      hasMore = true;
+    }
+    try {
+      let result = await getCardsBySet(setId, paginate, 20) || [];
+      if (reset) {
+        cards = result || [];
+      } else {
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
+      }
+      filteredCards = sortCards(cards);
+      hasMore = (result || []).length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas por set";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  // Nueva función para filtrar por rareza
+  async function fetchCardsByRarity(rarity: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      paginate = 0;
+      hasMore = true;
+    }
+    try {
+      let result: CardResume[] = await getCardsByRarity(rarity, paginate) || [];
+      if (reset) {
+        cards = result || [];
+      } else {
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
+      }
+      filteredCards = sortCards(cards);
+      hasMore = (result || []).length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas por rareza";
       cards = [];
       filteredCards = [];
       hasMore = false;
@@ -210,7 +311,7 @@
       placeholder="Buscar..."
     />
   </div>
-  <AcancedSearchDropdown />
+  <AcancedSearchDropdown on:search={handleAdvancedSearch} />
 </section>
 <main>
   <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 ">
