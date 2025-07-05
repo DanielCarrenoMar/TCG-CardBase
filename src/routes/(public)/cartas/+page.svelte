@@ -35,6 +35,8 @@
   let sortOrder: 'asc' | 'desc' = 'asc';
 
   let advancedType = "";
+  let selectedPokemonType = "";
+  let showAllODS = false;
 
   // para ordenar las cartas
   function sortCards(cardsToSort: CardResume[]): CardResume[] {
@@ -300,6 +302,12 @@
     
     selectedCardFull = cardFull;
     loadingCard = false;
+    
+    // Actualizar el tipo seleccionado para mostrar la ODS relacionada
+    if (cardFull && cardFull.types && cardFull.types[0]) {
+      selectedPokemonType = cardFull.types[0];
+      showAllODS = false;
+    }
   }
 </script>
 
@@ -312,6 +320,7 @@
     />
   </div>
   <AcancedSearchDropdown on:search={handleAdvancedSearch} />
+  
 </section>
 <main>
   <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 ">

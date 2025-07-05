@@ -4,6 +4,7 @@
     import { onMount } from 'svelte';
     import { Query, type Card } from '@tcgdex/sdk';
     import { goto } from '$app/navigation';
+    import { getODSByPokemonType, getTypeImagePath } from '$lib/constants/pokemon-ods-mapping';
 
     export const load: PageLoad = async ({ url }) => {
         const cardId = url.searchParams.get('cardID');
@@ -32,28 +33,10 @@
         }
     }
   
-    // Función para obtener la imagen del tipo
-    function getTypeImage(type: string): string {
-      const cleanType = type?.replace(/guego/gi, 'Fuego')
-        .replace(/incolora/gi, 'Normal')
-        .replace(/metalica/gi, 'Hada')
-        .replace(/Metálica/gi, 'Acero')
-        .replace(/Oscura/gi, 'Siniestro');
-      const typeImages: { [key: string]: string } = {
-        'Fuego': '/src/lib/images/fire.png',
-        'Agua': '/src/lib/images/water.png',
-        'Planta': '/src/lib/images/grass.png',
-        'Rayo': '/src/lib/images/electric.png',
-        'Psíquico': '/src/lib/images/psychic.png',
-        'Lucha': '/src/lib/images/fighting.png',
-        'Normal': '/src/lib/images/normal.png',
-        'Hada': '/src/lib/images/fairy.png',
-        'Acero': '/src/lib/images/steel.png',
-        'Siniestro': '/src/lib/images/dark.png',
-        'Dragón': '/src/lib/images/dragon.png',
-      };
-      return typeImages[cleanType] || '/src/lib/components/images/types/unknown.png';
-    }
+      // Función para obtener la imagen del tipo
+  function getTypeImage(type: string): string {
+    return getTypeImagePath(type);
+  }
     console.log(card);
     
     let relatedCards: any[] = [];
@@ -139,7 +122,7 @@
         <!-- Puedes agregar resistencias y coste de retirada aquí si están disponibles en el modelo -->
       </div>
 
-      <!-- Sección inferior, expansión, ilustrador  -->
+      <!-- Sección inferior, expansión, ilustrador y ODS -->
       <div class="border-t border-blue-400 mt-8 pt-4 flex flex-wrap gap-8 justify-center text-center">
         <div>
           <div class="text-xs uppercase text-gray-400">Expansión</div>
@@ -149,10 +132,17 @@
           <div class="text-xs uppercase text-gray-400">Ilustrador</div>
           <div class="text-lg font-semibold text-yellow-300">{card.illustrator || 'Desconocido'}</div>
         </div>
-        <div>
-          <div class="text-xs uppercase text-gray-400">ODS Relacionada</div>
-          <div class="text-lg font-semibold text-gray-200">{card.ods || 'No disponible'}</div>
-        </div>
+        {#if card.types && card.types[0]}
+          {@const odsInfo = getODSByPokemonType(card.types[0])}
+          {#if odsInfo}
+            <div class="flex flex-col items-center">
+              <div class="text-xs uppercase text-gray-400 mb-2">ODS Relacionada</div>
+              <img src={odsInfo.ods.image} alt={odsInfo.ods.name} class="w-16 h-16 mb-2" />
+              <div class="text-sm font-semibold text-green-300">ODS {odsInfo.ods.id}</div>
+              <div class="text-xs text-gray-300 max-w-32">{odsInfo.ods.name}</div>
+            </div>
+          {/if}
+        {/if}
       </div>
     </div>
   </div>

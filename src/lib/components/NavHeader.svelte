@@ -63,6 +63,7 @@
             <a href="/como_jugar" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Como Jugar</a>
             <a href="/series" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Series</a>
             <a href="/videojuegos" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Videojuegos</a>
+            <a href="/ods" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>ODS</a>
             <a href="/nosotros" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Nosotros</a>
             <div class="relative" bind:this={languageMenuRef}>
                 <button on:click={toggleLanguageMenu} class="flex items-center cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded">
@@ -109,6 +110,7 @@
                     <a href="/como_jugar" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Como Jugar</a>
                     <a href="/series" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Series</a>
                     <a href="/videojuegos" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Videojuegos</a>
+                    <a href="/ods" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>ODS</a>
                     <a href="/nosotros" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Nosotros</a>
                     <div class="relative" bind:this={languageMenuRef}>
                         <button on:click={toggleLanguageMenu} class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500">
