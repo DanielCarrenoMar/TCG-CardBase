@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { CardModel } from "@tcgdex/sdk";
   import NavigateButton from "./Navigate-button.svelte";
+  import {TYPES} from "./constants";
   export let card: CardModel
   export let open: boolean = false;
   export let loading: boolean = false;
@@ -17,17 +18,17 @@
                          .replace(/Oscura/gi, 'Siniestro');
     
     const typeImages: { [key: string]: string } = {
-      'Fuego': 'src/lib/images/fire.png',
-      'Agua': 'src/lib/images/water.png',
-      'Planta': 'src/lib/images/grass.png',
-      'Rayo': 'src/lib/images/electric.png',
-      'Psíquico': 'src/lib/images/psychic.png',
-      'Lucha': 'src/lib/images/fighting.png',
-      'Normal': 'src/lib/images/normal.png',
-      'Hada': 'src/lib/images/fairy.png',
-      'Acero': 'src/lib/images/steel.png',
-      'Siniestro': 'src/lib/images/dark.png',
-      'Dragón': 'src/lib/images/dragon.png',
+      'Fuego': TYPES.fire,
+      'Agua': TYPES.water,
+      'Planta': TYPES.grass,
+      'Rayo': TYPES.electric,
+      'Psíquico': TYPES.psychic,
+      'Lucha': TYPES.fighting,
+      'Normal': TYPES.normal,
+      'Hada': TYPES.fairy,
+      'Acero': TYPES.steel,
+      'Siniestro': TYPES.dark,
+      'Dragón': TYPES.dragon,
     };
     
     return typeImages[cleanType] || 'src/lib/components/images/types/unknown.png';
