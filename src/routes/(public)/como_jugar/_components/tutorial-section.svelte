@@ -57,7 +57,7 @@
 				</Accordion>
 			</div>
 
-			<img src="/images/how-to-play/howtoplay.png" alt="Como Jugar" />
+			<img class="object-contain aspect-square" src="images/how-to-play/howtoplay.png" alt="Como Jugar" />
 		</div>
 		<a
 			class="py-4 px-8 bg-[#fee732] text-black font-semibold rounded cursor-pointer"
