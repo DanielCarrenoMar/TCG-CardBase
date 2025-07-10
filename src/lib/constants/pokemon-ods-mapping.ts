@@ -15,7 +15,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 7,
       name: 'Energía asequible y no contaminante',
       description: 'Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos',
-      image: '/images/ods/S-WEB-Goal-07.png'
+      image: 'images/ods/S-WEB-Goal-07.png'
     }
   },
   {
@@ -24,7 +24,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 6,
       name: 'Agua limpia y saneamiento',
       description: 'Garantizar la disponibilidad de agua y su gestión sostenible y el saneamiento para todos',
-      image: '/images/ods/S-WEB-Goal-06.png'
+      image: 'images/ods/S-WEB-Goal-06.png'
     }
   },
   {
@@ -33,7 +33,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 15,
       name: 'Vida de ecosistemas terrestres',
       description: 'Gestionar sosteniblemente los bosques, luchar contra la desertificación, detener e invertir la degradación de las tierras y detener la pérdida de biodiversidad',
-      image: '/images/ods/S-WEB-Goal-15.png'
+      image: 'images/ods/S-WEB-Goal-15.png'
     }
   },
   {
@@ -42,7 +42,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 7,
       name: 'Energía asequible y no contaminante',
       description: 'Garantizar el acceso a una energía asequible, segura, sostenible y moderna para todos',
-      image: '/images/ods/S-WEB-Goal-07.png'
+      image: 'images/ods/S-WEB-Goal-07.png'
     }
   },
   {
@@ -51,7 +51,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 3,
       name: 'Salud y bienestar',
       description: 'Garantizar una vida sana y promover el bienestar para todos en todas las edades',
-      image: '/images/ods/S-WEB-Goal-03.png'
+      image: 'images/ods/S-WEB-Goal-03.png'
     }
   },
   {
@@ -60,7 +60,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 16,
       name: 'Paz, justicia e instituciones sólidas',
       description: 'Promover sociedades, justas, pacíficas e inclusivas',
-      image: '/images/ods/S-WEB-Goal-16.png'
+      image: 'images/ods/S-WEB-Goal-16.png'
     }
   },
   {
@@ -69,7 +69,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 10,
       name: 'Reducción de las desigualdades',
       description: 'Reducir la desigualdad en y entre los países',
-      image: '/images/ods/S-WEB-Goal-10.png'
+      image: 'images/ods/S-WEB-Goal-10.png'
     }
   },
   {
@@ -78,7 +78,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 5,
       name: 'Igualdad de género',
       description: 'Lograr la igualdad entre los géneros y empoderar a todas las mujeres y las niñas',
-      image: '/images/ods/S-WEB-Goal-05.png'
+      image: 'images/ods/S-WEB-Goal-05.png'
     }
   },
   {
@@ -87,7 +87,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 9,
       name: 'Industria, innovación e infraestructura',
       description: 'Construir infraestructuras resilientes, promover la industrialización sostenible y fomentar la innovación',
-      image: '/images/ods/S-WEB-Goal-09.png'
+      image: 'images/ods/S-WEB-Goal-09.png'
     }
   },
   {
@@ -96,7 +96,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 16,
       name: 'Paz, justicia e instituciones sólidas',
       description: 'Promover sociedades, justas, pacíficas e inclusivas',
-      image: '/images/ods/S-WEB-Goal-16.png'
+      image: 'images/ods/S-WEB-Goal-16.png'
     }
   },
   {
@@ -105,7 +105,7 @@ export const POKEMON_TYPE_ODS_MAPPING: PokemonTypeODSMapping[] = [
       id: 14,
       name: 'Vida submarina',
       description: 'Conservar y utilizar en forma sostenible los océanos, los mares y los recursos marinos para el desarrollo sostenible',
-      image: '/images/ods/S-WEB-Goal-14.png'
+      image: 'images/ods/S-WEB-Goal-14.png'
     }
   }
 ];
@@ -122,17 +122,17 @@ export function getODSByPokemonType(type: string) {
 
 export function getTypeImagePath(type: string): string {
   const typeImageMap: { [key: string]: string } = {
-    'Fuego': '/src/lib/images/fire.png',
-    'Agua': '/src/lib/images/water.png',
-    'Planta': '/src/lib/images/grass.png',
-    'Rayo': '/src/lib/images/electric.png',
-    'Psíquico': '/src/lib/images/psychic.png',
-    'Lucha': '/src/lib/images/fighting.png',
-    'Normal': '/src/lib/images/normal.png',
-    'Hada': '/src/lib/images/fairy.png',
-    'Acero': '/src/lib/images/steel.png',
-    'Siniestro': '/src/lib/images/dark.png',
-    'Dragón': '/src/lib/images/dragon.png',
+    'Fuego': 'images/types/fire.png',
+    'Agua': 'images/types/water.png',
+    'Planta': 'images/types/grass.png',
+    'Rayo': 'images/types/electric.png',
+    'Psíquico': 'images/types/psychic.png',
+    'Lucha': 'images/types/fighting.png',
+    'Normal': 'images/types/normal.png',
+    'Hada': 'images/types/fairy.png',
+    'Acero': 'images/types/steel.png',
+    'Siniestro': 'images/types/dark.png',
+    'Dragón': 'images/types/dragon.png',
   };
   
   const cleanType = type?.replace(/guego/gi, 'Fuego')
@@ -141,7 +141,7 @@ export function getTypeImagePath(type: string): string {
     .replace(/Metálica/gi, 'Acero')
     .replace(/Oscura/gi, 'Siniestro');
   
-  return typeImageMap[cleanType] || '/src/lib/images/normal.png';
+  return typeImageMap[cleanType] || 'images/types/normal.png';
 }
 
 export function getAllODS() {
