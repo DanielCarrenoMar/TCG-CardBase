@@ -13,12 +13,32 @@
 
   // Función para obtener la imagen del tipo
   export function getTypeImage(type: string): string {
-    const cleanType = type.replace(/guego/gi, 'Fuego')
-                         .replace(/incolora/gi, 'Normal')
-                         .replace(/metalica/gi, 'Hada')
-                         .replace(/Metálica/gi, 'Acero')
-                         .replace(/Oscura/gi, 'Siniestro');
-    
+    // Normaliza tanto en español como en inglés
+    let cleanType = type
+      .replace(/guego/gi, 'Fuego')
+      .replace(/fire/gi, 'Fuego')
+      .replace(/agua/gi, 'Agua')
+      .replace(/water/gi, 'Agua')
+      .replace(/planta/gi, 'Planta')
+      .replace(/grass/gi, 'Planta')
+      .replace(/rayo/gi, 'Rayo')
+      .replace(/electric/gi, 'Rayo')
+      .replace(/psíquico/gi, 'Psíquico')
+      .replace(/psychic/gi, 'Psíquico')
+      .replace(/lucha/gi, 'Lucha')
+      .replace(/fighting/gi, 'Lucha')
+      .replace(/incolora/gi, 'Normal')
+      .replace(/normal/gi, 'Normal')
+      .replace(/metalica/gi, 'Hada')
+      .replace(/fairy/gi, 'Hada')
+      .replace(/hada/gi, 'Hada')
+      .replace(/Metálica/gi, 'Acero')
+      .replace(/steel/gi, 'Acero')
+      .replace(/Oscura/gi, 'Siniestro')
+      .replace(/darkness/gi, 'Siniestro')
+      .replace(/dragón/gi, 'Dragón')
+      .replace(/dragon/gi, 'Dragón');
+
     const typeImages: { [key: string]: string } = {
       'Fuego': TYPES.fire,
       'Agua': TYPES.water,
@@ -32,7 +52,7 @@
       'Siniestro': TYPES.dark,
       'Dragón': TYPES.dragon,
     };
-    
+
     return typeImages[cleanType] || 'src/lib/components/images/types/unknown.png';
   }
 
