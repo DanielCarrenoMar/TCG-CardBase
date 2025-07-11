@@ -128,10 +128,10 @@ function changeLanguage(lang:string) {
                         </button>
                         {#if isLanguageMenuOpen}
                             <div class="absolute left-0 w-full bg-white rounded-md shadow-lg mt-1" transition:fade>
-                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('Es')}>
+                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('es')}>
                                     Español
                                 </button>
-                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('En')}>
+                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('en')}>
                                     English
                                 </button>
                             </div>
