@@ -1,7 +1,8 @@
 
 <script lang="ts">
 import { onMount } from 'svelte';
-import { getCardsBySet, getRandomCard } from '$lib/api/cards';
+import { getCardsBySet, getRandomCard, getCardFromQuery } from '$lib/api/cards';
+    import { Query } from '@tcgdex/sdk';
 
 // Expansiones disponibles (puedes ajustar según sets reales)
 const expansions = [
@@ -15,7 +16,7 @@ let selectedExpansions: string[] = [];
 let generatedDeck: any[] = [];
 let loading = false;
 
-// Genera una baraja según las reglas oficiales
+// Genera una baraja según las reglas oficiales usando getCardFromQuery
 async function generateDeck() {
   loading = true;
   generatedDeck = [];
@@ -33,16 +34,20 @@ async function generateDeck() {
     allCards = [...allCards, ...cards];
   }
 
-  // Si no hay expansiones seleccionadas, usar cartas random
+  // Si no hay expansiones seleccionadas, no generar deck
   if (allCards.length === 0) {
-    const card = await getRandomCard();
-    if (card) allCards = [card];
+    loading = false;
+    return;
   }
 
-  // Filtrar por tipo
-  const pokemons = allCards.filter(c => c.types && c.types.length > 0);
-  const trainers = allCards.filter(c => c.rarity && c.rarity.toLowerCase().includes('trainer'));
-  const energies = allCards.filter(c => c.name && c.name.toLowerCase().includes('energy'));
+  // Obtener Pokémon
+  let pokemons: any[] = await getCardFromQuery(Query.create().contains('supertype', 'Pokémon'), 0);
+
+  // Obtener Entrenadores
+  let trainers: any[] = await getCardFromQuery(Query.create().contains('supertype', 'Trainer'), 0);
+
+  // Obtener Energías
+  let energies: any[] = await getCardFromQuery(Query.create().contains('supertype', 'Energy'), 0);
 
   // Seleccionar Pokémon (15-20, al menos 1 básico)
   let deckPokemons: any[] = [];
@@ -94,7 +99,11 @@ async function generateDeck() {
         </label>
       {/each}
     </div>
-    <button class="bg-yellow-400 text-black font-bold py-2 rounded hover:bg-yellow-500 transition" on:click={generateDeck} disabled={loading}>
+    <button
+      class="bg-yellow-400 text-black font-bold py-2 rounded hover:bg-yellow-500 transition"
+      on:click={generateDeck}
+      disabled={loading || selectedExpansions.length === 0}
+    >
       {loading ? 'Generando...' : 'Generar'}
     </button>
     <div class="mt-4 text-sm">

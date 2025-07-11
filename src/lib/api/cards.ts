@@ -135,7 +135,7 @@ export const getCardsBySet = async (setURL: string, page: number = 0, pageSize: 
     }
 }
 
-export const getCardFromQuery = async (query:Query, page:number) => {
+export const getCardFromQuery = async (query:Query, page:number, amount:number = 20 ) => {
     try {
         const cacheKey = `fromQuery-list-card_${query.toString()}_page_${page}`
         // Intentar obtener de cache primero
@@ -146,7 +146,7 @@ export const getCardFromQuery = async (query:Query, page:number) => {
     
         //si no esta en cache buscar en la api
         const cardsResponse = await tcgdex.card.list(
-            query.paginate(page, 20)
+            query.paginate(page, amount)
         );    
     
         //guardar en cache
