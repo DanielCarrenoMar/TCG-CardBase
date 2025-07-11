@@ -2,6 +2,8 @@
 	import { page } from "$app/state";
 	import { Button } from "flowbite-svelte";
 	import { Section, Page500, Page404 } from "flowbite-svelte-blocks";
+	import { pageLanguage } from '$lib/language/languajeHandler';
+	import { pageTexts } from '$lib/constants/allTexts';
 </script>
 
 {#if page.status === 404}
@@ -14,12 +16,12 @@
 				<p
 					class="mb-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl dark:text-white"
 				>
-					Creo que estás perdido
+					{pageTexts[pageLanguage].error404Title}
 				</p>
 				<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
-					Lo siento, no pudimos encontrar esta página
+					{pageTexts[pageLanguage].error404Description}
 				</p>
-				<Button href="/" size="lg">Regresar al inicio</Button>
+				<Button href="/" size="lg">{pageTexts[pageLanguage].error404Button}</Button>
 			{/snippet}
 		</Page404>
 	</Section>
@@ -31,10 +33,10 @@
 				<p
 					class="mb-4 text-3xl font-bold tracking-tight text-gray-900 md:text-4xl dark:text-white"
 				>
-					Error Inesperado
+					{pageTexts[pageLanguage].error500Title}
 				</p>
 				<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
-					Nos encontramos trabajando en una solución
+					{pageTexts[pageLanguage].error500Description}
 				</p>
 			{/snippet}
 		</Page500>

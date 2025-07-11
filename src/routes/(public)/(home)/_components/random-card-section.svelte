@@ -4,6 +4,8 @@
     import GeneralButton from '$lib/components/General-button.svelte';
     import DropdownCard from '$lib/components/DropdownCard.svelte';
     import { fade, scale } from 'svelte/transition';
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
 
     let card: any = null;
     let cardImage: string | undefined = undefined;
@@ -59,20 +61,20 @@
 </script>
 
 <section class="p-10 bg-bg-100 overflow-hidden">
-    <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-4 tracking-tight">Carta Pokemon aleatorea</h2>
+    <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-4 tracking-tight">{pageTexts[pageLanguage].randomCardTitle}</h2>
 
     <!-- contenedor principal -->
     <div class="container-ha md:flex-row gap-4 mx-auto container relative my-4">
         <!-- contenedor de la carta aleatorea -->
         <div class="flex justify-center items-center ">
             {#if isLoading}
-                <p>Cargando carta...</p>
+                <p>{pageTexts[pageLanguage].randomCardLoading}</p>
             {:else if card}
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                 <img src={cardImage} alt={card.name} on:click={popup} class="card cart-img-size w-48 h-64 cursor-pointer" />
             {:else}
-                <p>No se pudo cargar la carta.</p>
+                <p>{pageTexts[pageLanguage].randomCardError}</p>
             {/if}
         </div>
 
@@ -91,14 +93,14 @@
                         <!-- Header con nombre y tipo -->
                         <div class="flex flex-col md:flex-row gap-2 justify-between items-center mb-4 pb-2 border-b-2 border-gray-300">
                             <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 tracking-tight">{card.name}</h1>
-                            <div class="bg-gradient-to-r from-gray-300 to-gray-400 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wide shadow-lg">{card.types ? card.types.join(', ') : 'Tipo Desconocido'}</div>
+                            <div class="bg-gradient-to-r from-gray-300 to-gray-400 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wide shadow-lg">{card.types ? card.types.join(', ') : pageTexts[pageLanguage].randomCardTypeUnknown}</div>
                         </div>
 
                         <!-- Sección HP -->
                         <div class="bg-gradient-to-r from-white to-gray-50 rounded-2xl p-4 mb-6 shadow-lg border border-gray-100 transition-all duration-300 hover:shadow-xl">
                             <!-- descrp -->
                             <div class="flex flex-col md:flex-row justify-between items-center">
-                                <span class="text-gray-600 font-semibold text-lg">Puntos de Vida</span>
+                                <span class="text-gray-600 font-semibold text-lg">{pageTexts[pageLanguage].randomCardHP}</span>
                                 <div class="flex items-center gap-3">
                                     <span class="text-4xl md:text-sm font-black text-grey-500 drop-shadow-lg">{card.hp}</span>
                                 </div>
@@ -109,7 +111,7 @@
                         <div class="mb-6">
                             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                                 <div class="w-1 h-6 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
-                                {card.abilities && card.abilities.length > 0 ?  'Habilidad' : 'Sin Habilidades'}
+                                {card.abilities && card.abilities.length > 0 ?  pageTexts[pageLanguage].randomCardAbility : pageTexts[pageLanguage].randomCardNoAbility}
                             </h2>
                             
                             {#if card.abilities && card.abilities.length > 0}
@@ -122,7 +124,7 @@
                                             </div>
                                         </div>
                                         <p class="text-gray-600 text-sm md:hidden leading-relaxed group-hover:text-gray-700 transition-colors">
-                                            {ability.effect || 'Sin descripción disponible.'}
+                                            {ability.effect || pageTexts[pageLanguage].randomCardAbilityNoDesc}
                                         </p>
                                     </div>
                                 {/each}
@@ -133,7 +135,7 @@
                         <div class="mb-6">
                             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                                 <div class="w-1 h-6 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
-                                {card.attacks && card.attacks.length > 0 ?  'Ataques' : 'Sin Ataques'}
+                                {card.attacks && card.attacks.length > 0 ?  pageTexts[pageLanguage].randomCardAttacks : pageTexts[pageLanguage].randomCardNoAttacks}
                             </h2>
 
                             {#if card.attacks }
@@ -158,7 +160,7 @@
                         <div class="mb-6">
                             <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                                 <div class="w-1 h-6 bg-gradient-to-b from-gray-400 to-gray-600 rounded-full"></div>
-                                {card.weaknesses && card.weaknesses.length > 0 ?  'Debilidades' : 'Sin Debilidades'}
+                                {card.weaknesses && card.weaknesses.length > 0 ?  pageTexts[pageLanguage].randomCardWeaknesses : pageTexts[pageLanguage].randomCardNoWeaknesses}
                             </h2>
 
                             {#if card.weaknesses && card.weaknesses.length > 0}
@@ -190,7 +192,7 @@
             isLoading={isLoading}
             onClick={fetchCard}
         >
-            Obtener Otra Carta
+            {pageTexts[pageLanguage].randomCardButton}
         </GeneralButton>
     </div> 
 

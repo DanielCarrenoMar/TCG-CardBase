@@ -1,5 +1,7 @@
 <script lang="ts">
     import NavigateButton from '$lib/components/Navigate-button.svelte';
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
 
     // Lista de videojuegos
     const videogames = [
@@ -33,7 +35,7 @@
 <section class="p-10 bg-bg-300 shadow-2xl overflow-hidden">
     <div class="container mx-auto">
         <h2 class="text-3xl md:text-5xl font-bold text-center text-white bg-clip-text mb-8 tracking-tight">
-            Videojuegos
+            {pageTexts[pageLanguage].videogamesSectionTitle}
         </h2>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-8 gap-x-4 justify-items-center mb-10">
@@ -46,7 +48,7 @@
 
         <div class="flex justify-center mt-6">
             <NavigateButton href="videojuegos">
-                Ir a Videojuegos
+                {pageTexts[pageLanguage].videogamesSectionButton}
             </NavigateButton>
         </div>
     </div>

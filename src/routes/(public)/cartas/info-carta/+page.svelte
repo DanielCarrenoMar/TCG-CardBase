@@ -5,6 +5,8 @@
     import { Query, type Card } from '@tcgdex/sdk';
     import { goto } from '$app/navigation';
     import { getODSByPokemonType, getTypeImagePath } from '$lib/constants/pokemon-ods-mapping';
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
 
     export const load: PageLoad = async ({ url }) => {
         const cardId = url.searchParams.get('cardID');
@@ -88,7 +90,7 @@
           </span>
         {/if}
       </div>
-      <div class="text-lg mb-2">{card.stage || 'Pokémon'}</div>
+      <div class="text-lg mb-2">{card.stage || pageTexts[pageLanguage].cardStageDefault}</div>
       <div class="bg-[#35393e] rounded-lg p-4 flex flex-col gap-2">
         {#if card.attacks && card.attacks.length}
           {#each card.attacks as atk}
@@ -107,16 +109,16 @@
       </div>
       <div class="flex flex-wrap gap-6 mt-4">
         <div>
-          <span class="font-bold">Debilidades:</span>
+          <span class="font-bold">{pageTexts[pageLanguage].cardWeaknesses}</span>
           {#if card.weaknesses && card.weaknesses.length}
             {#each card.weaknesses as w}
               <span class="ml-2 flex items-center gap-1">
                 {w.type.replace(/guego/gi, 'Fuego').replace(/metalica/gi, 'Hada').replace(/Metálica/gi, 'Acero').replace(/Oscura/gi, 'Siniestro')} {w.value}
-                <img src={getTypeImage(w.type)} alt="Tipo {w.type}" class="w-6 h-6 inline-block" />
+                <img src={getTypeImage(w.type)} alt={`Tipo ${w.type}`} class="w-6 h-6 inline-block" />
               </span>
             {/each}
           {:else}
-            <span class="ml-2 text-gray-400">Ninguna</span>
+            <span class="ml-2 text-gray-400">{pageTexts[pageLanguage].cardNoWeaknesses}</span>
           {/if}
         </div>
         <!-- Puedes agregar resistencias y coste de retirada aquí si están disponibles en el modelo -->
@@ -125,20 +127,20 @@
       <!-- Sección inferior, expansión, ilustrador y ODS -->
       <div class="border-t border-blue-400 mt-8 pt-4 flex flex-wrap gap-8 justify-center text-center">
         <div>
-          <div class="text-xs uppercase text-gray-400">Expansión</div>
-          <div class="text-lg font-semibold text-blue-300">{card.set || 'Desconocida'}</div>
+          <div class="text-xs uppercase text-gray-400">{pageTexts[pageLanguage].cardExpansion}</div>
+          <div class="text-lg font-semibold text-blue-300">{card.set || pageTexts[pageLanguage].cardExpansionUnknown}</div>
         </div>
         <div>
-          <div class="text-xs uppercase text-gray-400">Ilustrador</div>
-          <div class="text-lg font-semibold text-yellow-300">{card.illustrator || 'Desconocido'}</div>
+          <div class="text-xs uppercase text-gray-400">{pageTexts[pageLanguage].cardIllustrator}</div>
+          <div class="text-lg font-semibold text-yellow-300">{card.illustrator || pageTexts[pageLanguage].cardIllustratorUnknown}</div>
         </div>
         {#if card.types && card.types[0]}
           {@const odsInfo = getODSByPokemonType(card.types[0])}
           {#if odsInfo}
             <div class="flex flex-col items-center">
-              <div class="text-xs uppercase text-gray-400 mb-2">ODS Relacionada</div>
+              <div class="text-xs uppercase text-gray-400 mb-2">{pageTexts[pageLanguage].cardOdsRelated}</div>
               <img src={odsInfo.ods.image} alt={odsInfo.ods.name} class="w-16 h-16 mb-2" />
-              <div class="text-sm font-semibold text-green-300">ODS {odsInfo.ods.id}</div>
+              <div class="text-sm font-semibold text-green-300">{pageTexts[pageLanguage].odsSectionOds} {odsInfo.ods.id}</div>
               <div class="text-xs text-gray-300 max-w-32">{odsInfo.ods.name}</div>
             </div>
           {/if}
@@ -149,7 +151,7 @@
 
   <!-- cartas relacionadas -->
   <div class="bg-[#35393e] py-10 p-4 justify-items-center">
-    <h2 class="text-xl font-bold text-white mb-4">Cartas Relacionadas</h2>
+    <h2 class="text-xl font-bold text-white mb-4">{pageTexts[pageLanguage].relatedCards}</h2>
     <div class="flex items-center">
       {#if relatedCards.length > maxVisible}
         <button on:click={prev} class="text-white text-2xl px-2 cursor-pointer">&#8592;</button>
@@ -176,5 +178,5 @@
     </div>
   </div>
   {:else}
-    <div class="text-center text-gray-600 py-20">No se encontró la carta.</div>
+    <div class="text-center text-gray-600 py-20">{pageTexts[pageLanguage].cardNotFound}</div>
   {/if}

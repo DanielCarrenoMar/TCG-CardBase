@@ -2,6 +2,8 @@
     import { createEventDispatcher, onMount } from "svelte";
     import { getAllSets } from "$lib/api/sets";
     import { getAllRarities } from "$lib/api/cards";
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
     const dispatch = createEventDispatcher();
     let open = false;
     let selectedType = "";
@@ -46,7 +48,7 @@
     >
         <span class="rounded-md absolute top-0 left-1/2 -translate-x-1/2 flex items-center bg-primary-400 py-2 px-8">
             <h3 class="font-semibold text-black text-cente">
-                Busqueda Avanzada
+                {pageTexts[pageLanguage].advancedSearchTitle}
             </h3>
             <svg
                 class="w-6 h-6 ml-2 text-black"
@@ -71,9 +73,9 @@
             <div class="flex flex-col gap-4">
                 <!-- Filtro por set -->
                 <label class="flex flex-col">
-                    <span class="text-sm font-medium text-gray-700 mb-1">Set</span>
+                    <span class="text-sm font-medium text-gray-700 mb-1">{pageTexts[pageLanguage].advancedSearchSet}</span>
                     <select class="border rounded px-2 py-1" bind:value={selectedSet}>
-                        <option value="">Todos</option>
+                        <option value="">{pageTexts[pageLanguage].advancedSearchAllSets}</option>
                         {#each sets as set}
                             <option value={set.id}>{set.name}</option>
                         {/each}
@@ -81,9 +83,9 @@
                 </label>
                 <!-- Filtro por tipo -->
                 <label class="flex flex-col">
-                    <span class="text-sm font-medium text-gray-700 mb-1">Tipo</span>
+                    <span class="text-sm font-medium text-gray-700 mb-1">{pageTexts[pageLanguage].advancedSearchType}</span>
                     <select class="border rounded px-2 py-1" bind:value={selectedType}>
-                        <option value="">Todos</option>
+                        <option value="">{pageTexts[pageLanguage].advancedSearchAllTypes}</option>
                         {#each tipos as tipo}
                             <option value={tipo}>{tipo}</option>
                         {/each}
@@ -91,9 +93,9 @@
                 </label>
                 <!-- Filtro por rareza -->
                 <label class="flex flex-col">
-                    <span class="text-sm font-medium text-gray-700 mb-1">Rareza</span>
+                    <span class="text-sm font-medium text-gray-700 mb-1">{pageTexts[pageLanguage].advancedSearchRarity}</span>
                     <select class="border rounded px-2 py-1" bind:value={selectedRarity}>
-                        <option value="">Todas</option>
+                        <option value="">{pageTexts[pageLanguage].advancedSearchAllRarities}</option>
                         {#each rarities as rarity}
                             <option value={rarity}>{rarity}</option>
                         {/each}
@@ -104,7 +106,7 @@
                     type="button"
                     on:click={buscar}
                 >
-                    Buscar
+                    {pageTexts[pageLanguage].advancedSearchButton}
                 </button>
             </div>
         </div>

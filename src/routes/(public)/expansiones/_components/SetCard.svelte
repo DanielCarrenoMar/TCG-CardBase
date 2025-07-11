@@ -1,5 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';                         //manda a otra pagina
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
     import Symbol_default from "./symbol_default.jpg";
     export let set : any ;     
 
@@ -19,8 +21,8 @@
       <img src={ (set.symbol) == undefined ? Symbol_default : set.symbol + '.webp'} alt={`Logo de ${set.name}`} class="cart-img-size" />
       <div class="p-4">
         <h3 class="font-bold text-xl mb-2">{set.name}</h3>
-        <p class="text-gray-700 text-sm">Nro de Cartas: {set.cardCount.total || set.cardCount.official || 'N/A'}</p>
-        <p class="text-gray-600 text-xs mt-1">{set.releaseDate || 'Fecha no disponible'}</p>
+        <p class="text-gray-700 text-sm">{pageTexts[pageLanguage].setCardCount}: {set.cardCount.total || set.cardCount.official || pageTexts[pageLanguage].setCardCountNA}</p>
+        <p class="text-gray-600 text-xs mt-1">{set.releaseDate || pageTexts[pageLanguage].setReleaseDateNA}</p>
       </div>
     </a>
   </div> 

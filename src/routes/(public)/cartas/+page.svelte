@@ -9,6 +9,8 @@
   import DropdownCard from "$lib/components/DropdownCard.svelte";
   import { page } from '$app/stores';
   import { getNameById } from "$lib/api/sets";
+  import { pageTexts } from '$lib/constants/allTexts';
+  import { pageLanguage } from '$lib/language/languajeHandler';
 
   export let set;
   
@@ -313,10 +315,10 @@
 
 <section class="bg-white">
   <div class="mx-auto container py-4">
-    <h2 class="text-2xl">Buscar por nombre</h2>
+    <h2 class="text-2xl">{pageTexts[pageLanguage].searchByName}</h2>
     <SearchBar
       bind:value={search}
-      placeholder="Buscar..."
+      placeholder={pageTexts[pageLanguage].searchBarPlaceholder}
     />
   </div>
   <AcancedSearchDropdown on:search={handleAdvancedSearch} />
@@ -332,12 +334,12 @@
             <div class="ml-3">
               {#if cardsFromSet}
                 <p class="text-2xl text-white">
-                  <span class="font-medium">Mostrando cartas del set:</span> {currentSetName}
+                  <span class="font-medium">{pageTexts[pageLanguage].showingCardsFromSet}</span> {currentSetName}
                 </p>
               {:else}
                 <p class="text-sm text-orange-700">
-                  <span class="font-medium">No se encontraron cartas en el set {currentSetName}.</span> 
-                  Mostrando cartas generales.
+                  <span class="font-medium">{pageTexts[pageLanguage].noCardsInSet} {currentSetName}.</span> 
+                  {pageTexts[pageLanguage].showingGeneralCards}
                 </p>
               {/if}
             </div>
@@ -346,19 +348,19 @@
       {/if}
 
       <header class="flex flex-col gap-4 py-4 md">
-        <h3 class="text-xl text-white">Ordenar por</h3>
+        <h3 class="text-xl text-white">{pageTexts[pageLanguage].sortBy}</h3>
         <span class="flex gap-2">
           <SelectButton 
             selected={isButtonSelected('id')} 
             onClick={() => changeSort('id')}
           >
-            Id {sortBy === 'id' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+            {pageTexts[pageLanguage].sortById} {sortBy === 'id' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
           </SelectButton>
           <SelectButton 
             selected={isButtonSelected('name')} 
             onClick={() => changeSort('name')}
           >
-            Nombre {sortBy === 'name' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+            {pageTexts[pageLanguage].sortByName} {sortBy === 'name' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
           </SelectButton>
         </span>
       </header>
@@ -370,7 +372,7 @@
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Cargando cartas...
+            {pageTexts[pageLanguage].loadingCards}
           </div>
         </div>
       {:else if error}
@@ -388,7 +390,7 @@
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
             </svg>
-            No se ha encontrado la carta.
+            {pageTexts[pageLanguage].noCardFound}
           </div>
         </div>
       {:else}
@@ -424,7 +426,7 @@
         {#if hasMore && !loading}
           <div class="flex justify-center mt-6">
             <GeneralButton isLoading={loading} onClick={cargarMas}>
-              Cargar más
+              {pageTexts[pageLanguage].loadMore}
             </GeneralButton>
           </div>
         {/if}
@@ -435,7 +437,7 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Cargando más cartas...
+              {pageTexts[pageLanguage].loadingMoreCards}
             </div>
           </div>
         {/if}
