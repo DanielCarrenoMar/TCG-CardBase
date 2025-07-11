@@ -84,7 +84,10 @@ export const pageTexts = {
     showingCardsFromSet: "Mostrando cartas del set:",
     noCardsInSet: "No se encontraron cartas en el set",
     showingGeneralCards: "Mostrando cartas generales.",
-    loadMore: "Cargar más"
+    loadMore: "Cargar más",
+    deckGeneratorTitle: "Generador de Barajas",
+    deckGeneratorButton: "Ir a Generador de Barajas",
+    instructionsLink: "Link de Instrucciones"
   },
   en: {
     cardName: "Card Name",
@@ -171,6 +174,9 @@ export const pageTexts = {
     showingCardsFromSet: "Showing cards from set:",
     noCardsInSet: "No cards found in set",
     showingGeneralCards: "Showing general cards.",
-    loadMore: "Load more"
+    loadMore: "Load more",
+    deckGeneratorTitle: "Deck Generator",
+    deckGeneratorButton: "Go to Deck Generator",
+    instructionsLink: "Instructions Link"
   }
 };
