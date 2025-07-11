@@ -2,6 +2,7 @@
   import { POKEMON_TYPE_ODS_MAPPING, getTypeImagePath } from '$lib/constants/pokemon-ods-mapping';
   import { goto } from '$app/navigation';
     import { pageLanguage } from '$lib/language/languajeHandler';
+    import { pageTexts } from '$lib/constants/allTexts';
 
   function goToODSPage() {
     goto('/ods');
@@ -15,16 +16,16 @@
   <div class="container mx-auto px-4">
     <div class="text-center mb-12">
       <h2 class="text-4xl font-bold text-white mb-4">
-        Pokémon y Objetivos de Desarrollo Sostenible
+        {pageTexts[pageLanguage].odsSectionTitle}
       </h2>
       <p class="text-xl text-gray-200 max-w-3xl mx-auto mb-8">
-        Descubre cómo cada tipo de Pokémon se relaciona con los ODS de las Naciones Unidas
+        {pageTexts[pageLanguage].odsSectionSubtitle}
       </p>
       <button 
         on:click={goToODSPage}
         class="bg-white text-bg-100 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
       >
-        Ver todas las relaciones
+        {pageTexts[pageLanguage].odsSectionButton}
       </button>
     </div>
 
@@ -36,13 +37,13 @@
               <div class="flex items-center gap-3">
                 <img 
                   src={getTypeImagePath(mapping.type)} 
-                  alt="Tipo {mapping.type}" 
+                  alt={pageTexts[pageLanguage].odsSectionCardAlt.replace('{type}', mapping.type)} 
                   class="w-10 h-10"
                 />
                 <h3 class="text-lg font-bold text-gray-800">{mapping.type}</h3>
               </div>
               <div class="text-right">
-                <div class="text-xl font-bold text-green-600">ODS {mapping.ods.id}</div>
+                <div class="text-xl font-bold text-green-600">{pageTexts[pageLanguage].odsSectionOds} {mapping.ods.id}</div>
               </div>
             </div>
             
@@ -64,7 +65,7 @@
 
     <div class="text-center mt-8">
       <p class="text-gray-200 text-lg">
-        ¡Explora todos los tipos y aprende sobre los desafíos globales!
+        {pageTexts[pageLanguage].odsSectionExplore}
       </p>
     </div>
   </div>
