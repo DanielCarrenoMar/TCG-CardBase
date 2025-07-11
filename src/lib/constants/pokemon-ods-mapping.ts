@@ -122,17 +122,17 @@ export function getODSByPokemonType(type: string) {
 
 export function getTypeImagePath(type: string): string {
   const typeImageMap: { [key: string]: string } = {
-    'Fuego': '/src/lib/images/fire.png',
-    'Agua': '/src/lib/images/water.png',
-    'Planta': '/src/lib/images/grass.png',
-    'Rayo': '/src/lib/images/electric.png',
-    'Psíquico': '/src/lib/images/psychic.png',
-    'Lucha': '/src/lib/images/fighting.png',
-    'Normal': '/src/lib/images/normal.png',
-    'Hada': '/src/lib/images/fairy.png',
-    'Acero': '/src/lib/images/steel.png',
-    'Siniestro': '/src/lib/images/dark.png',
-    'Dragón': '/src/lib/images/dragon.png',
+    'Fuego': '/src/lib/components/_images/fire.png', 
+    'Agua': '/src/lib/components/_images/water.png',
+    'Planta': '/src/lib/components/_images/grass.png',
+    'Rayo': '/src/lib/components/_images/electric.png',
+    'Psíquico': '/src/lib/components/_images/psychic.png',
+    'Lucha': '/src/lib/components/_images/fighting.png',
+    'Normal': '/src/lib/components/_images/normal.png',
+    'Hada': '/src/lib/components/_images/fairy.png',
+    'Acero': '/src/lib/components/_images/steel.png',
+    'Siniestro': '/src/lib/components/_images/dark.png',
+    'Dragón': '/src/lib/components/_images/dragon.png',
   };
   
   const cleanType = type?.replace(/guego/gi, 'Fuego')
