@@ -100,7 +100,18 @@ export const pageTexts = {
     expansionsSortCount: "Cantidad de Cartas",
     expansionsLoading: "Cargando expansiones...",
     expansionsError: "Error al cargar las expansiones.",
-    expansionsNotFound: "No se encontraron expansiones."
+    expansionsNotFound: "No se encontraron expansiones.",
+    aboutTitle: "Acerca de Nosotros",
+    aboutSummaryTitle: "Resumen",
+    aboutSummaryText: "Nuestra plataforma web está diseñada para revolucionar la experiencia de las catas de cartas TCG Pokémon. Ofrecemos un espacio digital donde los coleccionistas y jugadores pueden participar en catas virtuales, descubrir nuevas cartas, intercambiar con otros usuarios y mantenerse al día con las últimas novedades del mundo Pokémon. Con herramientas avanzadas de análisis, sistema de valoración en tiempo real y una comunidad activa, creamos la experiencia definitiva para los fanáticos de las cartas Pokémon.",
+    aboutMembersTitle: "Integrantes",
+    aboutTechTitle: "Tecnologías",
+    aboutContactTitle: "Contacta con nosotros",
+    aboutContactName: "Nombre",
+    aboutContactEmail: "Correo electrónico",
+    aboutContactTopic: "Asunto",
+    aboutContactMessage: "Mensaje",
+    aboutContactSend: "Enviar"
   },
   en: {
     cardName: "Card Name",
@@ -203,6 +214,17 @@ export const pageTexts = {
     expansionsSortCount: "Card Count",
     expansionsLoading: "Loading expansions...",
     expansionsError: "Error loading expansions.",
-    expansionsNotFound: "No expansions found."
+    expansionsNotFound: "No expansions found.",
+    aboutTitle: "About Us",
+    aboutSummaryTitle: "Summary",
+    aboutSummaryText: "Our web platform is designed to revolutionize the experience of Pokémon TCG card tastings. We offer a digital space where collectors and players can participate in virtual tastings, discover new cards, trade with other users, and stay up to date with the latest Pokémon news. With advanced analysis tools, real-time rating system, and an active community, we create the ultimate experience for Pokémon card fans.",
+    aboutMembersTitle: "Members",
+    aboutTechTitle: "Technologies",
+    aboutContactTitle: "Contact Us",
+    aboutContactName: "Name",
+    aboutContactEmail: "Email",
+    aboutContactTopic: "Subject",
+    aboutContactMessage: "Message",
+    aboutContactSend: "Send"
   }
 };
