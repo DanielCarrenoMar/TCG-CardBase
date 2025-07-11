@@ -18,7 +18,10 @@ export const pageTexts = {
     odsAndTypes: "Objetivos de Desarrollo Sostenible (ODS) y Tipos Pokémon",
     odsRelatedTo: "ODS relacionada con",
     selectTypeToSeeOds: "Selecciona un tipo para ver su ODS relacionada",
-    clickTypeToSeeOds: "Haz clic en un tipo de Pokémon para ver su ODS relacionada"
+    clickTypeToSeeOds: "Haz clic en un tipo de Pokémon para ver su ODS relacionada",
+    footerTitle: "TCG Pokemon",
+    footerDev: "2025 TCG Pokemon web. Desarrollado por Hanner Hernández, Alejando Vielma, Alejandro Rosas y Daniel Carreño",
+    footerLegal: "Pokemon y todas las marcas relacionadas son propiedad de Nintendo, Game Freak y Creatures Inc"
   },
   en: {
     cardName: "Card Name",
@@ -39,6 +42,9 @@ export const pageTexts = {
     odsAndTypes: "Sustainable Development Goals (SDGs) and Pokémon Types",
     odsRelatedTo: "SDG related to",
     selectTypeToSeeOds: "Select a type to see its related SDG",
-    clickTypeToSeeOds: "Click on a Pokémon type to see its related SDG"
+    clickTypeToSeeOds: "Click on a Pokémon type to see its related SDG",
+    footerTitle: "TCG Pokemon",
+    footerDev: "2025 TCG Pokemon web. Developed by Hanner Hernández, Alejando Vielma, Alejandro Rosas and Daniel Carreño",
+    footerLegal: "Pokemon and all related trademarks are property of Nintendo, Game Freak and Creatures Inc"
   }
 };

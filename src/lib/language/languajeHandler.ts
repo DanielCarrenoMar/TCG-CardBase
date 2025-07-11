@@ -1,6 +1,10 @@
 import { setTcgDexEnglish, setTcgDexSpanish } from "$lib/api/api";
 
-export var pageLanguage = 'es'; // Default language
+let initialLang = 'es';
+if (typeof window !== 'undefined' && window.localStorage) {
+  initialLang = localStorage.getItem('pageLanguage') || 'es';
+}
+export var pageLanguage = initialLang; // Default language
 
 export function setPageLanguage(lang:string) {
     if (lang === 'es') {
@@ -9,5 +13,8 @@ export function setPageLanguage(lang:string) {
     } else {
         setTcgDexEnglish();
         pageLanguage = 'en';
+    }
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem('pageLanguage', pageLanguage);
     }
 }
