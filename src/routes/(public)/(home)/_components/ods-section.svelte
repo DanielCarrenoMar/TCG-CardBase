@@ -1,13 +1,14 @@
 <script lang="ts">
   import { POKEMON_TYPE_ODS_MAPPING, getTypeImagePath } from '$lib/constants/pokemon-ods-mapping';
   import { goto } from '$app/navigation';
+    import { pageLanguage } from '$lib/language/languajeHandler';
 
   function goToODSPage() {
     goto('/ods');
   }
 
   // Mostrar solo algunos ejemplos en la página de inicio
-  $: featuredODS = POKEMON_TYPE_ODS_MAPPING.slice(0, 6);
+  $: featuredODS = POKEMON_TYPE_ODS_MAPPING[pageLanguage].slice(0, 6);
 </script>
 
 <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 py-16">

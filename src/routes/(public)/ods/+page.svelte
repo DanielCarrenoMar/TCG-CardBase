@@ -2,6 +2,7 @@
   import { POKEMON_TYPE_ODS_MAPPING, getTypeImagePath } from '$lib/constants/pokemon-ods-mapping';
   import { getCardsByType } from '$lib/api/cards';
   import { onMount } from 'svelte';
+    import { pageLanguage } from '$lib/language/languajeHandler';
 
   let selectedType = '';
   let cardsOfType: any[] = [];
@@ -41,7 +42,7 @@
 
     <!-- Grid de tipos y ODS -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-      {#each POKEMON_TYPE_ODS_MAPPING as mapping}
+      {#each POKEMON_TYPE_ODS_MAPPING[pageLanguage] as mapping}
         <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
              on:click={() => showCardsByType(mapping.type)}>
           

@@ -19,14 +19,15 @@
         isMobileMenuOpen = !isMobileMenuOpen;
     }
 
-    function changeLanguage(lang:string) {
-        currentLanguage = lang === 'en' ? 'En' : 'Es';
-        setPageLanguage(lang);
-        isLanguageMenuOpen = false;
-        if (isMobile) {
-            isMobileMenuOpen = false;
-        }
+function changeLanguage(lang:string) {
+    currentLanguage = lang === 'en' ? 'En' : 'Es';
+    setPageLanguage(lang);
+    isLanguageMenuOpen = false;
+    if (isMobile) {
+        isMobileMenuOpen = false;
     }
+    location.reload();
+}
 
     function handleNavigation() {
         if (isMobile) {
