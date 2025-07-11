@@ -6,6 +6,8 @@
   import SerieCard from "./_components/SerieCard.svelte";
   import { getListSeries } from "$lib/api/series";
   import { onMount } from "svelte";
+  import { pageLanguage } from '$lib/language/languajeHandler';
+  import { pageTexts } from '$lib/constants/allTexts';
 
   let series: any[] = [];
   let isLoading = true;
@@ -71,11 +73,11 @@
   }
 </script>
 
-<HeroSection title="Pokemon Series de Cartas" image={Hero} />
+<HeroSection title={pageTexts[pageLanguage].seriesPageTitle} image={Hero} />
 
 <div class="mx-auto container my-8">
-  <h2 class="text-2xl">Buscar por nombre</h2>
-  <SearchBar bind:value={search} placeholder="Buscar..." />
+  <h2 class="text-2xl">{pageTexts[pageLanguage].searchByName}</h2>
+  <SearchBar bind:value={search} placeholder={pageTexts[pageLanguage].searchBarPlaceholder} />
 </div>
 
 <div
@@ -83,25 +85,25 @@
 >
   <div class="mx-auto container my-8">
     <div class=" flex flex-col md:flex-row md:items-center gap-4 mb-8">
-      <h3 class="text-xl font-semibold">Ordenar por</h3>
+      <h3 class="text-xl font-semibold">{pageTexts[pageLanguage].sortBy}</h3>
       <div class="flex flex-col gap-2 sm:flex-row">
         <SelectButton
           selected={sortBy === "alphabet"}
           onClick={() => (sortBy = "alphabet")}
         >
-          Alfabeto
+          {pageTexts[pageLanguage].expansionsSortAlphabet}
         </SelectButton>
         <SelectButton
           selected={sortBy === "date"}
           onClick={() => (sortBy = "date")}
         >
-          Fecha de emisión
+          {pageTexts[pageLanguage].expansionsSortDate}
         </SelectButton>
         <SelectButton
           selected={sortBy === "count"}
           onClick={() => (sortBy = "count")}
         >
-          Cantidad de Cartas
+          {pageTexts[pageLanguage].expansionsSortCount}
         </SelectButton>
       </div>
     </div>
@@ -109,14 +111,14 @@
     <!-- Series Grid -->
     <div class="container-ha gap-8 cursor-pointer">
       {#if isLoading}
-        <div class="text-center py-10">Cargando series...</div>
+        <div class="text-center py-10">{pageTexts[pageLanguage].seriesSectionLoading}</div>
       {:else if error}
         <div class="text-center py-10 text-red-500">
-          Error al cargar las series.
+          {pageTexts[pageLanguage].seriesSectionError}
         </div>
       {:else if getSortedSeries().length === 0}
         <div class="text-center py-10 text-gray-700">
-          No se encontraron series.
+          {pageTexts[pageLanguage].seriesSectionEmpty}
         </div>
       {:else}
         {#each getSortedSeries() as serie}
