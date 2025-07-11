@@ -87,7 +87,20 @@ export const pageTexts = {
     loadMore: "Cargar más",
     deckGeneratorTitle: "Generador de Barajas",
     deckGeneratorButton: "Ir a Generador de Barajas",
-    instructionsLink: "Link de Instrucciones"
+    instructionsLink: "Link de Instrucciones",
+    setCardCount: "Nro de Cartas",
+    setCardCountNA: "N/D",
+    setReleaseDateNA: "Fecha no disponible",
+    expansionsTitle: "Expansiones de",
+    expansionsTitleDefault: "Pokémon Expansiones de Cartas",
+    expansionsSearchPlaceholder: "Buscar expansiones...",
+    expansionsSortBy: "Ordenar por",
+    expansionsSortAlphabet: "Alfabeto",
+    expansionsSortDate: "Fecha de emisión",
+    expansionsSortCount: "Cantidad de Cartas",
+    expansionsLoading: "Cargando expansiones...",
+    expansionsError: "Error al cargar las expansiones.",
+    expansionsNotFound: "No se encontraron expansiones."
   },
   en: {
     cardName: "Card Name",
@@ -177,6 +190,19 @@ export const pageTexts = {
     loadMore: "Load more",
     deckGeneratorTitle: "Deck Generator",
     deckGeneratorButton: "Go to Deck Generator",
-    instructionsLink: "Instructions Link"
+    instructionsLink: "Instructions Link",
+    setCardCount: "Card Count",
+    setCardCountNA: "N/A",
+    setReleaseDateNA: "Release date not available",
+    expansionsTitle: "Expansions of",
+    expansionsTitleDefault: "Pokémon Card Expansions",
+    expansionsSearchPlaceholder: "Search expansions...",
+    expansionsSortBy: "Sort by",
+    expansionsSortAlphabet: "Alphabet",
+    expansionsSortDate: "Release date",
+    expansionsSortCount: "Card Count",
+    expansionsLoading: "Loading expansions...",
+    expansionsError: "Error loading expansions.",
+    expansionsNotFound: "No expansions found."
   }
 };
