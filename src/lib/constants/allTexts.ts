@@ -1,5 +1,7 @@
 export const pageTexts = {
   es: {
+    apiStagePokemon: "Basico",
+    apiTrainer: "Partidario",
     cardName: "Nombre de la carta",
     hp: "PS",
     type: "Tipo",
@@ -141,6 +143,8 @@ export const pageTexts = {
     odsPageLearnDescription2: "¡Explora los diferentes tipos y descubre cómo cada uno contribuye a crear conciencia sobre los desafíos globales que enfrentamos!"
   },
   en: {
+    apiStagePokemon: "Basic",
+    apiTrainer: "Supporter",
     cardName: "Card Name",
     hp: "HP",
     type: "Type",

@@ -1,159 +1,195 @@
-
 <script lang="ts">
-import { onMount } from 'svelte';
-import { getCardsBySet, getRandomCard, getCardFromQuery } from '$lib/api/cards';
-    import { Query } from '@tcgdex/sdk';
+  // Estado para el filtro de visualización
+  let deckFilter: "all" | "pokemon" | "trainers" | "energy" = "all";
 
-// Expansiones disponibles (puedes ajustar según sets reales)
-const expansions = [
-  { id: 'swsh1', name: 'Scarlet & Violet' },
-  { id: 'sm1', name: 'Sun & Moon' },
-  { id: 'xy1', name: 'XY' },
-  { id: 'bw1', name: 'Black & White' }
-];
-
-let selectedExpansions: string[] = [];
-let generatedDeck: any[] = [];
-let loading = false;
-
-// Genera una baraja según las reglas oficiales usando getCardFromQuery
-async function generateDeck() {
-  loading = true;
-  generatedDeck = [];
-
-  // Helper para limitar copias
-  function addWithLimit(deck: any[], card: any, max: number) {
-    const count = deck.filter(c => c.id === card.id).length;
-    if (count < max) deck.push(card);
+  // Función para filtrar el mazo generado según el tipo
+  function getFilteredDeck() {
+    if (deckFilter === "pokemon") return basicPokemon;
+    if (deckFilter === "trainers") return trainersCards;
+    if (deckFilter === "energy") return energyCards;
+    return generatedDeck;
   }
+  import { onMount } from "svelte";
+  import {
+    getCardFromQuery,
+    getTrainerCards,
+    getRandomEnergyCards,
+    getPokemonWithBasic,
+    type CleanCardResume,
+  } from "$lib/api/cards";
+  import { Query } from "@tcgdex/sdk";
+    import SelectButton from "$lib/components/Select-button.svelte";
 
-  // Obtener cartas de las expansiones seleccionadas
-  let allCards: any[] = [];
-  for (const setId of selectedExpansions) {
-    const cards = await getCardsBySet(setId, 0, 50); // Obtener suficientes cartas
-    allCards = [...allCards, ...cards];
-  }
+  // Expansiones disponibles: se obtienen dinámicamente de la API
+  let allSets: { id: string; name: string }[] = [];
 
-  // Si no hay expansiones seleccionadas, no generar deck
-  if (allCards.length === 0) {
-    loading = false;
-    return;
-  }
-
-  // Obtener Pokémon
-  let pokemons: any[] = await getCardFromQuery(Query.create().contains('supertype', 'Pokémon'), 0);
-
-  // Obtener Entrenadores
-  let trainers: any[] = await getCardFromQuery(Query.create().contains('supertype', 'Trainer'), 0);
-
-  // Obtener Energías
-  let energies: any[] = await getCardFromQuery(Query.create().contains('supertype', 'Energy'), 0);
-
-  // Seleccionar Pokémon (15-20, al menos 1 básico)
-  let deckPokemons: any[] = [];
-  let basicPokemon = pokemons.find(c => c.attacks && c.attacks.length > 0 && c.hp && c.hp > 0);
-  if (basicPokemon) addWithLimit(deckPokemons, basicPokemon, 4);
-  for (const p of pokemons) {
-    if (deckPokemons.length >= 20) break;
-    addWithLimit(deckPokemons, p, 4);
-  }
-  deckPokemons = deckPokemons.slice(0, Math.max(15, Math.min(20, deckPokemons.length)));
-
-  // Seleccionar Entrenadores (25-30)
-  let deckTrainers: any[] = [];
-  for (const t of trainers) {
-    if (deckTrainers.length >= 30) break;
-    addWithLimit(deckTrainers, t, 4);
-  }
-  deckTrainers = deckTrainers.slice(0, Math.max(25, Math.min(30, deckTrainers.length)));
-
-  // Seleccionar Energías (10-15, sin límite de copias)
-  let deckEnergies: any[] = [];
-  let energyCard = energies[0];
-  if (energyCard) {
-    for (let i = 0; i < 15; i++) {
-      deckEnergies.push(energyCard);
+  onMount(async () => {
+    try {
+      // Obtener todos los sets desde la API tcgdex
+      const sets = await import("$lib/api/api").then((mod) =>
+        mod.tcgdex.set.list(),
+      );
+      allSets = sets.map((set: any) => ({ id: set.id, name: set.name }));
+    } catch (error) {
+      console.error("Error obteniendo sets:", error);
     }
-  }
-  deckEnergies = deckEnergies.slice(0, 15);
+  });
 
-  // Unir todo y ajustar a 60 cartas
-  let deck = [...deckPokemons, ...deckTrainers, ...deckEnergies];
-  deck = deck.slice(0, 60);
-  generatedDeck = deck;
-  loading = false;
-}
+  let selectedSets: string[] = [];
+  let generatedDeck: CleanCardResume[] = [];
+  let trainersCards: CleanCardResume[] = [];
+  let energyCards: CleanCardResume[] = [];
+  let basicPokemon: CleanCardResume[] = [];
+  let loading = false;
+
+  // Genera una baraja según las reglas oficiales usando getCardFromQuery
+  async function generateDeck() {
+    loading = true;
+    console.log("Generando baraja...");
+    trainersCards = [];
+    basicPokemon = [];
+
+    // Pedir 20 de cada set y juntar todo
+    for (const set of selectedSets) {
+      const trainers = await getTrainerCards(0, 20, set);
+      trainersCards.push(...trainers);
+      const pokemons = await getPokemonWithBasic(18, set);
+      basicPokemon.push(...pokemons);
+    }
+    // Mezclar aleatoriamente y limitar a 20
+    trainersCards = shuffleArray(trainersCards).slice(0, 20);
+    basicPokemon = shuffleArray(basicPokemon).slice(0, 18);
+    energyCards = await getRandomEnergyCards(6);
+    console.log("Sets seleccionados:", selectedSets);
+    generatedDeck = [...trainersCards, ...energyCards, ...basicPokemon]; // Esto sí actualiza el state
+    console.log("Baraja generada:", generatedDeck);
+    loading = false;
+  }
+
+  function shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 </script>
 
 
-<main class="p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-  <!-- Configuración -->
-  <section class="bg-gray-800 rounded-lg p-6 text-white flex flex-col gap-4">
-    <h2 class="text-xl font-bold mb-2">Configuración</h2>
-    <div>
-      <div class="mb-2">Expansiones Disponibles</div>
-      {#each expansions as exp}
-        <label class="flex items-center gap-2 mb-1">
-          <input type="checkbox" bind:group={selectedExpansions} value={exp.id} />
-          {exp.name}
-        </label>
-      {/each}
-    </div>
-    <button
-      class="bg-yellow-400 text-black font-bold py-2 rounded hover:bg-yellow-500 transition"
-      on:click={generateDeck}
-      disabled={loading || selectedExpansions.length === 0}
-    >
-      {loading ? 'Generando...' : 'Generar'}
-    </button>
-    <div class="mt-4 text-sm">
-      <strong>Resumen de la Baraja:</strong><br>
-      Total de cartas: {generatedDeck.length}<br>
-      Pokémon, Entrenadores, Energías
-    </div>
-  </section>
+<main class="text-white bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100">
+  <div class="mx-auto container flex flex-col flex-grow gap-8">
+    <!-- Filtros de visualización -->
+    <section class="w-full flex gap-4 mb-4 justify-center">
+      <SelectButton
+          selected={deckFilter === "all"}
+          onClick={() => (deckFilter = "all")}
+        >
+          Todo
+      </SelectButton>
 
-  <!-- Baraja Generada -->
-  <section class="md:col-span-2 bg-gray-900 rounded-lg p-6 text-white">
-    <h2 class="text-xl font-bold mb-4">Baraja Generada</h2>
-    {#if generatedDeck.length === 0}
-      <div class="text-gray-400">No se ha generado ninguna baraja aún.</div>
-    {:else}
-      <div class="grid gap-4">
-        {#each generatedDeck as card}
-          <div class="bg-gray-800 rounded p-4 flex items-center gap-4 shadow">
-            {#if card.imageUrl}
-              <img src={card.imageUrl} alt={card.name} class="w-16 h-24 object-contain rounded" />
-            {/if}
-            <div>
-              <div class="font-bold text-lg">{card.name}</div>
-              <div class="text-xs text-gray-300">{card.types ? card.types.join(', ') : ''}</div>
-              <div class="text-xs text-gray-400">HP: {card.hp} | Rareza: {card.rarity}</div>
-            </div>
+      <SelectButton
+          selected={deckFilter === "pokemon"}
+          onClick={() => (deckFilter = "pokemon")}
+      >
+          Pokémon
+      </SelectButton>
+
+      <SelectButton
+          selected={deckFilter === "trainers"}
+          onClick={() => (deckFilter = "trainers")}
+      >
+          Entrenadores
+      </SelectButton>
+
+      <SelectButton
+          selected={deckFilter === "energy"}
+          onClick={() => (deckFilter = "energy")}
+      >
+          Energías
+      </SelectButton>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Configuración -->
+      <section class="bg-gray-800 rounded-lg p-6 text-white flex flex-col gap-4 md:col-span-1">
+        <h2 class="text-xl font-bold mb-2">Configuración</h2>
+        <div>
+          <div class="mb-2">Expansiones Disponibles</div>
+          <div class="max-h-48 overflow-y-auto pr-2 custom-scroll">
+            {#each allSets as exp}
+              <label class="flex items-center gap-2 mb-1">
+                <input type="checkbox" bind:group={selectedSets} value={exp.id} />
+                {exp.name}
+              </label>
+            {/each}
           </div>
-        {/each}
-      </div>
-    {/if}
-  </section>
+        </div>
+        <button class="bg-yellow-400 text-black font-bold py-2 rounded hover:bg-yellow-500 transition" on:click={generateDeck} disabled={loading || selectedSets.length === 0}>
+          {loading ? "Generando..." : "Generar"}
+        </button>
+        <div class="mt-4 text-sm">
+          <strong>Resumen de la Baraja:</strong><br />
+          Total de cartas: {generatedDeck.length}<br />
+          Pokémon {basicPokemon.length}, Entrenadores {trainersCards.length}, Energías {energyCards.length}
+        </div>
+      </section>
 
-  <!-- Reglas -->
-  <section class="md:col-span-3 bg-gray-800 rounded-lg p-6 text-white mt-8">
-    <h2 class="text-lg font-bold mb-2">Reglas de Pokemon TCG</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-      <div>
-        <strong>Composición de la Baraja:</strong><br>
-        • Exactamente 60 cartas<br>
-        • Máximo 4 copias de cualquier carta<br>
-        • Energías básicas sin límite<br>
-        • Al menos 1 Pokémon básico
-      </div>
-      <div>
-        <strong>Distribución Típica:</strong><br>
-        • Pokémon: 15-20 cartas<br>
-        • Entrenadores: 25-30 cartas<br>
-        • Energías: 10-15 cartas<br>
-        • Balance según estrategia
-      </div>
+      <!-- Baraja Generada -->
+      <section class="bg-gray-900 rounded-lg p-6 text-white md:col-span-2">
+        <h2 class="text-xl font-bold mb-4">Baraja Generada</h2>
+        {#if getFilteredDeck().length === 0}
+          <div class="text-gray-400">No se ha generado ninguna baraja aún.</div>
+        {:else}
+          <div class="max-h-[32rem] overflow-y-auto pr-2 grid gap-4 custom-scroll">
+            {#each getFilteredDeck() as card}
+              <div class="bg-gray-800 rounded p-4 flex items-center gap-4 shadow">
+                {#if card.image}
+                  <img src={card.image} alt={card.name} class="w-16 h-24 object-contain rounded" />
+                {/if}
+                <div>
+                  <div class="font-bold text-lg">{card.name}</div>
+                  <div class="text-xs text-gray-400">Nombre: {card.name} | Id: {card.id}</div>
+                </div>
+              </div>
+            {/each}
+          </div>
+        {/if}
+<style>
+  .custom-scroll::-webkit-scrollbar {
+    width: 8px;
+    background: transparent;
+  }
+  .custom-scroll::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 4px;
+  }
+  .custom-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #444 #222;
+  }
+</style>
+      </section>
     </div>
-  </section>
+
+    <!-- Reglas -->
+    <section class="bg-gray-800 rounded-lg p-6 text-white mt-8">
+      <h2 class="text-lg font-bold mb-2">Reglas de Pokemon TCG</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div>
+          <strong>Composición de la Baraja:</strong><br />
+          • Exactamente 60 cartas<br />
+          • Máximo 4 copias de cualquier carta<br />
+          • Energías básicas sin límite<br />
+          • Al menos 1 Pokémon básico
+        </div>
+        <div>
+          <strong>Distribución Típica:</strong><br />
+          • Pokémon: 15-20 cartas<br />
+          • Entrenadores: 25-30 cartas<br />
+          • Energías: 10-15 cartas<br />
+          • Balance según estrategia
+        </div>
+      </div>
+    </section>
+  </div>
 </main>
