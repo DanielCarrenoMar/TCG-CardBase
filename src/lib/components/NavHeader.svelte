@@ -1,4 +1,5 @@
-<script>
+<script lang="ts">
+    import { setPageLanguage } from '$lib/language/languajeHandler';
     import { onMount } from 'svelte';
     import { fade, slide } from 'svelte/transition';
     
@@ -16,8 +17,9 @@
         isMobileMenuOpen = !isMobileMenuOpen;
     }
 
-    function changeLanguage(lang) {
+    function changeLanguage(lang:string) {
         currentLanguage = lang;
+        setPageLanguage(lang)
         isLanguageMenuOpen = false;
         if (isMobile) {
             isMobileMenuOpen = false;
@@ -74,10 +76,10 @@
                 </button>
                 {#if isLanguageMenuOpen}
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg" transition:fade>
-                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('Es')}>
+                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('es')}>
                             Español
                         </button>
-                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('En')}>
+                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('en')}>
                             English
                         </button>
                     </div>
