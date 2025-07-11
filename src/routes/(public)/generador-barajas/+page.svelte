@@ -81,7 +81,7 @@ import { pageLanguage } from "$lib/language/languajeHandler";
 <main class="text-white bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100">
   <div class="mx-auto container flex flex-col flex-grow gap-8">
     <!-- Filtros de visualización -->
-    <section class="w-full flex gap-4 mb-4 justify-center">
+    <section class="w-full flex flex-wrap gap-4 mb-4 justify-center pt-8">
       <SelectButton
           selected={deckFilter === "all"}
           onClick={() => (deckFilter = "all")}
