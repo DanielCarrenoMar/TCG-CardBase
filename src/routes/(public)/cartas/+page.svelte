@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getCardsByName, getCardFromQuery, getCardFromId, getCardsBySet } from "$lib/api/cards";
+  import { getCardsByName, getCardFromQuery, getCardFromId, getCardsBySet, getCardsByType, getCardsByRarity } from "$lib/api/cards";
   import { Query, type CardResume } from "@tcgdex/sdk";
   import SelectButton from "$lib/components/Select-button.svelte";
   import SearchBar from "$lib/components/Search-bar.svelte";
@@ -9,10 +9,12 @@
   import DropdownCard from "$lib/components/DropdownCard.svelte";
   import { page } from '$app/stores';
   import { getNameById } from "$lib/api/sets";
+  import { pageTexts } from '$lib/constants/allTexts';
+  import { pageLanguage } from '$lib/language/languajeHandler';
 
   export let set;
   
-  let result: any;
+  let result: CardResume[] = [];
   let cards: CardResume[] = [];
   let filteredCards: CardResume[] = [];
   let search = "";
@@ -33,6 +35,10 @@
   // Variables para el ordenamiento
   let sortBy: 'id' | 'name' = 'id';
   let sortOrder: 'asc' | 'desc' = 'asc';
+
+  let advancedType = "";
+  let selectedPokemonType = "";
+  let showAllODS = false;
 
   // para ordenar las cartas
   function sortCards(cardsToSort: CardResume[]): CardResume[] {
@@ -92,15 +98,12 @@
     try {
       if (setId) {        
         currentSetId = setId;
-        currentSetName = await getNameById(setId);
-        
-        result = await getCardsBySet(setId, paginate, 20);        
+        currentSetName = await getNameById(setId) || '';
+        result = await getCardsBySet(setId, paginate, 20) || [];
         hasMore = result && result.length === 20;                       // Verificar si hay mas pag
         console.log('carta busca la imagen', result);
-        
-
         if (!result || result.length == 0) {                            //en caso de qu eno hayan cartas en ese sets, cargamos las normales
-          result = await getCardFromQuery(Query.create(), paginate);
+          result = await getCardFromQuery(Query.create(), paginate) || [];
           console.log(result);
           
           hasMore = result;
@@ -109,8 +112,8 @@
           cardsFromSet = true; // Indicar que sí son cartas del set
         }
       } else {                                                        //si no existe un set en la url, muestras cartas normales
-        result = await getCardFromQuery(Query.create(), paginate);
-        hasMore = result;
+        result = await getCardFromQuery(Query.create(), paginate) || [];
+        hasMore = !!result;
         cardsFromSet = false;
       }
     } catch (error) {
@@ -123,8 +126,8 @@
       if (reset) {        
         cards = result || [];        
       } else {
-        const ids = new Set(cards.map(c => c.id));
-        cards = [...cards, ...result.filter(c => !ids.has(c.id))];
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
       }
       // Aplicar ordenamiento despues de obtener las cartas
       filteredCards = sortCards(cards);
@@ -142,11 +145,11 @@
       hasMore = true;
     }
     try {
-      let result;
+      let result: CardResume[] = [];
       if (!name) {
-        result = await getCardFromQuery(Query.create(), paginate);
+        result = await getCardFromQuery(Query.create(), paginate) || [];
       } else {
-        result = await getCardsByName(name, paginate);
+        result = await getCardsByName(name, paginate) || [];
       }
       if (reset) {
         cards = result || [];
@@ -159,6 +162,108 @@
       hasMore = (result || []).length === 20;
     } catch (e) {
       error = "Error al buscar cartas";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  async function fetchCardsByType(type: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      paginate = 0;
+      hasMore = true;
+    }
+    try {
+      let result: CardResume[] = await getCardsByType(type, paginate) || [];
+      if (reset) {
+        cards = result || [];
+      } else {
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
+      }
+      filteredCards = sortCards(cards);
+      hasMore = (result || []).length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas por tipo";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  function handleAdvancedSearch(event: CustomEvent<{ tipo?: string; set?: string; rareza?: string }>) {
+    const { tipo, set, rareza } = event.detail;
+    advancedType = tipo || "";
+    search = "";
+    paginate = 0;
+    // Prioridad: set > tipo > rareza
+    if (set) {
+      fetchCardsBySetSearch(set, true);
+    } else if (tipo) {
+      fetchCardsByType(tipo, true);
+    } else if (rareza) {
+      fetchCardsByRarity(rareza, true);
+    } else {
+      fetchCards(true);
+    }
+  }
+
+  async function fetchCardsBySetSearch(setId: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      paginate = 0;
+      hasMore = true;
+    }
+    try {
+      let result = await getCardsBySet(setId, paginate, 20) || [];
+      if (reset) {
+        cards = result || [];
+      } else {
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
+      }
+      filteredCards = sortCards(cards);
+      hasMore = (result || []).length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas por set";
+      cards = [];
+      filteredCards = [];
+      hasMore = false;
+    }
+    loading = false;
+  }
+
+  // Nueva función para filtrar por rareza
+  async function fetchCardsByRarity(rarity: string, reset = true) {
+    loading = true;
+    error = "";
+    if (reset) {
+      cards = [];
+      filteredCards = [];
+      paginate = 0;
+      hasMore = true;
+    }
+    try {
+      let result: CardResume[] = await getCardsByRarity(rarity, paginate) || [];
+      if (reset) {
+        cards = result || [];
+      } else {
+        const ids = new Set(cards.map((c: CardResume) => c.id));
+        cards = [...cards, ...result.filter((c: CardResume) => !ids.has(c.id))];
+      }
+      filteredCards = sortCards(cards);
+      hasMore = (result || []).length === 20;
+    } catch (e) {
+      error = "Error al buscar cartas por rareza";
       cards = [];
       filteredCards = [];
       hasMore = false;
@@ -195,20 +300,29 @@
     selectedCardFull = null;
     // Espera la info completa de la carta
     const cardFull = await getCardFromId(card.id);
+    console.log('prueba 2', cardFull);
+    
     selectedCardFull = cardFull;
     loadingCard = false;
+    
+    // Actualizar el tipo seleccionado para mostrar la ODS relacionada
+    if (cardFull && cardFull.types && cardFull.types[0]) {
+      selectedPokemonType = cardFull.types[0];
+      showAllODS = false;
+    }
   }
 </script>
 
 <section class="bg-white">
   <div class="mx-auto container py-4">
-    <h2 class="text-2xl">Buscar por nombre</h2>
+    <h2 class="text-2xl">{pageTexts[pageLanguage].searchByName}</h2>
     <SearchBar
       bind:value={search}
-      placeholder="Buscar..."
+      placeholder={pageTexts[pageLanguage].searchBarPlaceholder}
     />
   </div>
-  <AcancedSearchDropdown />
+  <AcancedSearchDropdown on:search={handleAdvancedSearch} />
+  
 </section>
 <main>
   <section class="bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 ">
@@ -220,12 +334,12 @@
             <div class="ml-3">
               {#if cardsFromSet}
                 <p class="text-2xl text-white">
-                  <span class="font-medium">Mostrando cartas del set:</span> {currentSetName}
+                  <span class="font-medium">{pageTexts[pageLanguage].showingCardsFromSet}</span> {currentSetName}
                 </p>
               {:else}
                 <p class="text-sm text-orange-700">
-                  <span class="font-medium">No se encontraron cartas en el set {currentSetName}.</span> 
-                  Mostrando cartas generales.
+                  <span class="font-medium">{pageTexts[pageLanguage].noCardsInSet} {currentSetName}.</span> 
+                  {pageTexts[pageLanguage].showingGeneralCards}
                 </p>
               {/if}
             </div>
@@ -234,19 +348,19 @@
       {/if}
 
       <header class="flex flex-col gap-4 py-4 md">
-        <h3 class="text-xl text-white">Ordenar por</h3>
+        <h3 class="text-xl text-white">{pageTexts[pageLanguage].sortBy}</h3>
         <span class="flex gap-2">
           <SelectButton 
             selected={isButtonSelected('id')} 
             onClick={() => changeSort('id')}
           >
-            Id {sortBy === 'id' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+            {pageTexts[pageLanguage].sortById} {sortBy === 'id' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
           </SelectButton>
           <SelectButton 
             selected={isButtonSelected('name')} 
             onClick={() => changeSort('name')}
           >
-            Nombre {sortBy === 'name' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
+            {pageTexts[pageLanguage].sortByName} {sortBy === 'name' ? (sortOrder === 'asc' ? '↑' : '↓') : ''}
           </SelectButton>
         </span>
       </header>
@@ -258,7 +372,7 @@
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
               <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Cargando cartas...
+            {pageTexts[pageLanguage].loadingCards}
           </div>
         </div>
       {:else if error}
@@ -276,7 +390,7 @@
             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
             </svg>
-            No se ha encontrado la carta.
+            {pageTexts[pageLanguage].noCardFound}
           </div>
         </div>
       {:else}
@@ -312,7 +426,7 @@
         {#if hasMore && !loading}
           <div class="flex justify-center mt-6">
             <GeneralButton isLoading={loading} onClick={cargarMas}>
-              Cargar más
+              {pageTexts[pageLanguage].loadMore}
             </GeneralButton>
           </div>
         {/if}
@@ -323,7 +437,7 @@
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Cargando más cartas...
+              {pageTexts[pageLanguage].loadingMoreCards}
             </div>
           </div>
         {/if}

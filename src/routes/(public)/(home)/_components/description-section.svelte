@@ -1,3 +1,8 @@
+<script lang="ts">
+	import { pageTexts } from '$lib/constants/allTexts';
+	import { pageLanguage } from '$lib/language/languajeHandler';
+</script>
+
 <section
 	class="py-8 bg-gradient-to-b from-primary-400 to-primary-700 overflow-hidden"
 >
@@ -13,11 +18,9 @@
 			class="flex-1 flex flex-col justify-center items-center px-4 relative z-10"
 		>
 			<div class="bg-secondary-400 px-4 py-8 rounded text-xl mb-2 mx-8">
-				<h2 class="text-3xl md:text-5xl font-bold text-center mb-2">¡Disfruta!</h2>
+				<h2 class="text-3xl md:text-5xl font-bold text-center mb-2">{pageTexts[pageLanguage].enjoyTitle}</h2>
 				<p>
-					Experimenta el JCC Pokémon de una manera completamente nueva,
-					diseñada para dispositivos móviles. Disfruta de batallas rápidas y
-					sencillas, colecciona cartas digitales únicas con
+					{pageTexts[pageLanguage].enjoyDescription}
 				</p>
 			</div>
 		</div>

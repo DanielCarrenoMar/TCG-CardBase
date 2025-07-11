@@ -13,6 +13,8 @@ class LocalStorageCache{
 
     //method para guardar datos en localstorage
     set<T>(key: string, data: T, expiresIn?: number): void{
+        if (!this.isSupported()) return;
+
         //creamos el item a guardar
         const item: LocalStorageItem<T> = {
             data,
@@ -24,12 +26,19 @@ class LocalStorageCache{
         try {
             const cleanData = this.cleanCircularReferences(item);
             localStorage.setItem(key, JSON.stringify(cleanData));
-        } catch (error) {
-            console.error('Error al guardar en localStorage:', error);
+        } catch (e) {
+            if (e instanceof DOMException && (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+                console.warn(`Advertencia: El localStorage ha excedido la cuota. No se pudo cachear la clave: ${key}`);
+                // Opcionalmente, se podría implementar una estrategia para limpiar el caché aquí.
+            } else {
+                console.error('Error al guardar en localStorage:', e);
+            }
         }
     }
 
     get<T>(key: string): T | null{
+        if (!this.isSupported()) return null;
+
         try {
             const item = localStorage.getItem(key);
             if (!item) return null;
@@ -81,6 +90,10 @@ class LocalStorageCache{
             console.error('Error cleaning circular references:', error);            
             return {} as T;
         }
+    }
+
+    private isSupported(): boolean {
+        return typeof localStorage !== 'undefined';
     }
 }
 

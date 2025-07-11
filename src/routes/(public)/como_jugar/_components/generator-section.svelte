@@ -2,6 +2,8 @@
     import NavigateButton from "$lib/components/Navigate-button.svelte";
     import { onMount } from "svelte";
     import { getRandomCard } from "$lib/api/cards";
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
 
     type Card = {
         id: string;
@@ -45,7 +47,7 @@ let uniqueCards: Card[] = [];
 </script>
 
 <section class="mx-auto container py-8">
-    <h2 class="text-2xl font-bold mb-4">Generador de Barajas</h2>
+    <h2 class="text-2xl font-bold mb-4">{pageTexts[pageLanguage].deckGeneratorTitle}</h2>
     <span class="flex">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {#each Array(12) as _, i}
@@ -67,7 +69,7 @@ let uniqueCards: Card[] = [];
         </div>
         <div class="flex flex-1 flex-col items-center justify-center">
             <NavigateButton href="/generador-barajas">
-                Ir a Generador de Barajas
+                {pageTexts[pageLanguage].deckGeneratorButton}
             </NavigateButton>
         </div>
     </span>

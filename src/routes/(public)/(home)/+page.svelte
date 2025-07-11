@@ -6,6 +6,7 @@
 	import DescriptionSection from "./_components/description-section.svelte";
 	import TutorialSection from "./_components/tutorial-section.svelte";
     import VideogamesSection from "./_components/videogames-section.svelte";
+    import ODSSection from "./_components/ods-section.svelte";
 </script>
 
 <section class="mx-auto container relative">
@@ -26,6 +27,8 @@
 	<RandomCardSection />
 
 	<SerieSection />
+
+	<ODSSection />
 
 	<VideogamesSection />
 

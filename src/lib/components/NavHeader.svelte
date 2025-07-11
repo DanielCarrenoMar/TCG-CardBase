@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
+    import { setPageLanguage } from '$lib/language/languajeHandler';
     import { onMount } from 'svelte';
     import { fade, slide } from 'svelte/transition';
     
+    import { pageTexts } from '$lib/constants/allTexts';
+    import { pageLanguage } from '$lib/language/languajeHandler';
     let isLanguageMenuOpen = false;
     let isMobileMenuOpen = false;
-    let currentLanguage = 'Es';
+    let currentLanguage = pageLanguage === 'en' ? 'En' : 'Es';
     let isMobile = false;
     let languageMenuRef = true;
 
@@ -16,13 +19,15 @@
         isMobileMenuOpen = !isMobileMenuOpen;
     }
 
-    function changeLanguage(lang) {
-        currentLanguage = lang;
-        isLanguageMenuOpen = false;
-        if (isMobile) {
-            isMobileMenuOpen = false;
-        }
+function changeLanguage(lang:string) {
+    currentLanguage = lang === 'en' ? 'En' : 'Es';
+    setPageLanguage(lang);
+    isLanguageMenuOpen = false;
+    if (isMobile) {
+        isMobileMenuOpen = false;
     }
+    location.reload();
+}
 
     function handleNavigation() {
         if (isMobile) {
@@ -58,12 +63,13 @@
 
     {#if !isMobile}
         <div class="flex items-center justify-between w-8/12">
-            <a href="/" class="text-xl cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Inicio</a>
-            <a href="/cartas" class="text-xl cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Cartas</a>
-            <a href="/como_jugar" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Como Jugar</a>
-            <a href="/series" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Series</a>
-            <a href="/videojuegos" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Videojuegos</a>
-            <a href="/nosotros" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>Nosotros</a>
+            <a href="/" class="text-xl cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].home}</a>
+            <a href="/cartas" class="text-xl cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].cards}</a>
+            <a href="/como_jugar" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].howToPlay}</a>
+            <a href="/series" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].series}</a>
+            <a href="/videojuegos" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].videogames}</a>
+            <a href="/ods" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].ods}</a>
+            <a href="/nosotros" class="text-xl ccursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded" on:click={handleNavigation}>{pageTexts[pageLanguage].aboutUs}</a>
             <div class="relative" bind:this={languageMenuRef}>
                 <button on:click={toggleLanguageMenu} class="flex items-center cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500 px-5 py-3 rounded">
                     {currentLanguage}
@@ -73,10 +79,10 @@
                 </button>
                 {#if isLanguageMenuOpen}
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg" transition:fade>
-                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('Es')}>
+                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('es')}>
                             Español
                         </button>
-                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('En')}>
+                        <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('en')}>
                             English
                         </button>
                     </div>
@@ -104,12 +110,13 @@
         >
             <div class="flex flex-col h-full">
                 <div class="flex-1">
-                    <a href="/" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Inicio</a>
-                    <a href="/cartas" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Cartas</a>
-                    <a href="/como_jugar" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Como Jugar</a>
-                    <a href="/series" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Series</a>
-                    <a href="/videojuegos" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Videojuegos</a>
-                    <a href="/nosotros" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>Nosotros</a>
+                    <a href="/" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].home}</a>
+                    <a href="/cartas" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].cards}</a>
+                    <a href="/como_jugar" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].howToPlay}</a>
+                    <a href="/series" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].series}</a>
+                    <a href="/videojuegos" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].videogames}</a>
+                    <a href="/ods" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].ods}</a>
+                    <a href="/nosotros" class="block px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={handleNavigation}>{pageTexts[pageLanguage].aboutUs}</a>
                     <div class="relative" bind:this={languageMenuRef}>
                         <button on:click={toggleLanguageMenu} class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500">
                             <div class="flex items-center justify-between">
@@ -121,10 +128,10 @@
                         </button>
                         {#if isLanguageMenuOpen}
                             <div class="absolute left-0 w-full bg-white rounded-md shadow-lg mt-1" transition:fade>
-                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('Es')}>
+                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('es')}>
                                     Español
                                 </button>
-                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('En')}>
+                                <button class="block w-full text-left px-4 py-3 cursor-pointer hover:bg-gradient-to-b from-bg-100 via-bg-300 to-bg-100 hover:text-white transition-all duration-500" on:click={() => changeLanguage('en')}>
                                     English
                                 </button>
                             </div>

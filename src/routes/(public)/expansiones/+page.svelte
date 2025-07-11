@@ -9,6 +9,8 @@
   import SetCard from './_components/SetCard.svelte';
   import { page } from '$app/stores';
   import { getListSetFullData } from '$lib/api/sets';
+  import { pageTexts } from '$lib/constants/allTexts';
+  import { pageLanguage } from '$lib/language/languajeHandler';
 
   let series: any[] = [];
   let currentSerie: any = null;
@@ -88,27 +90,27 @@
 
 <div class="w-full min-h-screen bg-gradient-to-b from-gray-300 to-gray-500 text-black">
   <HeroSection 
-    title={currentSerie ? `Expansiones de ${currentSerie.name}` : "Pokémon Expansiones de Cartas"} 
+    title={currentSerie ? `${pageTexts[pageLanguage].expansionsTitle} ${currentSerie.name}` : pageTexts[pageLanguage].expansionsTitleDefault} 
     image={Hero} 
   />
 
   <div class="mx-auto p-4 md:p-8 xl:mx-18 xl:w-auto ">
     <!-- Search and Sort -->
     <div class="mb-8">
-      <SearchBar bind:value={search} placeholder="Buscar expansiones..." />
+      <SearchBar bind:value={search} placeholder={pageTexts[pageLanguage].expansionsSearchPlaceholder} />
     </div>
 
     <div class=" flex flex-col md:flex-row md:items-center gap-4 mb-8">
-      <h3 class="text-xl font-semibold">Ordenar por</h3>
+      <h3 class="text-xl font-semibold">{pageTexts[pageLanguage].expansionsSortBy}</h3>
       <div class="flex flex-col gap-2 sm:flex-row">
         <SelectButton selected={sortBy === 'alphabet'} onClick={() => sortBy = 'alphabet'}>
-          Alfabeto
+          {pageTexts[pageLanguage].expansionsSortAlphabet}
         </SelectButton>
         <SelectButton selected={sortBy === 'date'} onClick={() => sortBy = 'date'}>
-          Fecha de emisión
+          {pageTexts[pageLanguage].expansionsSortDate}
         </SelectButton>
         <SelectButton selected={sortBy === 'count'} onClick={() => sortBy = 'count'}>
-          Cantidad de Cartas
+          {pageTexts[pageLanguage].expansionsSortCount}
         </SelectButton>
       </div>
     </div>
@@ -116,11 +118,11 @@
     <!-- Sets Grid -->
     <div class="container-ha container-haa gap-8">
       {#if isLoading}
-        <div class="text-center py-10">Cargando expansiones...</div>
+        <div class="text-center py-10">{pageTexts[pageLanguage].expansionsLoading}</div>
       {:else if error}
-        <div class="text-center py-10 text-red-500">Error al cargar las expansiones.</div>
+        <div class="text-center py-10 text-red-500">{pageTexts[pageLanguage].expansionsError}</div>
       {:else if getSortedSets().length === 0}
-        <div class="text-center py-10 text-gray-700">No se encontraron expansiones.</div>
+        <div class="text-center py-10 text-gray-700">{pageTexts[pageLanguage].expansionsNotFound}</div>
       {:else}
         {#each getSortedSets() as set}
           <SetCard {set} />
