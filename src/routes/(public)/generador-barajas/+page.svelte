@@ -19,6 +19,8 @@
   } from "$lib/api/cards";
   import { Query } from "@tcgdex/sdk";
     import SelectButton from "$lib/components/Select-button.svelte";
+  import { pageTexts } from "$lib/constants/allTexts";
+import { pageLanguage } from "$lib/language/languajeHandler";
 
   // Expansiones disponibles: se obtienen dinámicamente de la API
   let allSets: { id: string; name: string }[] = [];
@@ -84,37 +86,37 @@
           selected={deckFilter === "all"}
           onClick={() => (deckFilter = "all")}
         >
-          Todo
+          {pageTexts[pageLanguage].deckGeneratorFilterAll}
       </SelectButton>
 
       <SelectButton
           selected={deckFilter === "pokemon"}
           onClick={() => (deckFilter = "pokemon")}
       >
-          Pokémon
+          {pageTexts[pageLanguage].deckGeneratorFilterPokemon}
       </SelectButton>
 
       <SelectButton
           selected={deckFilter === "trainers"}
           onClick={() => (deckFilter = "trainers")}
       >
-          Entrenadores
+          {pageTexts[pageLanguage].deckGeneratorFilterTrainers}
       </SelectButton>
 
       <SelectButton
           selected={deckFilter === "energy"}
           onClick={() => (deckFilter = "energy")}
       >
-          Energías
+          {pageTexts[pageLanguage].deckGeneratorFilterEnergy}
       </SelectButton>
     </section>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Configuración -->
       <section class="bg-gray-800 rounded-lg p-6 text-white flex flex-col gap-4 md:col-span-1">
-        <h2 class="text-xl font-bold mb-2">Configuración</h2>
+        <h2 class="text-xl font-bold mb-2">{pageTexts[pageLanguage].deckGeneratorConfigTitle}</h2>
         <div>
-          <div class="mb-2">Expansiones Disponibles</div>
+          <div class="mb-2">{pageTexts[pageLanguage].deckGeneratorAvailableExpansions}</div>
           <div class="max-h-48 overflow-y-auto pr-2 custom-scroll">
             {#each allSets as exp}
               <label class="flex items-center gap-2 mb-1">
@@ -125,20 +127,20 @@
           </div>
         </div>
         <button class="bg-yellow-400 text-black font-bold py-2 rounded hover:bg-yellow-500 transition" on:click={generateDeck} disabled={loading || selectedSets.length === 0}>
-          {loading ? "Generando..." : "Generar"}
+          {loading ? pageTexts[pageLanguage].deckGeneratorLoading : pageTexts[pageLanguage].deckGeneratorButtonGen}
         </button>
         <div class="mt-4 text-sm">
-          <strong>Resumen de la Baraja:</strong><br />
-          Total de cartas: {generatedDeck.length}<br />
-          Pokémon {basicPokemon.length}, Entrenadores {trainersCards.length}, Energías {energyCards.length}
+          <strong>{pageTexts[pageLanguage].deckGeneratorSummaryTitle}</strong><br />
+          {pageTexts[pageLanguage].deckGeneratorSummaryTotal} {generatedDeck.length}<br />
+          {pageTexts[pageLanguage].deckGeneratorSummaryPokemon} {basicPokemon.length}, {pageTexts[pageLanguage].deckGeneratorSummaryTrainers} {trainersCards.length}, {pageTexts[pageLanguage].deckGeneratorSummaryEnergy} {energyCards.length}
         </div>
       </section>
 
       <!-- Baraja Generada -->
       <section class="bg-gray-900 rounded-lg p-6 text-white md:col-span-2">
-        <h2 class="text-xl font-bold mb-4">Baraja Generada</h2>
+        <h2 class="text-xl font-bold mb-4">{pageTexts[pageLanguage].deckGeneratorGeneratedTitle}</h2>
         {#if getFilteredDeck().length === 0}
-          <div class="text-gray-400">No se ha generado ninguna baraja aún.</div>
+          <div class="text-gray-400">{pageTexts[pageLanguage].deckGeneratorNoDeck}</div>
         {:else}
           <div class="max-h-[32rem] overflow-y-auto pr-2 grid gap-4 custom-scroll">
             {#each getFilteredDeck() as card}
@@ -148,7 +150,7 @@
                 {/if}
                 <div>
                   <div class="font-bold text-lg">{card.name}</div>
-                  <div class="text-xs text-gray-400">Nombre: {card.name} | Id: {card.id}</div>
+                  <div class="text-xs text-gray-400">{pageTexts[pageLanguage].deckGeneratorCardName} {card.name} | Id: {card.id}</div>
                 </div>
               </div>
             {/each}
@@ -173,21 +175,21 @@
 
     <!-- Reglas -->
     <section class="bg-gray-800 rounded-lg p-6 text-white mt-8">
-      <h2 class="text-lg font-bold mb-2">Reglas de Pokemon TCG</h2>
+      <h2 class="text-lg font-bold mb-2">{pageTexts[pageLanguage].deckGeneratorRulesTitle}</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div>
-          <strong>Composición de la Baraja:</strong><br />
-          • Exactamente 60 cartas<br />
-          • Máximo 4 copias de cualquier carta<br />
-          • Energías básicas sin límite<br />
-          • Al menos 1 Pokémon básico
+          <strong>{pageTexts[pageLanguage].deckGeneratorRulesCompositionTitle}</strong><br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesComposition1}<br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesComposition2}<br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesComposition3}<br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesComposition4}
         </div>
         <div>
-          <strong>Distribución Típica:</strong><br />
-          • Pokémon: 15-20 cartas<br />
-          • Entrenadores: 25-30 cartas<br />
-          • Energías: 10-15 cartas<br />
-          • Balance según estrategia
+          <strong>{pageTexts[pageLanguage].deckGeneratorRulesDistributionTitle}</strong><br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesDistribution1}<br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesDistribution2}<br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesDistribution3}<br />
+          • {pageTexts[pageLanguage].deckGeneratorRulesDistribution4}
         </div>
       </div>
     </section>
