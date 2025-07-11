@@ -42,7 +42,19 @@ export const pageTexts = {
     randomCardAttacks: "Ataques",
     randomCardNoAttacks: "Sin Ataques",
     randomCardWeaknesses: "Debilidades",
-    randomCardNoWeaknesses: "Sin Debilidades"
+    randomCardNoWeaknesses: "Sin Debilidades",
+    seriesSectionTitle: "Series",
+    seriesSectionSubtitle: "Descubre nuestra colección de series",
+    seriesSectionLoading: "Cargando series...",
+    seriesSectionError: "Error al cargar las series",
+    seriesSectionEmpty: "No hay series disponibles",
+    seriesSectionEmptySubtitle: "Vuelve pronto para ver nuevo contenido",
+    seriesSectionButton: "Ir a Series",
+    tutorialSectionTitle: "Aprende a Jugar",
+    tutorialSectionDescription: "Experimenta el JCC Pokémon de una manera completamente nueva, diseñada para dispositivos móviles. Disfruta de batallas rápidas y sencillas, colecciona cartas digitales únicas con",
+    tutorialSectionButton: "Ir a Como Jugar",
+    videogamesSectionTitle: "Videojuegos",
+    videogamesSectionButton: "Ir a Videojuegos"
   },
   en: {
     cardName: "Card Name",
@@ -87,6 +99,18 @@ export const pageTexts = {
     randomCardAttacks: "Attacks",
     randomCardNoAttacks: "No Attacks",
     randomCardWeaknesses: "Weaknesses",
-    randomCardNoWeaknesses: "No Weaknesses"
+    randomCardNoWeaknesses: "No Weaknesses",
+    seriesSectionTitle: "Series",
+    seriesSectionSubtitle: "Discover our series collection",
+    seriesSectionLoading: "Loading series...",
+    seriesSectionError: "Error loading series",
+    seriesSectionEmpty: "No series available",
+    seriesSectionEmptySubtitle: "Check back soon for new content",
+    seriesSectionButton: "Go to Series",
+    tutorialSectionTitle: "Learn to Play",
+    tutorialSectionDescription: "Experience the Pokémon TCG in a whole new way, designed for mobile devices. Enjoy fast and simple battles, and collect unique digital cards.",
+    tutorialSectionButton: "Go to How to Play",
+    videogamesSectionTitle: "Videogames",
+    videogamesSectionButton: "Go to Videogames"
   }
 };
