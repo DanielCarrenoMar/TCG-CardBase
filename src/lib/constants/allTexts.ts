@@ -7,7 +7,18 @@ export const pageTexts = {
     attacks: "Ataques",
     weaknesses: "Debilidades",
     description: "Descripción",
-    moreInfo: "Más Información"
+    moreInfo: "Más Información",
+    home: "Inicio",
+    cards: "Cartas",
+    howToPlay: "Como Jugar",
+    series: "Series",
+    videogames: "Videojuegos",
+    ods: "ODS",
+    aboutUs: "Nosotros",
+    odsAndTypes: "Objetivos de Desarrollo Sostenible (ODS) y Tipos Pokémon",
+    odsRelatedTo: "ODS relacionada con",
+    selectTypeToSeeOds: "Selecciona un tipo para ver su ODS relacionada",
+    clickTypeToSeeOds: "Haz clic en un tipo de Pokémon para ver su ODS relacionada"
   },
   en: {
     cardName: "Card Name",
@@ -17,6 +28,17 @@ export const pageTexts = {
     attacks: "Attacks",
     weaknesses: "Weaknesses",
     description: "Description",
-    moreInfo: "More Info"
+    moreInfo: "More Info",
+    home: "Home",
+    cards: "Cards",
+    howToPlay: "How to Play",
+    series: "Series",
+    videogames: "Videogames",
+    ods: "SDGs",
+    aboutUs: "About Us",
+    odsAndTypes: "Sustainable Development Goals (SDGs) and Pokémon Types",
+    odsRelatedTo: "SDG related to",
+    selectTypeToSeeOds: "Select a type to see its related SDG",
+    clickTypeToSeeOds: "Click on a Pokémon type to see its related SDG"
   }
 };
