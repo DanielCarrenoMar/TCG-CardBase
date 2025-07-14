@@ -9,7 +9,7 @@ En colaboración con [@Hjanner](https://github.com/Hjanner), [@Bloodbay8](https:
 
 Creado como proyecto de la materia *Programación Orientada a la Web* en el cuarto semestre de la [UCAB](https://www.ucab.edu.ve/).
 
-> 👀 [Visitalo aquí](https://tcg-card-web.vercel.app/)
+> 👀 <a href="https://tcg-card-web.vercel.app/" target="_blank">Visítalo aquí</a>
 
 ## Características ⭐
 - Multilenguaje inglés/español.
