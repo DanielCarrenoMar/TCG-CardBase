@@ -1,38 +1,26 @@
-# sv
+<a>
+    <img src="https://github.com/DanielCarrenoMar/sistemaDonaciones/assets/144462396/6a702815-09cc-4cff-b035-c9bf212d73f4" alt="Logo" title="Logo" align="right" height="60" />
+</a>
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+# ![Svelte](https://img.shields.io/badge/svelte-%23f1413d.svg?style=for-the-badge&logo=svelte&logoColor=white) Web Pokemon TCG
 
-## Creating a project
+Una página web sobre el juego de cartas de Pokémon (Pokémon TCG), donde podrás encontrar información detallada de cartas, expansiones, series de cartas y videojuegos, así como un generador de mazos.
+En colaboración con [@Hjanner](https://github.com/Hjanner), [@Bloodbay8](https://github.com/Bloodbay8) y [@AlejandroJRosas](https://github.com/AlejandroJRosas).
 
-If you're seeing this, you've probably already done this step. Congrats!
 
-```bash
-# create a new project in the current directory
-npx sv create
+Creado como proyecto de la materia *Programación Orientada a la Web* en el cuarto semestre de la [UCAB](https://www.ucab.edu.ve/).
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Características ⭐
+- Multilenguaje inglés/español.
+- Generador de mazos.
+- Cacheado de peticiones para mejorar velocidad. 
+- Buscador de cartas con varios filtros.
+- Relación de cada tipo con los ODS.
 
-## Developing
+## Librerías Utilizadas 📚
+- Tcgdex (Api para Pokémon TCG)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+- ### Imágenes
+<img width="1559" height="721" alt="image" src="https://github.com/user-attachments/assets/71c4e590-6e43-424a-9704-fc0b30710afc" />
+<img width="1564" height="694" alt="image" src="https://github.com/user-attachments/assets/026e67a8-9307-44dc-adee-668a89bb45aa" />
+<img width="1558" height="645" alt="image" src="https://github.com/user-attachments/assets/4649dcbc-bc5e-45cf-b4c9-c242741879ef" />
