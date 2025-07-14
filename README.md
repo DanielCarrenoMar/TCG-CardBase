@@ -7,8 +7,9 @@
 Una página web sobre el juego de cartas de Pokémon (Pokémon TCG), donde podrás encontrar información detallada de cartas, expansiones, series de cartas y videojuegos, así como un generador de mazos.
 En colaboración con [@Hjanner](https://github.com/Hjanner), [@Bloodbay8](https://github.com/Bloodbay8) y [@AlejandroJRosas](https://github.com/AlejandroJRosas).
 
-
 Creado como proyecto de la materia *Programación Orientada a la Web* en el cuarto semestre de la [UCAB](https://www.ucab.edu.ve/).
+
+> 👀 [Visitalo aquí](https://tcg-card-web.vercel.app/)
 
 ## Características ⭐
 - Multilenguaje inglés/español.
