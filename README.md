@@ -14,7 +14,7 @@ Creado como proyecto de la materia *Programación Orientada a la Web* en el cuar
 ## Características ⭐
 - Multilenguaje inglés/español.
 - Generador de mazos.
-- Cacheado de peticiones para mejorar velocidad. 
+- Cacheo de peticiones para mejorar velocidad. 
 - Buscador de cartas con varios filtros.
 - Relación de cada tipo con los ODS.
 
