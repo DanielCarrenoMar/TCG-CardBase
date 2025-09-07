@@ -14,14 +14,18 @@ Creado como proyecto de la materia *Programación Orientada a la Web* en el cuar
 ## Características ⭐
 - Multilenguaje inglés/español.
 - Generador de mazos.
-- Cacheado de peticiones para mejorar velocidad. 
+- Cacheo de peticiones para mejorar velocidad. 
 - Buscador de cartas con varios filtros.
 - Relación de cada tipo con los ODS.
 
-## Librerías Utilizadas 📚
-- Tcgdex (Api para Pokémon TCG)
+## Tecnologías Utilizadas 💻
+- Svelte.
+- Tailwind CSS.
+- Bun.
+- TypeScript.
+- Tcgdex (Api para Pokémon TCG).
 
-- ### Imágenes
+### Imágenes
 <img width="1559" height="721" alt="image" src="https://github.com/user-attachments/assets/71c4e590-6e43-424a-9704-fc0b30710afc" />
 <img width="1564" height="694" alt="image" src="https://github.com/user-attachments/assets/026e67a8-9307-44dc-adee-668a89bb45aa" />
 <img width="1558" height="645" alt="image" src="https://github.com/user-attachments/assets/4649dcbc-bc5e-45cf-b4c9-c242741879ef" />
