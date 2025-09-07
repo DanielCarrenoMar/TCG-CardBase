@@ -18,7 +18,11 @@ Creado como proyecto de la materia *Programación Orientada a la Web* en el cuar
 - Buscador de cartas con varios filtros.
 - Relación de cada tipo con los ODS.
 
-## Librerías Utilizadas 📚
+## Tecnologías Utilizadas 💻
+- Svelte
+- Tailwind CSS
+- Bun
+- TypeScript
 - Tcgdex (Api para Pokémon TCG)
 
 - ### Imágenes
